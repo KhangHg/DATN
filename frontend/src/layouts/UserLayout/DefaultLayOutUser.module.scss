@@ -1,0 +1,13 @@
+.wrapper {
+    width: calc(100vw - 8px);
+}
+.content {
+    min-height: calc(100vh - 565px);
+    margin-top: 65px;
+    display: flex;
+    flex: 1 1 auto;
+    justify-content: center;
+}
+.box {
+    width: 80%;
+}
