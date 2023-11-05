@@ -18,6 +18,7 @@ function App() {
                 {userRoutes.map((route, index) => {
                     console.log(route);
                     const Page = route.component;
+                    //Không có layout thì mặc định là default layout
                     let Layout = DefaultLayoutUser;
                     // let Layout = null;
                     if (route.layout !== null) {
