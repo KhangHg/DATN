@@ -16,8 +16,8 @@ import DefaultLayout from '../layouts/AdminLayout/DefaultLayout/DefaultLayout';
 //public route
 
 const userRoutes = [
-    { path: routesConfig.login, component: Login, layout: null },
-    { path: routesConfig.signup, component: Signup, layout: null },
+    { path: routesConfig.login, component: Login, layout: null, title: 'Đăng nhập' },
+    { path: routesConfig.signup, component: Signup, layout: null, title: 'Tạo tài khoản' },
     { path: routesConfig.home, component: Home, layout: null, title: 'Tổng quan' },
     { path: routesConfig.notfound404user, component: NotFound404,layout: null, title: '' },
 ];
