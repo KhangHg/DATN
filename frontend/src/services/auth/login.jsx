@@ -1,8 +1,8 @@
 import request from '../../utils/httpRequest';
 
-export const login = async ({ phone, password }) => {
+export const login = async ({email, password}) => {
     try {
-        const res = await request.post('auth/login', { phone, password });
+        const res = await request.post('auth/login', {email, password});
 
         return res.data;
     } catch (err) {
