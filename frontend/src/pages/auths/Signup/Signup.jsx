@@ -22,12 +22,18 @@ export default function Signup() {
         setFormData({ ...formData, [name]: value });
     }
 
+    console.log(formData)
+
     const handleSubmit = (e) => {
         e.preventDefault();
+        
         // Xử lý đăng ký tại đây (có thể gửi dữ liệu đăng ký đến máy chủ).
         console.log('Đăng ký thành công:', formData);
     }
-
+    
+    const handleOnBlur = (e) => {
+        
+    }
 
     return (
         <div className={cx('container')}>
@@ -50,6 +56,7 @@ export default function Signup() {
                         type="text"
                         placeholder="Họ và tên"
                         value={formData.name}
+                        
                         onChange={handleInputChange}
                         className={cx("form-control")} />
                     <span className={cx("form-message")}></span>
@@ -64,6 +71,7 @@ export default function Signup() {
                         type="text"
                         placeholder="Số điện thoại"
                         value={formData.phoneNumber}
+                        onBlur={handleOnBlur}
                         onChange={handleInputChange}
                         className={cx("form-control")} />
                     <span className={cx("form-message")}></span>
