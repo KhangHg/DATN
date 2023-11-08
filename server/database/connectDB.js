@@ -1,3 +1,5 @@
+require("dotenv").config()
+
 // get the client
 const mysql = require("mysql2");
 
@@ -5,7 +7,8 @@ const mysql = require("mysql2");
 const connection = mysql.createConnection({
   host: "localhost",
   user: "root",
-  database: "shopbanhang",
+  password: process.env.PASS,
+  database: process.env.DATABASE,
 });
 
 connection.connect();
