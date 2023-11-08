@@ -7,15 +7,17 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 //Tạo bảng
 require("./modules/customerModule");
+require("./modules/maGiamGia");
+require("./modules/addressShop");
 
-//Router
+//Import router
 const customerRouter = require("./routers/customerRouter");
-
-app.get("/", function (req, res) {
-  res.send("Hello World");
-});
+const maGiamGiaRouter = require("./routers/maGiamGiaRouter");
+const addressShopRouter = require("./routers/addressShopRouter");
 
 //API
 app.use("/customer", customerRouter);
+app.use("/maGiamGia", maGiamGiaRouter);
+app.use("/address-shop", addressShopRouter);
 
 app.listen(3000);
