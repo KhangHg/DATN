@@ -1,0 +1,35 @@
+.list-category {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.list-category-content {
+    display: flex;
+    flex-direction: row;
+}
+.category-item {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    width: 205px;
+    height: 293px;
+    img{
+        height: 175px;
+        object-fit: contain;
+    }
+    .name{
+        color: #060606;
+        font-size:20px;
+        font-weight:700;
+    }
+    .number-product{
+        color: #010101;
+        font-size:20px;
+        font-weight:100;
+    }
+}
+
+.category-item:hover {
+    background-color: #ededed;
+}

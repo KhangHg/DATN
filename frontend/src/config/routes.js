@@ -6,7 +6,8 @@ const routes = {
     notfound404user: '/*',
     listProduct: "/listProduct",
     productDescription: "/productDescription",
-    
+    categoryAll:'/category/list',
+    category:'/category/:categoryId/list',
     
     
     //admin
