@@ -1,0 +1,52 @@
+.productList {
+  .item {
+    width: 17%; /* Chia đều 5 cột trong 1 hàng */
+    box-sizing: border-box;
+    float: left; /* Đặt các item cạnh nhau */
+    margin: 10px;
+    text-align: center;
+    margin-bottom: 20px;
+    .imgItem {
+      width: 100%;
+      position: relative;
+      margin-right: 20px;
+      img {
+        transition: opacity 0.3s ease;
+        cursor: pointer;
+        width: 100%;
+      }
+      &:hover {
+        span {
+          opacity: 1;
+        }
+        img {
+          transform: scale(0.9);
+          opacity: 0.7;
+        }
+      }
+      span {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        cursor: pointer;
+        font-size: 20px;
+        padding: 10px;
+        background-color: green;
+        color: white;
+        box-shadow: 0 0 0.7px 2px rgb(204, 202, 202);
+      }
+    }
+    p {
+      font-weight: bold;
+      font-size: 16px;
+      line-height: 1.4;
+      cursor: pointer;
+      &:hover {
+        color: #007bff;
+      }
+    }
+  }
+}

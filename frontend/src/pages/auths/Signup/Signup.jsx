@@ -1,5 +1,6 @@
 import * as React from 'react';
-import { useState } from 'react';
+import { useFormik } from 'formik'
+import * as Yup from 'yup'
 
 import { Link } from 'react-router-dom';
 import classNames from 'classnames/bind';
@@ -9,31 +10,32 @@ const cx = classNames.bind(styles);
 
 
 export default function Signup() {
+    const phoneRegExp = /^[0-9]{10,}$/
 
-    const [formData, setFormData] = useState({
-        fullname: '',
-        email: '',
-        password: '',
-        phoneNumber: ''
+    const formik = useFormik({
+        initialValues: {
+            fullname: '',
+            phoneNumber: '',
+            email: '',
+            password: '',
+            confirmPassword: '',
+        },
+        validationSchema: Yup.object({
+            fullname: Yup.string().min(5, 'Tên quá ngắn!').max(30, 'Tên quá dài!')
+                .required('Bạn chưa điền tên!'),
+            phoneNumber: Yup.string().matches(phoneRegExp, 'Số điện thoại không hợp lệ')
+                .required('Bạn chưa nhập số điện thoại'),
+            email: Yup.string().email('Email không đúng').required('Bạn chưa điền email!'),
+            password: Yup.string().min(6, 'mật khẩu tối thiểu 6 kí tự')
+                .required("Bạn chưa nhập mật khẩu"),
+            confirmPassword: Yup.string()
+                .oneOf([Yup.ref('password')], 'Mật khẩu không khớp'
+                ).required('Vui lòng xác nhận mật khẩu'),
+        }),
+        onSubmit: values => {
+            console.log(values)
+        }
     });
-
-    const handleInputChange = (e) => {
-        const { name, value } = e.target;
-        setFormData({ ...formData, [name]: value });
-    }
-
-    console.log(formData)
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        
-        // Xử lý đăng ký tại đây (có thể gửi dữ liệu đăng ký đến máy chủ).
-        console.log('Đăng ký thành công:', formData);
-    }
-    
-    const handleOnBlur = (e) => {
-        
-    }
 
     return (
         <div className={cx('container')}>
@@ -42,7 +44,7 @@ export default function Signup() {
                 <p>Bạn đã có tài khoản? Đăng nhập <Link to={"/login"}>tại đây</Link></p>
             </div>
 
-            <form action="" method="POST" className={cx("form")} onSubmit={handleSubmit} id="form-1">
+            <form action="" method="POST" className={cx("form")} onSubmit={formik.handleSubmit} id="form-1">
                 <h3 className={cx("info")}>Thông tin cá nhân</h3>
 
                 <div className="spacer"></div>
@@ -55,11 +57,11 @@ export default function Signup() {
                         name="fullname"
                         type="text"
                         placeholder="Họ và tên"
-                        value={formData.name}
-                        
-                        onChange={handleInputChange}
+                        value={formik.values.fullname}
+
+                        onChange={formik.handleChange}
                         className={cx("form-control")} />
-                    <span className={cx("form-message")}></span>
+                    {formik.errors.fullname && formik.touched.fullname && (<span className={cx("form-message")}>{formik.errors.fullname}</span>)}
                 </div>
 
                 <div className={cx("form-group")}>
@@ -70,11 +72,11 @@ export default function Signup() {
                         name="phoneNumber"
                         type="text"
                         placeholder="Số điện thoại"
-                        value={formData.phoneNumber}
-                        onBlur={handleOnBlur}
-                        onChange={handleInputChange}
+                        value={formik.values.phoneNumber}
+                        
+                        onChange={formik.handleChange}
                         className={cx("form-control")} />
-                    <span className={cx("form-message")}></span>
+                    {formik.errors.phoneNumber && formik.touched.phoneNumber && (<span className={cx("form-message")}>{formik.errors.phoneNumber}</span>)}
                 </div>
 
                 <div className={cx("form-group")}>
@@ -85,10 +87,10 @@ export default function Signup() {
                         name="email"
                         type="text"
                         placeholder="Email"
-                        value={formData.email}
-                        onChange={handleInputChange}
+                        value={formik.values.email}
+                        onChange={formik.handleChange}
                         className={cx("form-control")} />
-                    <span className={cx("form-message")}></span>
+                    {formik.errors.email && formik.touched.email && (<span className={cx("form-message")}>{formik.errors.email}</span>)}
                 </div>
 
                 <div className={cx("form-group")}>
@@ -99,14 +101,30 @@ export default function Signup() {
                         name="password"
                         type="password"
                         placeholder="Mật khẩu"
-                        value={formData.password}
-                        onChange={handleInputChange}
+                        value={formik.values.password}
+                        onChange={formik.handleChange}
                         className={cx("form-control")} />
-                    <span className={cx("form-message")}></span>
+                    {formik.errors.password && formik.touched.password && (<span className={cx("form-message")}>{formik.errors.password}</span>)}
+                </div>
+
+                <div className={cx("form-group")}>
+                    <label htmlFor="confirmPassword" className={cx("form-label")}>Xác nhận mật khẩu<span> *</span></label>
+                    <input
+                        required
+                        id="confirmPassword"
+                        name="confirmPassword"
+                        type="password"
+                        placeholder="Nhập lại mật khẩu"
+                        value={formik.values.confirmPassword}
+                        onChange={formik.handleChange}
+                        className={cx("form-control")} />
+                    {formik.errors.confirmPassword && formik.touched.confirmPassword && (<span className={cx("form-message")}>{formik.errors.confirmPassword}</span>)}
                 </div>
 
                 <button
                     className={cx("form-submit")}
+                    type='submit'
+                    value='Submit Form'
                 >Đăng ký
                 </button>
 

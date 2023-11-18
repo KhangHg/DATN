@@ -4,6 +4,8 @@ const routes = {
     signup: '/signup',
     forbiden403:'/403',
     notfound404user: '/*',
+    listProduct: "/listProduct",
+    productDescription: "/productDescription",
     
     
     

@@ -1,0 +1,73 @@
+.productDescription {
+  display: flex;
+  justify-content: space-evenly;
+  margin: 50px 30px;
+  .divLefft {
+    img {
+      width: 100%;
+    }
+  }
+
+  .divRight {
+    p {
+      font-weight: 700;
+      font-size: 24px;
+      font-family: "Mulish", sans-serif;
+    }
+    span {
+      font-size: 20px;
+      line-height: 24px;
+      font-family: inherit;
+      font-weight: 700;
+    }
+    .select {
+      margin: 32px 0px;
+      background-color: white;
+      option {
+        background-color: white;
+        color: black;
+      }
+    }
+    .count {
+      margin-top: 10px;
+      border: 1px solid rgb(136, 126, 126);
+      display: inline-block;
+      border-radius: 5px;
+      .control {
+        cursor: pointer;
+      }
+      p {
+        display: inline-block;
+        color: #8c9196;
+        font-size: 30px;
+        font-weight: 400;
+        padding: 0px 15px;
+        margin: 0;
+      }
+    }
+    .addCart {
+      display: inline-block;
+      height: 50px;
+      border: 1px solid orange;
+      padding: 0 30px;
+      border-radius: 5px;
+      margin-left: 20px;
+      cursor: pointer;
+      &:hover {
+        background-color: orange;
+        font-weight: 400;
+        p {
+          color: white;
+        }
+      }
+      p {
+        text-transform: uppercase;
+        color: orange;
+        font-weight: 100;
+        font-size: 16px;
+        line-height: 55px;
+        padding-bottom: 5px;
+      }
+    }
+  }
+}

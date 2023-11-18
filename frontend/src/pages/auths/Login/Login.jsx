@@ -1,5 +1,6 @@
 import * as React from 'react';
-import {useState} from 'react';
+import { useFormik } from 'formik'
+import * as Yup from 'yup'
 
 import classNames from 'classnames/bind';
 import styles from './Login.module.scss';
@@ -13,39 +14,20 @@ const cx = classNames.bind(styles);
 
 export default function Login() {
 
-    const [loginData, setLoginData] = useState({
-        email: '',
-        password: ''
-    });
-
-    const handleInputChange = (e) => {
-        const { name, value } = e.target;
-        console.log(e.target)
-        setLoginData({ ...loginData, [name]: value });
-    }
-
-    useEffect(() => {
-        // Kiểm tra dữ liệu và cập nhật formErrors khi formData thay đổi
-        const errors = { ...formErrors };
-        if (formData.name === '') {
-          errors.name = 'Vui lòng nhập tên.';
+    const formikForm = useFormik({
+        initialValues: {
+            email:'',
+            password:'',
+        },
+        validationSchema: Yup.object({
+            email: Yup.string().email('Email không đúng').required('Bạn chưa điền email!'),
+            password: Yup.string().min(6, 'mật khẩu tối thiểu 6 kí tự')
+                .required("Bạn chưa nhập mật khẩu"),
+        }),
+        onSubmit: values => {
+            console.log(values)
         }
-        if (formData.email === '' || !formData.email.includes('@')) {
-          errors.email = 'Email không hợp lệ.';
-        }
-        setFormErrors(errors);
-      }, [formData]);
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-
-        console.log(login({
-            email: loginData.email,
-            password: loginData.password,
-        }));
-        // Xử lý đăng ký tại đây (có thể gửi dữ liệu đăng ký đến máy chủ).
-        console.log('Đăng nhập thành công:', loginData);
-    }
+    })
 
     return (
         <div className={cx('container')}>
@@ -54,7 +36,7 @@ export default function Login() {
                 <p>Bạn chưa có tài khoản? Đăng ký <Link to={"/signup"}>tại đây</Link></p>
             </div>
 
-            <form action="" method="POST" className={cx("form")} onSubmit={handleSubmit} id="form-2">
+            <form action="" method="POST" className={cx("form")} onSubmit={formikForm.handleSubmit} id="form-2">
                 <h3 className={cx("info")}>Thông tin cá nhân</h3>
 
                 <div className="spacer"></div>
@@ -67,10 +49,10 @@ export default function Login() {
                         name="email"
                         type="text"
                         placeholder="Email"
-                        value={loginData.email}
-                        onChange={handleInputChange}
+                        value={formikForm.values.email}
+                        onChange={formikForm.handleChange}
                         className={cx("form-control")} />
-                    <span className={cx("form-message")}></span>
+                    {formikForm.errors.email && formikForm.touched.email && (<span className={cx("form-message")}>{formikForm.errors.email}</span>)}
                 </div>
 
                 <div className={cx("form-group")}>
@@ -81,14 +63,15 @@ export default function Login() {
                         name="password"
                         type="password"
                         placeholder="Mật khẩu"
-                        value={loginData.password}
-                        onChange={handleInputChange}
+                        value={formikForm.values.password}
+                        onChange={formikForm.handleChange}
                         className={cx("form-control")} />
-                    <span className={cx("form-message")}></span>
+                    {formikForm.errors.phoneNumber && formikForm.touched.phoneNumber && (<span className={cx("form-message")}>{formikForm.errors.phoneNumber}</span>)}
                 </div>
 
                 <button
                     className={cx("form-submit")}
+                    type='submit'
                 >Đăng nhập
                 </button>
 
