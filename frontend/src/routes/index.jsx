@@ -11,6 +11,7 @@ import CategoryList from '../pages/admins/CategoryPages/CategoryList';
 import OrderList from '../pages/admins/OrderPages/OrderList';
 import CustomerList from '../pages/admins/CustomerPages/CustomerList';
 import DefaultLayout from '../layouts/AdminLayout/DefaultLayout/DefaultLayout';
+import Product from '../pages/users/Products/Product';
 //import layout
 
 //public route
@@ -19,6 +20,9 @@ const userRoutes = [
     { path: routesConfig.login, component: Login, layout: null, title: 'Đăng nhập' },
     { path: routesConfig.signup, component: Signup, layout: null, title: 'Tạo tài khoản' },
     { path: routesConfig.home, component: Home, layout: null, title: 'Tổng quan' },
+    { path: routesConfig.categoryAll, component: Product,layout: null, title: '' },
+    { path: routesConfig.category, component: Product,layout: null, title: '' },
+    { path: routesConfig.notfound404user, component: NotFound404,layout: null, title: '' },
     { path: routesConfig.notfound404user, component: NotFound404,layout: null, title: '' },
 ];
 

@@ -4,7 +4,8 @@ const routes = {
     signup: '/signup',
     forbiden403:'/403',
     notfound404user: '/*',
-    
+    categoryAll:'/category/list',
+    category:'/category/:categoryId/list',
     
     
     //admin
