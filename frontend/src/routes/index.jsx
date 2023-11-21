@@ -14,6 +14,7 @@ import DefaultLayout from "../layouts/AdminLayout/DefaultLayout/DefaultLayout";
 import ListProduct from "../pages/users/ListProduct/ListProduct";
 import ProductDescription from "../pages/users/ProductDescription/ProductDescription";
 import Product from '../pages/users/Products/Product';
+import StoreLocation from '../pages/users/StoreLocations/StoreLocation'
 //import layout
 
 //public route
@@ -28,6 +29,7 @@ const userRoutes = [
     { path: routesConfig.notfound404user, component: NotFound404,layout: null, title: '' },
     { path: routesConfig.listProduct, component: ListProduct, layout: null, title: "Danh sách sản phẩm" },
     { path: routesConfig.productDescription, component: ProductDescription, layout: null, title: "Chi tiết 1 sản phẩm" },
+    { path: routesConfig.storeLocation, component: StoreLocation, layout: null, title: "Hệ thống cửa hàng"},
 ];
 
 const adminRoutes = [

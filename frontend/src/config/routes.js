@@ -8,6 +8,7 @@ const routes = {
     productDescription: "/productDescription",
     categoryAll:'/category/list',
     category:'/category/:categoryId/list',
+    storeLocation:'/storeLocation',
     
     
     //admin
