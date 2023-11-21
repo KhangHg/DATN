@@ -1,0 +1,84 @@
+.storeLocation {
+    margin-top: 30px;
+    margin-bottom: 50px;
+
+    .title {
+        text-align: left;
+        margin-bottom: 10px;
+    }
+
+    .container {
+        margin-top: 30px;
+        display: flex;
+        flex-direction: row;
+
+        @media (max-width: 500px) {
+            flex-direction: column;
+
+            h5 {
+                text-align: center;
+                margin-bottom: 10px;
+            }
+
+            .select,
+            .storeAddress {
+                min-width: 100%;
+                margin-bottom: 20px;
+            }
+        }
+
+        @media (max-width: 900px) {
+            .select {
+                margin-right: 15px;
+            }
+        }
+
+        h5 {
+            text-align: center;
+        }
+
+        .select {
+            min-width: 45%;
+            border: 1px solid #232222;
+            border-radius: 5px;
+            padding: 20px 10px;
+
+            .provinceSelect {
+                margin-bottom: 10px;
+            }
+        }
+
+        .storeAddress {
+            min-width: 45%;
+            display: flex;
+            flex-direction: column;
+
+            .text {
+                margin-bottom: 10px;
+
+                span {
+                    font-size: 28px;
+                }
+
+                .icon {
+                    margin-right: 10px;
+                    color: red;
+                    font-size: 28px;
+                }
+            }
+
+            .address {
+                font-size: 15px;
+            }
+        }
+
+        >* {
+            margin-right: 50px;
+        }
+
+        > :last-child {
+            margin-right: 0;
+        }
+    }
+
+}
