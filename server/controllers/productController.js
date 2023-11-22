@@ -3,7 +3,12 @@ const connection = require("../database/connectDB")
 const productController = {
     getAll: async (req, res) => {
         try {
-            const [rows, fields] = await connection.promise().query("select * from products")
+            const [rows, fields] = await connection.promise().query(
+                `SELECT p.productId, p.name, p.description, p.price, p.quantity, p.imageUrl, c.name AS categoryName, s.name AS sizeName
+            FROM products p
+            INNER JOIN categories c ON p.categoryId = c.categoryId
+            INNER JOIN size s ON p.sizeId = s.sizeId;
+            `)
             res.json({
                 data: rows,
             })
@@ -17,7 +22,11 @@ const productController = {
     getById: async (req, res) => {
         try {
             const { product_id } = req.params;
-            const [rows, fields] = await connection.promise().query("select * from products where product_id = ?", [product_id]);
+            const [rows, fields] = await connection.promise().query(`SELECT p.productId, p.name, p.description, p.price, p.quantity, p.imageUrl, c.name AS categoryName, s.name AS sizeName
+            FROM products p
+            INNER JOIN categories c ON p.categoryId = c.categoryId
+            INNER JOIN size s ON p.sizeId = s.sizeId
+             where p.productId = ?`, [product_id]);
             res.json({
                 data: rows,
             });
