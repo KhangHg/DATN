@@ -20,6 +20,7 @@ const maGiamGiaRouter = require("./routers/maGiamGiaRouter");
 const addressShopRouter = require("./routers/addressShopRouter");
 const productRouter = require("./routers/productRouter");
 const categoryRouter = require("./routers/categoriesRouter");
+const sizeRouter = require("./routers/sizeRouter");
 
 //API
 app.use("/customer", customerRouter);
@@ -27,5 +28,6 @@ app.use("/maGiamGia", maGiamGiaRouter);
 app.use("/address-shop", addressShopRouter);
 app.use("/product", productRouter);
 app.use("/category", categoryRouter);
+app.use("/size", sizeRouter);
 
 app.listen(3000);
