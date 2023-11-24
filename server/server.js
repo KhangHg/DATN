@@ -19,11 +19,13 @@ const customerRouter = require("./routers/customerRouter");
 const maGiamGiaRouter = require("./routers/maGiamGiaRouter");
 const addressShopRouter = require("./routers/addressShopRouter");
 const productRouter = require("./routers/productRouter");
+const categoryRouter = require("./routers/categoriesRouter");
 
 //API
 app.use("/customer", customerRouter);
 app.use("/maGiamGia", maGiamGiaRouter);
 app.use("/address-shop", addressShopRouter);
 app.use("/product", productRouter);
+app.use("/category", categoryRouter);
 
 app.listen(3000);
