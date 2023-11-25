@@ -15,6 +15,8 @@ require("./modules/product");
 require("./modules/cardItem");
 require("./modules/order");
 require("./modules/orderItem");
+require("./modules/productSize");
+
 
 //Import router
 const customerRouter = require("./routers/customerRouter");
