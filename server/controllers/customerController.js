@@ -113,7 +113,7 @@ const customerController = {
         res.json({ message: "Login successful", token: token });
       } else {
         // Đăng nhập không thành công
-        res.status(401).json({ error: "Login failed" });
+        res.status(401).json({ message: "fails", error: "Login failed" });
       }
     } catch (error) {
       console.error(error);
