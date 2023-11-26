@@ -77,4 +77,4 @@ const cartController = {
   },
 };
 
-module.exports = maGiamGiaController;
+module.exports = cartController;

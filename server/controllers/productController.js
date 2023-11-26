@@ -5,7 +5,7 @@ const productController = {
     getAll: async (req, res) => {
         try {
             const [rows, fields] = await connection.promise().query(
-                `SELECT p.productId, p.name, p.description, p.price, p.imageUrl, c.name AS categoryName, s.name AS sizeName, p.count AS quantity
+                `SELECT p.productId, p.name, p.description, p.price, p.imageUrl, c.name AS categoryName, s.name AS sizeName, d.count AS quantity
             FROM products p
             INNER JOIN categories c ON p.categoryId = c.categoryId
             inner join size s
@@ -46,7 +46,7 @@ const productController = {
         try {
             const { name, description, price, category, size, quantity, imageUrl } = req.body;
 
-            const checkNameSql = "select * from products where name = ?"
+            const checkNameSql = "select name, categoryId, productId from products where name = ?"
             const categoryIdSql = "select categoryId from categories where name = ?"
             const sizeIdSql = "select sizeId from size where name = ?"
 
@@ -58,8 +58,10 @@ const productController = {
 
 
             const [nameRows, nameFields] = await connection.promise().query(checkNameSql, [name]);
+            const categoryIdProduct = nameRows[0].categoryId
+            const nameProduct = nameRows[0].name
 
-            if (nameRows.length > 0) {
+            if (nameRows.length > 0 && categoryIdProduct == categoryId) {
                 const productId = nameRows[0].productId;
 
                 const checkSizeSql = `select * from productSize where productId = ? and sizeId = ? `
@@ -73,7 +75,7 @@ const productController = {
                     `
                     const [Rows, Fields] = await connection.promise().query(sql, [quantity, productId, sizeId])
                     return res.json({
-                        message: "add product success"
+                        message: "update product success"
                     })
                 }
                 else {
@@ -90,7 +92,8 @@ const productController = {
             else {
                 const sql1 = `insert into products(name, description, price, categoryId, imageUrl) values (?,?,?,?,?)`
                 const [rows, fields] = await connection.promise().query(sql1, [name, description, price, categoryId, imageUrl]);
-                const id = rows[0].productId
+                const [rows1, fields1] = await connection.promise().query("select productId from products where name = ? and categoryId = ?", [name, categoryId])
+                const id = rows1[0].productId
 
                 const sql2 = `
                     INSERT INTO productSize (productId, sizeId, count)
