@@ -75,7 +75,7 @@ const productController = {
                     `
                     const [Rows, Fields] = await connection.promise().query(sql, [quantity, productId, sizeId])
                     return res.json({
-                        message: "add product success"
+                        message: "update product success"
                     })
                 }
                 else {

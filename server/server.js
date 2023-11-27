@@ -32,5 +32,7 @@ app.use("/customer", customerRouter);
 app.use("/maGiamGia", maGiamGiaRouter);
 app.use("/address-shop", addressShopRouter);
 app.use("/product", productRouter);
+app.use("/size", sizeRouter);
+app.use("/category", categoryRouter);
 
 app.listen(3000);
