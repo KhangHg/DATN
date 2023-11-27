@@ -58,11 +58,11 @@ const productController = {
 
 
             const [nameRows, nameFields] = await connection.promise().query(checkNameSql, [name]);
-            const categoryIdProduct = nameRows[0].categoryId
-            const nameProduct = nameRows[0].name
 
             if (nameRows.length > 0 && categoryIdProduct == categoryId) {
                 const productId = nameRows[0].productId;
+                const categoryIdProduct = nameRows[0].categoryId
+                const nameProduct = nameRows[0].name
 
                 const checkSizeSql = `select * from productSize where productId = ? and sizeId = ? `
                 const [checkSizeRows, checkSizeFieds] = await connection.promise().query(checkSizeSql, [productId, sizeId]);
