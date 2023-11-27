@@ -59,35 +59,45 @@ const productController = {
 
             const [nameRows, nameFields] = await connection.promise().query(checkNameSql, [name]);
 
-            if (nameRows.length > 0 && categoryIdProduct == categoryId) {
-                const productId = nameRows[0].productId;
+            if (nameRows.length > 0) {
+
                 const categoryIdProduct = nameRows[0].categoryId
-                const nameProduct = nameRows[0].name
 
-                const checkSizeSql = `select * from productSize where productId = ? and sizeId = ? `
-                const [checkSizeRows, checkSizeFieds] = await connection.promise().query(checkSizeSql, [productId, sizeId]);
+                if (categoryIdProduct == categoryId) {
+                    const productId = nameRows[0].productId;
+                    const nameProduct = nameRows[0].name
 
-                if (checkSizeRows.length > 0) {
-                    const sql = `
-                    UPDATE productSize
-                     set count = count + ?
-                     where productId = ? and sizeId = ?
-                    `
-                    const [Rows, Fields] = await connection.promise().query(sql, [quantity, productId, sizeId])
-                    return res.json({
-                        message: "update product success"
-                    })
+                    const checkSizeSql = `select * from productSize where productId = ? and sizeId = ? `
+                    const [checkSizeRows, checkSizeFieds] = await connection.promise().query(checkSizeSql, [productId, sizeId]);
+
+                    if (checkSizeRows.length > 0) {
+                        const sql = `
+                        UPDATE productSize
+                         set count = count + ?
+                         where productId = ? and sizeId = ?
+                        `
+                        const [Rows, Fields] = await connection.promise().query(sql, [quantity, productId, sizeId])
+                        return res.json({
+                            message: "update product success"
+                        })
+                    }
+                    else {
+                        const sql = `
+                        INSERT INTO productSize (productId, sizeId, count)
+                        VALUE (?,?,?)
+                        `
+                        const [Rows, Fields] = await connection.promise().query(sql, [productId, sizeId, quantity])
+                        return res.json({
+                            message: "add product success"
+                        })
+                    }
                 }
                 else {
-                    const sql = `
-                    INSERT INTO productSize (productId, sizeId, count)
-                    VALUE (?,?,?)
-                    `
-                    const [Rows, Fields] = await connection.promise().query(sql, [productId, sizeId, quantity])
                     return res.json({
-                        message: "add product success"
+                        message: "không thể tạo 2 sản phẩm cùng tên nhưng khác thể loại"
                     })
                 }
+
             }
             else {
                 const sql1 = `insert into products(name, description, price, categoryId, imageUrl) values (?,?,?,?,?)`
