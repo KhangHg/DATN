@@ -15,7 +15,10 @@ const routes = {
     
     adminHome: '/admin',
     productListAdmin: '/admin/products',
+    productUpdateAdmin: '/admin/products/:productId',
+    productAddAdmin: '/admin/products/add',
     categoryListAdmin: '/admin/categories',
+    categoryAddAdmin: '/admin/categories/add',
     orderListAdmin: '/admin/orders',
     customerListAdmin: '/admin/customers',
     notfound404admin: '/admin/*',
