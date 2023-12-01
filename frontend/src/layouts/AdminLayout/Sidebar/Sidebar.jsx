@@ -176,7 +176,7 @@ function Sidebar({ setToggleButton }) {
                                         </div>
                                     </Link>
                                 </div>
-                            )}
+                            )}                           
 
                             <hr className={cx('menuDivider')}></hr>
 
