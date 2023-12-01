@@ -1,5 +1,4 @@
 import DataTable from 'react-data-table-component';
-import { cursorTo } from 'readline';
 
 //  Internally, customStyles will deep merges your customStyles with the default styling.
 const customStyles = {
