@@ -21,7 +21,7 @@ const orderController = {
   },
   createOrder: async (req, res) => {
     try {
-      const { email, phone, orderdate, status, address, items } = req.body;
+      const { email, name, phone, status, address, total, items } = req.body;
 
       // Kiểm tra xem items có tồn tại và không rỗng
       if (!items || items.length === 0) {
@@ -35,15 +35,15 @@ const orderController = {
 
       try {
         // Thực hiện chèn đơn đặt hàng vào bảng 'order'
-        const insertOrderSql = "INSERT INTO `order` (email, phone, orderdate, status, address) VALUES (?, ?, ?, ?, ?)";
-        const [orderRows, orderFields] = await connection.promise().query(insertOrderSql, [email, phone, orderdate, status, address]);
+        const insertOrderSql = "INSERT INTO `order` (email,name, phone,  status, address,total) VALUES (?, ?, ?, ?, ?, ?)";
+        const [orderRows, orderFields] = await connection.promise().query(insertOrderSql, [email, name, phone, status, address, total]);
 
         const orderId = orderRows.insertId;
 
         // Thực hiện chèn các mục đơn hàng vào bảng 'orderItem' với orderId liên quan
-        const insertOrderItemSql = "INSERT INTO orderItem (orderId, productId, quantity) VALUES (?, ?, ?)";
+        const insertOrderItemSql = "INSERT INTO orderItem (orderId, productId, quantity,size) VALUES (?, ?, ?,?)";
         for (const item of items) {
-          await connection.promise().query(insertOrderItemSql, [orderId, item.productId, item.quantity]);
+          await connection.promise().query(insertOrderItemSql, [orderId, item.productId, item.quantity, item.size]);
         }
 
         // Xóa các cartItem có email tương ứng
@@ -57,6 +57,7 @@ const orderController = {
           data: {
             orderId: orderId,
             message: "Order created successfully",
+            errCode: 0,
           },
         });
       } catch (error) {

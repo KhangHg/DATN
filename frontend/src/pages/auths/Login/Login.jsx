@@ -7,15 +7,23 @@ import styles from "./Login.module.scss";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { login } from "/src/services/auth/login";
+import { AuthContext } from "../../../contexts/AuthContex";
+import { toast, ToastContainer } from "react-toastify";
+import { useDispatch } from "react-redux";
+import { getListItem } from "../../../reactRedux/action/actions";
+import "react-toastify/dist/ReactToastify.css";
 
 const cx = classNames.bind(styles);
 
 export default function Login() {
+  const dispatch = useDispatch();
+  const { handleLoggedin } = React.useContext(AuthContext);
   const navigateTo = useNavigate();
   const formikForm = useFormik({
     initialValues: {
       email: "",
       password: "",
+      role: "user",
     },
     validationSchema: Yup.object({
       email: Yup.string().email("Email không đúng").required("Bạn chưa điền email!"),
@@ -29,14 +37,19 @@ export default function Login() {
         // Kiểm tra xem đăng nhập có thành công không
         if (response) {
           // Nếu thành công, chuyển hướng đến trang Home
-
+          // const token = response
+          console.log(response);
+          const token = response.token;
+          const user = response.user;
+          handleLoggedin(token, user);
+          toast.success("Đăng nhập thành công");
           navigateTo("/");
-          alert("Đăng nhập thành công");
+          dispatch(getListItem(user.email));
         } else {
-          alert("Sai email hoặc mật khẩu");
+          toast.error("Sai email hoặc mật khẩu");
         }
       } catch (error) {
-        console.error("Đăng nhập thất bại:", error);
+        toast.error("Đăng nhập thất bại:", error);
       }
     },
   });

@@ -7,6 +7,7 @@ import classNames from "classnames/bind";
 import styles from "./Signup.module.scss";
 import { signup } from "/src/services/auth/signup";
 import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
 
 const cx = classNames.bind(styles);
 
@@ -21,6 +22,7 @@ export default function Signup() {
       email: "",
       password: "",
       confirmPassword: "",
+      role: "user",
     },
     validationSchema: Yup.object({
       fullname: Yup.string().min(5, "Tên quá ngắn!").max(30, "Tên quá dài!").required("Bạn chưa điền tên!"),
@@ -36,17 +38,17 @@ export default function Signup() {
         const response = await signup(values);
         if (response) {
           // Đăng ký thành công
-          alert("Đăng kí thành công!!");
+          toast.success("Đăng kí thành công!!", { autoClose: 2000 });
 
           // Chuyển hướng đến trang đăng nhập sau khi đăng ký thành công
           navigateTo("/login");
         } else {
           // Đăng ký thất bại
-          alert("Vui lòng kiểm trả lại thông tin đăng kí");
+          toast.error("Vui lòng kiểm trả lại thông tin đăng kí", { autoClose: 2000 });
         }
       } catch (error) {
         console.error("Đăng ký thất bại:", error);
-        alert("Lỗi trong quá trình đăng kí");
+        toast("Lỗi trong quá trình đăng kí", { autoClose: 2000 });
       }
     },
   });
