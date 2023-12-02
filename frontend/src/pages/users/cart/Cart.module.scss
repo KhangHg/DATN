@@ -1,0 +1,123 @@
+.cart {
+  margin: 20px 30px;
+  h1 {
+    display: block;
+  }
+  .cartItemList {
+    width: 60%;
+    float: left;
+    margin-right: 30px;
+    margin-bottom: 30px;
+    .product {
+      margin-bottom: 20px;
+      span {
+        display: inline-block;
+        font-size: 20px;
+        cursor: pointer;
+      }
+      img {
+        width: 66px;
+        height: 70px;
+        margin: 0 20px;
+      }
+      .description {
+        display: inline-block;
+        font-weight: normal;
+        font-size: 14px;
+        line-height: 1.2;
+        font-family: "Mulish", sans-serif;
+        margin: 0;
+        span {
+          display: block;
+          font-size: 14px;
+          font-weight: 400;
+          color: #898989;
+          font-family: "Mulish", sans-serif;
+        }
+      }
+      .price {
+        float: right;
+        font-weight: 500;
+        font-size: 20px;
+        color: red;
+        margin-right: 20px;
+        margin-top: 20px;
+      }
+      .count {
+        float: right;
+        margin-top: 23px;
+        border: 1px solid rgb(136, 126, 126);
+        border-radius: 5px;
+        .control {
+          cursor: pointer;
+        }
+        p {
+          display: inline-block;
+          color: #8c9196;
+          font-size: 20px;
+          font-weight: 400;
+          padding: 0px 15px;
+          margin: 0;
+        }
+      }
+    }
+  }
+  .submit {
+    float: left;
+    width: 30%;
+    border-top: none;
+    background: #f7f7f7;
+    border: 3px;
+    padding: 20px;
+    margin-top: 0;
+    border-radius: 5px;
+    p {
+      font-size: 20px;
+      font-weight: 400;
+      color: black;
+      span {
+        float: right;
+        color: red;
+      }
+    }
+    button {
+      transition: height 0.2s;
+      display: block;
+      text-align: center;
+      margin-bottom: 10px;
+      padding: 10px 20px;
+      width: 100%;
+      font-size: 20px;
+      &:hover {
+        height: 60px;
+      }
+    }
+  }
+  ModalCart {
+    select {
+      display: inline-block;
+      background-color: white;
+      color: black;
+    }
+  }
+  .empty {
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    align-items: center;
+    min-height: 350px;
+    justify-content: center;
+    img {
+      scale: 1.3;
+    }
+    h3 {
+      margin-top: 30px;
+    }
+    p {
+      font-size: 20px;
+    }
+    button {
+      font-size: 20px;
+    }
+  }
+}

@@ -1,0 +1,66 @@
+div {
+  .listItem {
+    border-bottom: 1px solid black;
+    margin: 0 5px;
+    margin-bottom: 20px;
+    .item {
+      p {
+        display: inline-block;
+        margin-left: 30px;
+        font-size: 16px;
+        font-weight: 500;
+        font-family: Helvetica Neue, sans-serif;
+      }
+    }
+  }
+
+  .address {
+    font-family: Helvetica Neue, sans-serif;
+    margin: 0 5px;
+    .form {
+      input {
+        box-shadow: 0 0 0 1px #d9d9d9;
+        transition: all 0.2s ease-out;
+        background-color: white;
+        color: #333333;
+        border-radius: 4px;
+        display: block;
+        box-sizing: border-box;
+        width: 100%;
+        padding: 5px 7px;
+        word-break: normal;
+        margin-bottom: 10px;
+        border: 0.6px solid #737373;
+        font-size: 20px;
+      }
+      .emailInput {
+        width: 67%;
+        display: inline-block;
+      }
+      .phoneInput {
+        width: 30%;
+        display: inline-block;
+        margin-left: 18px;
+      }
+    }
+    select {
+      box-shadow: 0 0 0 1px #d9d9d9;
+      transition: all 0.2s ease-out;
+      background-color: white;
+      color: #333333;
+      border-radius: 4px;
+      display: block;
+      box-sizing: border-box;
+      width: 33%;
+      padding: 5px 7px;
+      word-break: normal;
+      margin-bottom: 10px;
+      border: 0.6px solid #737373;
+      font-size: 20px;
+    }
+    button {
+      margin-top: 20px;
+      float: right;
+    }
+  }
+}
