@@ -11,64 +11,96 @@ const cx = classNames.bind(styles);
 
 const listProduct = [
     {
-        id: 100,
+        productId: 100,
         name: "Áo khoác đen",
-        category: "Áo",
+        categoryName: "Áo",
         quantity: 20,
-        price: 120000,
-        image: "https://cdnphoto.dantri.com.vn/COm1qksauO2sqAC-gVVI2DdH_1I=/thumb_w/1020/2023/01/24/khoa-hocdocx-1674520013659.png",
+        price: "120000",
+        imageUrl: "https://cdnphoto.dantri.com.vn/COm1qksauO2sqAC-gVVI2DdH_1I=/thumb_w/1020/2023/01/24/khoa-hocdocx-1674520013659.png",
+        desciption: "This is description",
+        sizeName: 'M',
         // ...
     },
     {
-        id: 101,
-        name: "Áo khoác trắng",
-        price: 200000,
-        category: "Quần",
+        productId: 101,
+        name: "Quần âu",
+        price: "200000",
+        categoryName: "Quần",
         quantity: 20,
-        image: "linkimgae",
+        imageUrl: "linkimgae",
+        desciption: "This is description",
+        sizeName: 'M',
         // ...
     },
     {
-        id: 110,
-        name: "Áo khoác đen",
-        category: "Áo",
+        productId: 101,
+        name: "Quần âu",
+        price: "200000",
+        categoryName: "Quần",
         quantity: 20,
-        price: 100000,
-        image: "linkimgae",
+        imageUrl: "linkimgae",
+        desciption: "This is description",
+        sizeName: 'L',
         // ...
     },
     {
-        id: 111,
-        name: "Áo khóac trắng",
-        price: 100000,
-        category: "Áo",
+        productId: 101,
+        name: "Quần âu",
+        price: "200000",
+        categoryName: "Quần",
         quantity: 20,
-        image: "linkimgae",
+        imageUrl: "linkimgae",
+        desciption: "This is description",
+        sizeName: 'XL',
         // ...
     },
     {
-        id: 112,
-        name: "Áo khoác đen",
-        category: "Áo",
+        productId: 102,
+        name: "Áo gió",
+        categoryName: "Áo",
         quantity: 20,
-        price: 100000,
+        price: "30000",
         image: "linkimgae",
+        desciption: "This is description",
+        sizeName: 'M',
+        // ...
+    },
+    {
+        productId: 103,
+        name: "Áo len",
+        price: "10000.0",
+        categoryName: "Áo",
+        quantity: 20,
+        imageUrl: "linkimgae",
+        desciption: "This is description",
+        sizeName: 'XXL',
+        // ...
+    },
+    {
+        productId: 104,
+        name: "Quần dài",
+        categoryName: "Quần",
+        quantity: 20,
+        price: "100000",
+        imageUrl: "linkimgae",
+        desciption: "This is description",
+        sizeName: 'S',
         // ...
     },
 ];
 
 const categoriesFake = [
     {
-        id: 1,
-        name: "Áo"
+        categoryId: 1,
+        categoryName: "Áo"
     },
     {
-        id: 2,
-        name: "Quần"
+        categoryId: 2,
+        categoryName: "Quần"
     },
     {
-        id: 3,
-        name: "Khăn"
+        categoryId: 3,
+        categoryName: "Khăn"
     },
 ]
 
@@ -82,7 +114,7 @@ const ProductList = () => {
         },
         {
             name: 'Loại',
-            selector: (row) => row.category,
+            selector: (row) => row.categoryName,
         },
         {
             name: 'Số lượng',
@@ -96,7 +128,7 @@ const ProductList = () => {
         },
         {
             name: 'Ảnh',
-            cell: (row) => <img src={row.image} alt={row.name} className={cx('image-cell')} />,
+            cell: (row) => <img src={row.imageUrl} alt={row.name} className={cx('image-cell')} />,
         },
         {
             name: "",
@@ -118,8 +150,22 @@ const ProductList = () => {
             const response = await fetch("https://jsonplaceholder.typicode.com/posts");
             const data = await response.json();
             console.log(data);
-            setProducts(listProduct);
-            setOriginalProducts(listProduct)
+            //lọc theo id sản phẩm sau này thay listProduct bằng data trả về từ be
+            const uniqueProducts = Object.values(
+                listProduct.reduce((accumulator, product) => {
+                    const { productId, quantity, sizeName, ...rest } = product;
+
+                    if (!accumulator[productId]) {
+                        accumulator[productId] = { productId, quantity, ...rest };
+                    } else {
+                        accumulator[productId].quantity += quantity;
+                    }
+
+                    return accumulator;
+                }, {})
+            );
+            setProducts(uniqueProducts);
+            setOriginalProducts(uniqueProducts)
         }
         getAllProduct();
 
@@ -145,7 +191,7 @@ const ProductList = () => {
 
         if (category) {
             const filterProduct = originalProducts.filter(row => {
-                return row.category === category
+                return row.categoryName === category
             })
 
             setProducts(filterProduct)
@@ -157,7 +203,7 @@ const ProductList = () => {
 
     const handleDelete = async () => {
         // Lấy danh sách ID của các sản phẩm đã chọn
-        const productIdsToDelete = selectedRows.map(row => row.id)
+        const productIdsToDelete = selectedRows.map(row => row.productId)
 
         try {
             /* Gọi API để xóa các danh mục
@@ -172,18 +218,18 @@ const ProductList = () => {
             if (!response.ok) {
                 throw new Error(`HTTP error! Status: ${response.status}`);
             }*/
-            const updatedProducts = products.filter(product => !productIdsToDelete.includes(product.id))
+            const updatedProducts = products.filter(product => !productIdsToDelete.includes(product.productId))
             setProducts(updatedProducts)
-            setOriginalProducts(updatedProducts)
+            setOriginalProducts(originalProducts.filter(product => !productIdsToDelete.includes(product.productId)))
             setToggleClear(!toggleClear)
             setSelectedRows([])
-        }catch (error) {
+        } catch (error) {
             console.error('Lỗi khi xóa sản phẩm:', error.message);
         }
     };
 
     const handleUpdate = (row) => {
-        const productId = row.id
+        const productId = row.productId
         navigate(`/admin/products/${productId}`)
     }
 
@@ -204,7 +250,7 @@ const ProductList = () => {
                 <select value={selectedCategory} onChange={handleCategoryChange}>
                     <option value="">Tất cả loại</option>
                     {categoriesFake.map(category => (
-                        <option key={category.id} value={category.name}>{category.name}</option>
+                        <option key={category.categoryId} value={category.categoryName}>{category.categoryName}</option>
                     ))}
                 </select>
 
