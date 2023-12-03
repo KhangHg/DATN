@@ -11,7 +11,7 @@
   .divRight {
     p {
       font-weight: 700;
-      font-size: 24px;
+      font-size: 16px;
       font-family: "Mulish", sans-serif;
     }
     span {
@@ -19,6 +19,8 @@
       line-height: 24px;
       font-family: inherit;
       font-weight: 700;
+      color: red;
+      margin-top: 5px;
     }
     .select {
       margin: 32px 0px;
@@ -27,6 +29,11 @@
         background-color: white;
         color: black;
       }
+    }
+    select {
+      background-color: white;
+      color: black;
+      margin-left: 10px;
     }
     .count {
       margin-top: 10px;

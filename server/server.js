@@ -1,10 +1,11 @@
 const express = require("express");
 const app = express();
+const cors = require("cors");
 const bodyParser = require("body-parser");
 
 app.use(bodyParser.json()); // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true }));
-
+app.use(cors());
 //Tạo bảng
 require("./modules/customerModule");
 require("./modules/maGiamGia");
@@ -17,7 +18,6 @@ require("./modules/order");
 require("./modules/orderItem");
 require("./modules/productSize");
 
-
 //Import router
 const customerRouter = require("./routers/customerRouter");
 const maGiamGiaRouter = require("./routers/maGiamGiaRouter");
@@ -26,6 +26,7 @@ const productRouter = require("./routers/productRouter");
 const categoryRouter = require("./routers/categoriesRouter");
 const sizeRouter = require("./routers/sizeRouter");
 const cartRouter = require("./routers/cartRouter");
+const orderRouter = require("./routers/orderRouter");
 
 //API
 app.use("/customer", customerRouter);
@@ -34,5 +35,7 @@ app.use("/address-shop", addressShopRouter);
 app.use("/product", productRouter);
 app.use("/size", sizeRouter);
 app.use("/category", categoryRouter);
+app.use("/cart", cartRouter);
+app.use("/order", orderRouter);
 
 app.listen(3000);
