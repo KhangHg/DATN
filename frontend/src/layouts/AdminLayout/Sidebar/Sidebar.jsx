@@ -154,9 +154,9 @@ function Sidebar({ setToggleButton }) {
               <hr className={cx("menuDivider")}></hr>
 
               <Link to="/login" className={cx("homeMenuItem", "itemNav")} onClick={handleLoggedOut}>
-                {/* <div className={cx("wrapIconItem")}>
+                <div className={cx("wrapIconItem")}>
                   <LogoutIcon />
-                </div> */}
+                </div>
                 {!toggle.action && (
                   <div className={cx("menuItemTitle")}>
                     <span>Đăng xuất</span>
