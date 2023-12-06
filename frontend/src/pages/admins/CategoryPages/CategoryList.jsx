@@ -4,6 +4,7 @@ import DataTable from 'react-data-table-component'
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import customStyles from '../ProductPages/CustomTable'
+import { Modal, Button } from 'react-bootstrap';
 const cx = classNames.bind(styles);
 const categoriesFake = [
     {
@@ -68,6 +69,12 @@ const CategoryList = () => {
     const [categories, setCategories] = useState(categoriesFake)
     const [selectedRows, setSelectedRows] = useState([])
     const [clearSelect, setClearSelect] = useState(false)
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
+    
+    const handleCloseDeleteModal = () => setShowCancelModal(false);
+    const confirmDelete = () => {
+        setShowDeleteModal(true);
+    };
 
     useEffect(() => {
         async function getAllCategory() {
@@ -80,7 +87,7 @@ const CategoryList = () => {
         getAllCategory();
         setSelectedRows([])
 
-    }, [])
+    }, [categories])
 
     const handleDelete = async () => {
         // Lấy danh sách ID của các sản phẩm đã chọn
@@ -111,6 +118,7 @@ const CategoryList = () => {
         } catch (error) {
             console.error('Lỗi khi xóa danh mục:', error.message);
         }
+        setShowDeleteModal(false)
     };
 
 
@@ -120,7 +128,7 @@ const CategoryList = () => {
             <div className={cx('cd-category')}>
                 <button
                     className={cx('delete-btn')}
-                    onClick={handleDelete}
+                    onClick={confirmDelete}
                 >
                     Xóa danh mục sản phẩm
                 </button>
@@ -144,7 +152,22 @@ const CategoryList = () => {
                 clearSelectedRows={clearSelect}
             >
             </DataTable>
-
+            <Modal show={showDeleteModal} onHide={handleCloseDeleteModal}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Xác nhận hủy</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    Bạn chắc chắn muốn xóa sản phẩm?
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" className={cx("btn-close-modal")} style ={{backgroundColor:'#36a2eb'}} onClick={handleCloseDeleteModal}>
+                        Hủy
+                    </Button>
+                    <Button variant="danger" onClick={handleDelete}>
+                        Xóa
+                    </Button>
+                </Modal.Footer>
+            </Modal>
         </div>
     )
 }

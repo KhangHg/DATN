@@ -22,6 +22,9 @@
                 text-decoration: none;
                 transition: box-shadow 200ms ease-out;
             }
+            .create-btn:hover{
+                background-color: rgba(54, 163, 235, 0.8);
+            }
 
             .delete-btn {
                 border: 0;
@@ -35,6 +38,9 @@
                 font-weight: 600;
                 text-decoration: none;
                 transition: box-shadow 200ms ease-out;
+            }
+            .delete-btn:hover{
+                background-color: rgb(246, 84, 84, 0.8);
             }
         }
 
@@ -50,7 +56,12 @@
             }
 
             input {
-                width: 50%; // Chiếm 50% chiều rộng của cha
+                width: 50%; 
+                background-image: url(https://www.w3schools.com/css/searchicon.png);
+                background-position: 3px 3px; 
+                background-repeat: no-repeat;
+                border-radius: 3px;
+                padding: 12px 15px 12px 30px;
             }
 
             select {

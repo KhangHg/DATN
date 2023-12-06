@@ -16,7 +16,7 @@ const customStyles = {
         style: {
             fontSize: '20px',
             borderBottomWidth: '1px',
-            borderColor:'black',
+            borderColor: 'black',
             paddingLeft: '8px', // override the cell padding for head cells
             paddingRight: '8px',
             fontWeight: 700,

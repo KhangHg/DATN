@@ -6,10 +6,11 @@ import { Link, Navigate, useNavigate } from "react-router-dom";
 import customStyles from './CustomTable';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit } from '@fortawesome/free-solid-svg-icons';
+import { Modal, Button } from 'react-bootstrap';
 
 const cx = classNames.bind(styles);
 
-const listProduct = [
+export const listProduct = [
     {
         productId: 100,
         name: "Áo khoác đen",
@@ -17,7 +18,7 @@ const listProduct = [
         quantity: 20,
         price: "120000",
         imageUrl: "https://cdnphoto.dantri.com.vn/COm1qksauO2sqAC-gVVI2DdH_1I=/thumb_w/1020/2023/01/24/khoa-hocdocx-1674520013659.png",
-        desciption: "This is description",
+        description: "This is description",
         sizeName: 'M',
         // ...
     },
@@ -28,7 +29,7 @@ const listProduct = [
         categoryName: "Quần",
         quantity: 20,
         imageUrl: "linkimgae",
-        desciption: "This is description",
+        description: "This is description",
         sizeName: 'M',
         // ...
     },
@@ -39,7 +40,7 @@ const listProduct = [
         categoryName: "Quần",
         quantity: 20,
         imageUrl: "linkimgae",
-        desciption: "This is description",
+        description: "This is description",
         sizeName: 'L',
         // ...
     },
@@ -50,7 +51,7 @@ const listProduct = [
         categoryName: "Quần",
         quantity: 20,
         imageUrl: "linkimgae",
-        desciption: "This is description",
+        description: "This is description",
         sizeName: 'XL',
         // ...
     },
@@ -61,7 +62,7 @@ const listProduct = [
         quantity: 20,
         price: "30000",
         image: "linkimgae",
-        desciption: "This is description",
+        description: "This is description",
         sizeName: 'M',
         // ...
     },
@@ -72,7 +73,7 @@ const listProduct = [
         categoryName: "Áo",
         quantity: 20,
         imageUrl: "linkimgae",
-        desciption: "This is description",
+        description: "This is description",
         sizeName: 'XXL',
         // ...
     },
@@ -83,7 +84,7 @@ const listProduct = [
         quantity: 20,
         price: "100000",
         imageUrl: "linkimgae",
-        desciption: "This is description",
+        description: "This is description",
         sizeName: 'S',
         // ...
     },
@@ -132,7 +133,7 @@ const ProductList = () => {
         },
         {
             name: "",
-            cell: (row) => <button onClick={() => handleUpdate(row)}><FontAwesomeIcon icon={faEdit} /></button>,
+            cell: (row) => <Link to={`/admin/products/${row.productId}`}><FontAwesomeIcon icon={faEdit} /></Link>,
         }
     ];
     const [originalProducts, setOriginalProducts] = useState([]);
@@ -141,8 +142,13 @@ const ProductList = () => {
     const [selectedCategory, setSelectedCategory] = useState('')
     const [selectedRows, setSelectedRows] = useState([]);
     const [toggleClear, setToggleClear] = useState(false)
-
-    const navigate = useNavigate()
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
+    
+    const handleCloseDeleteModal = () => setShowCancelModal(false);
+    const confirmDelete = () => {
+        setShowDeleteModal(true);
+    };
+    //const navigate = useNavigate()
 
     useEffect(() => {
         //get all products
@@ -175,6 +181,7 @@ const ProductList = () => {
             const data = await response.json();
             console.log(data);
             setCategories(categoriesFake);
+            
         }
         getAllCategory();
     }, [])
@@ -226,19 +233,15 @@ const ProductList = () => {
         } catch (error) {
             console.error('Lỗi khi xóa sản phẩm:', error.message);
         }
+        setShowDeleteModal(false)
     };
-
-    const handleUpdate = (row) => {
-        const productId = row.productId
-        navigate(`/admin/products/${productId}`)
-    }
 
     return (
         <div className={cx('wrap')}>
             <div className={cx('cd-product')}>
                 <button
                     className={cx('delete-btn')}
-                    onClick={handleDelete}
+                    onClick={confirmDelete}
                 >
                     Xóa sản phẩm
                 </button>
@@ -280,6 +283,22 @@ const ProductList = () => {
                 </DataTable>
 
             </div>
+            <Modal show={showDeleteModal} onHide={handleCloseDeleteModal}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Xác nhận hủy</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    Bạn chắc chắn muốn xóa sản phẩm?
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" className={cx("btn-close-modal")} style ={{backgroundColor:'#36a2eb'}} onClick={handleCloseDeleteModal}>
+                        Hủy
+                    </Button>
+                    <Button variant="danger" onClick={handleDelete}>
+                        Xóa
+                    </Button>
+                </Modal.Footer>
+            </Modal>
         </div >
     )
 }
