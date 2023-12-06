@@ -29,7 +29,7 @@ function authUser(req, res, next) {
 async function authRoleAdmin(req, res, next) {
     try {
         const [rows, fields] = await connection.promise().query("select * from customers where email = ?", [req.user.email]);
-        if (rows.role !== "admin") {
+        if (rows[0].role !== "admin") {
             return res.status(401).send({
                 success: false,
                 message: "UnAuthorized Access",
@@ -50,7 +50,7 @@ async function authRoleAdmin(req, res, next) {
 async function authRoleUser(req, res, next) {
     try {
         const [rows, fields] = await connection.promise().query("select * from customers where email = ?", [req.user.email]);
-        if (rows.role !== "user") {
+        if (rows[0].role !== "user") {
             return res.status(401).send({
                 success: false,
                 message: "UnAuthorized Access",

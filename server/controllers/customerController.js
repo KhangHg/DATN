@@ -33,7 +33,7 @@ const customerController = {
   },
   create: async (req, res) => {
     try {
-      const { name, email, phone, password } = req.body;
+      const { name, email, phone, password, role } = req.body;
 
       // check format email
       if (!emailRegex.test(email)) {
@@ -50,8 +50,8 @@ const customerController = {
           error: "Email already exists",
         });
       } else {
-        const insertSql = "INSERT INTO customers (name, email, phone, password) VALUES (?, ?, ?, ?)";
-        const [rows, fields] = await connection.promise().query(insertSql, [name, email, phone, password]);
+        const insertSql = "INSERT INTO customers (name, email, phone, password, role) VALUES (?, ?, ?, ?, ?)";
+        const [rows, fields] = await connection.promise().query(insertSql, [name, email, phone, password, role]);
         res.json({
           data: rows,
         });
@@ -93,31 +93,57 @@ const customerController = {
       });
     }
   },
-  login: async (req, res) => {
+  loginUser: async (req, res) => {
     try {
-      const { email, password } = req.body;
+      const { email, password, role } = req.body;
+
       // Truy vấn kiểm tra email và mật khẩu
-      const [rows] = await connection.promise().query("SELECT * FROM customers WHERE email = ? AND password = ?", [email, password]);
+      const [rows] = await connection.promise().query("SELECT * FROM customers WHERE email = ? AND password = ? AND role = ?", [email, password, role]);
 
       if (rows.length === 1) {
-        // Đăng nhập thành công, tạo JWT
-        const customer = {
-          email: email,
-        };
+        // Kiểm tra giá trị "role"
+        if (role && role.toLowerCase() === "user") {
+          const customer = {
+            email: email,
+            role: role,
+          };
 
-        const token = jwt.sign(customer, "your-secret-key", {
-          expiresIn: "1h", // Thời gian hết hạn của token (vd: 1 giờ)
-        });
-        console.log("line 111", token);
+          // Truy vấn để lấy thông tin "name" từ cơ sở dữ liệu
+          const [customerRows] = await connection.promise().query("SELECT name FROM customers WHERE email = ?", [email]);
 
-        res.json({ message: "Login successful", token: token });
+          if (customerRows.length === 1) {
+            customer.name = customerRows[0].name;
+            customer.phone = customerRows[0].phone;
+          }
+
+          const token = jwt.sign(customer, "super-key");
+
+          console.log("line 111", token);
+          res.status(200).send({ message: "Login successful", token: token, user: customer });
+        } else {
+          res.status(400).json({ message: "fails", error: "Invalid role" });
+        }
       } else {
-        // Đăng nhập không thành công
-        res.status(401).json({ error: "Login failed" });
+        res.status(401).json({ message: "fails", error: "Login failed" });
       }
     } catch (error) {
       console.error(error);
       res.status(500).json({ error: "Internal server error" });
+    }
+  },
+
+  verifyToken: (req, res) => {
+    try {
+      const { token } = req.body;
+      console.log(token);
+      let kq = jwt.verify(token, "super-key");
+      console.log("JWT Token:", kq);
+      if (kq != undefined) {
+        res.json({ message: "Verify successful", data: kq });
+      }
+    } catch (error) {
+      console.log("Chua dang nhap !");
+      res.status(401).json({ message: "fails", error: "Login failed" });
     }
   },
 };

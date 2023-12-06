@@ -1,6 +1,6 @@
-import request from '../../utils/httpRequest';
+import request from "../../utils/httpRequest";
 
 export const verifyToken = async (token) => {
-    const res = await request.post('auth/verify-token', { token });
-    return res.data;
+  const res = await request.post("/customer/verify", { token });
+  return res.data;
 };
