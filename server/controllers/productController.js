@@ -66,7 +66,12 @@ const productController = {
     },
     create: async (req, res) => {
         try {
-            const { name, description, price, category, size, quantity, imageUrl } = req.body;
+            var { name, description, price, category, size, quantity, imageUrl, XXL, XL, M, L, S } = req.body;
+            if (S == null) S = 0;
+            if (M == null) M = 0;
+            if (L == null) L = 0;
+            if (XL == null) XL = 0;
+            if (XXL == null) XXL = 0;
 
             const checkNameSql = "select name, categoryId, productId from products where name = ?";
             const categoryIdSql = "select categoryId from categories where name = ?";
@@ -75,41 +80,15 @@ const productController = {
             const [categoryRows, categoryFields] = await connection.promise().query(categoryIdSql, [category]);
             const categoryId = categoryRows[0].categoryId;
 
-            const [sizeRows, sizeFields] = await connection.promise().query(sizeIdSql, [size]);
-            const sizeId = sizeRows[0].sizeId;
-
             const [nameRows, nameFields] = await connection.promise().query(checkNameSql, [name]);
 
             if (nameRows.length > 0) {
                 const categoryIdProduct = nameRows[0].categoryId;
 
                 if (categoryIdProduct == categoryId) {
-                    const productId = nameRows[0].productId;
-                    const nameProduct = nameRows[0].name;
-
-                    const checkSizeSql = `select * from productSize where productId = ? and sizeId = ? `;
-                    const [checkSizeRows, checkSizeFieds] = await connection.promise().query(checkSizeSql, [productId, sizeId]);
-
-                    if (checkSizeRows.length > 0) {
-                        const sql = `
-                        UPDATE productSize
-                         set count = count + ?
-                         where productId = ? and sizeId = ?
-                        `;
-                        const [Rows, Fields] = await connection.promise().query(sql, [quantity, productId, sizeId]);
-                        return res.json({
-                            message: "update product success",
-                        });
-                    } else {
-                        const sql = `
-                        INSERT INTO productSize (productId, sizeId, count)
-                        VALUE (?,?,?)
-                        `;
-                        const [Rows, Fields] = await connection.promise().query(sql, [productId, sizeId, quantity]);
-                        return res.json({
-                            message: "add product success",
-                        });
-                    }
+                    return res.json({
+                        message: "Sản phẩm đã tồn tại",
+                    })
                 } else {
                     return res.json({
                         message: "không thể tạo 2 sản phẩm cùng tên nhưng khác thể loại",
@@ -119,13 +98,26 @@ const productController = {
                 const sql1 = `insert into products(name, description, price, categoryId, imageUrl) values (?,?,?,?,?)`;
                 const [rows, fields] = await connection.promise().query(sql1, [name, description, price, categoryId, imageUrl]);
                 const [rows1, fields1] = await connection.promise().query("select productId from products where name = ? and categoryId = ?", [name, categoryId]);
-                const id = rows1[0].productId;
 
                 const sql2 = `
-                    INSERT INTO productSize (productId, sizeId, count)
-                    VALUE (?,?,?)
-                    `
-                const [Rows, Fields] = await connection.promise().query(sql2, [id, sizeId, quantity])
+                INSERT INTO productSize (productId, sizeId, count)
+                VALUE (?,?,?)
+                `
+
+                const id = rows1[0].productId;
+                const sql3 = `
+                START TRANSACTION;
+
+                INSERT INTO productSize (productId, sizeId, count) VALUES
+                    (?, (SELECT sizeId FROM size WHERE name = 'S'), ?),
+                    (?, (SELECT sizeId FROM size WHERE name = 'M'), ?),
+                    (?, (SELECT sizeId FROM size WHERE name = 'L'), ?),
+                    (?, (SELECT sizeId FROM size WHERE name = 'XL'), ?),
+                    (?, (SELECT sizeId FROM size WHERE name = 'XXL'), ?);
+                
+                COMMIT;
+                `
+                const [Rows, Fields] = await connection.promise().query(sql3, [id, S, id, M, id, L, id, XL, id, XXL])
                 return res.json({
                     message: "add product success"
                 })
@@ -147,7 +139,7 @@ const productController = {
         SET name = ?, description = ?,  price = ?,  imageUrl = ?  WHERE productId = ?;
 
         UPDATE productSize
-        SET count = 
+        SET count = count + 
             CASE 
                 WHEN sizeId = (SELECT sizeId FROM size WHERE name = 'XXL') THEN ?
                 WHEN sizeId = (SELECT sizeId FROM size WHERE name = 'XL') THEN ?
@@ -160,27 +152,18 @@ const productController = {
         COMMIT;
         `
 
-        const sql1 = ` UPDATE products
-        SET name = ?, description = ?,  price = ?,  imageUrl = ?  WHERE productId = ?;`
-        const sql2 = ` UPDATE productSize
-        SET count = 
-            CASE 
-                WHEN sizeId = (SELECT sizeId FROM size WHERE name = 'XXL') THEN ?
-                WHEN sizeId = (SELECT sizeId FROM size WHERE name = 'XL') THEN ?
-                WHEN sizeId = (SELECT sizeId FROM size WHERE name = 'L') THEN ?
-                WHEN sizeId = (SELECT sizeId FROM size WHERE name = 'M') THEN ?
-                WHEN sizeId = (SELECT sizeId FROM size WHERE name = 'S') THEN ?
-                ELSE count
-            END
-        WHERE productId = ?;`
         try {
             const { id } = req.params;
             console.log("id: " + id);
-            const { name, description, price, imageUrl, XXL, XL, L, M, S } = req.body;
+            var { name, description, price, imageUrl, XXL, XL, L, M, S } = req.body;
+            if (S == null) S = 0;
+            if (M == null) M = 0;
+            if (L == null) L = 0;
+            if (XL == null) XL = 0;
+            if (XXL == null) XXL = 0;
 
-            const [rows, fields] = await connection.promise().query(sql1, [name, description, price, imageUrl, id, XXL, XL, L, M, S, id]);
-            // const [rows1, fields1] = await connection.promise().query(sql1, [name, description, price, imageUrl, id]);
-            // const [rows2, fields2] = await connection.promise().query(sql2, [XXL, XL, L, M, S, id]);
+            const [rows, fields] = await connection.promise().query(sql, [name, description, price, imageUrl, id, XXL, XL, L, M, S, id]);
+
             res.json({
                 message: "update thành công",
                 productId: id,
