@@ -4,7 +4,7 @@ const orderController = {
   getALL: async (req, res) => {
     try {
       const [rows, fields] = await connection.promise().query(
-        "select *  FROM `order`"
+        "select *  FROM `order` ORDER BY status ASC, id DESC"
       );
       res.json({
         data: rows,
