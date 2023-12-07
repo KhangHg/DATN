@@ -27,6 +27,7 @@ function Sidebar({ setToggleButton }) {
     listProduct: true,
     listCustommer: false,
     listCategory: false,
+    shop: false
   });
   const [toggle, setToggle] = useState({
     action: false,
@@ -47,6 +48,7 @@ function Sidebar({ setToggleButton }) {
       listProduct: false,
       listCustommer: false,
       listCategory: false,
+      shop: false,
       [detailName]: true,
     }));
   };
@@ -150,6 +152,24 @@ function Sidebar({ setToggleButton }) {
                   </Link>
                 </div>
               )}
+
+              {/* Cửa hàng */}
+              <div
+                className={cx("homeMenuItem", "itemNav", {
+                  active : active.shop
+                })}
+              >
+                <div className={cx("wrapIconItem")}>
+                  <ProductIcon />
+                </div>
+
+                <Link to="/admin/shop" className={cx("menuItemTitle")} onClick={() => handleActive("shop")}>
+                  <div className={cx("menuItemTitle")}>
+                    <span style={{color:'white'}}>Cửa hàng</span>
+                  </div>
+                </Link>
+
+              </div>
 
               <hr className={cx("menuDivider")}></hr>
 

@@ -18,6 +18,7 @@ const routes = {
   categoryListAdmin: "/admin/categories",
   orderListAdmin: "/admin/orders",
   customerListAdmin: "/admin/customers",
+  shop: "/admin/shop",
   notfound404admin: "/admin/*",
 };
 

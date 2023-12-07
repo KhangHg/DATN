@@ -18,7 +18,8 @@ import ListProduct from "../pages/users/ListProduct/ListProduct";
 import ProductDescription from "../pages/users/ProductDescription/ProductDescription";
 import Product from "../pages/users/Products/Product";
 import StoreLocation from "../pages/users/StoreLocations/StoreLocation";
-import Cart from "../pages/users/cart/cart";
+import Cart from "../pages/users/cart/Cart";
+import Shop from "../pages/admins/ShopPages/Shop";
 //import layout
 
 //public route
@@ -46,6 +47,7 @@ const adminRoutes = [
   { path: routesConfig.categoryAddAdmin, component: AddCategoryForm, title: "Thêm danh mục" },
   { path: routesConfig.orderListAdmin, component: OrderList, title: "Quản lý danh sách đơn hàng" },
   { path: routesConfig.customerListAdmin, component: CustomerList, title: "Quản lý danh sách khách hàng" },
+  { path: routesConfig.shop, component: Shop, title: "Thông tin cửa hàng" },
   { path: routesConfig.notfound404admin, component: NotFound404, layout: DefaultLayout, title: "" },
 ];
 

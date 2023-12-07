@@ -1,5 +1,5 @@
 import classNames from "classnames/bind";
-import styles from "./cart.module.scss";
+import styles from "./Cart.module.scss";
 const cx = classNames.bind(styles);
 import React, { useEffect, useState, useContext } from "react";
 import { useDispatch, useSelector } from "react-redux";
