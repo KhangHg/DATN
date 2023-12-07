@@ -22,6 +22,7 @@ const routes = {
   storeAddAdmin: "/admin/stores/add",
   orderListAdmin: "/admin/orders",
   customerListAdmin: "/admin/customers",
+  shop: "/admin/shop",
   notfound404admin: "/admin/*",
 };
 
