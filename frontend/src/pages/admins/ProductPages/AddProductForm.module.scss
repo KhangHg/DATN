@@ -78,17 +78,50 @@
 
                         input[name='price'],
                         input[name='quantity']{
-                            width: 250px;
+                            width: 75%;
                         }
 
                         .form-message {
                             color: red;
                             font-size: 14px;
                         }
+                        .imageArea{
+                            width: 270px;
+                            height: 360px;
+                        }  
                     }
 
-                    #f2 {
-                        margin-top: 25px;
+                    #size{
+                        .size-input{
+                            margin-top:10px
+                        }
+                        input{
+                            width:75%
+                        }
+                        input:focus {
+                            border-color: #007bff;
+                            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+                            outline: none;
+                        }
+                        .form-message {
+                            color: red;
+                            font-size: 14px;
+                        }
+                    }
+
+                    .form-input2 {
+                        label>span{
+                            color: red;
+                            font-size: 16px;
+                        }
+                        select{
+                            padding: 5px;
+                        }
+                        select>option:focus{
+                            border-color: #007bff;
+                            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+                            outline: none;
+                        }
                     }
 
                     .btn {

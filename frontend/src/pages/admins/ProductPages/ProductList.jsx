@@ -111,7 +111,8 @@ const ProductList = () => {
         {
             name: 'Sản Phẩm',
             selector: (row) => row.name,
-            sortable: true
+            sortable: true,
+            color: '#007bff',
         },
         {
             name: 'Loại',

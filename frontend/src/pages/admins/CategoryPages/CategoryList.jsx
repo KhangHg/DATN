@@ -71,7 +71,7 @@ const CategoryList = () => {
     const [clearSelect, setClearSelect] = useState(false)
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     
-    const handleCloseDeleteModal = () => setShowCancelModal(false);
+    const handleCloseDeleteModal = () => setShowDeleteModal(false);
     const confirmDelete = () => {
         setShowDeleteModal(true);
     };

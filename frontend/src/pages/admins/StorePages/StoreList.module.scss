@@ -1,6 +1,73 @@
-*{
+* {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-    
+
+    .wrap {
+        margin: 20px 10px;
+
+        .cd-btn {
+            text-align: right;
+            //position:sticky;
+            //top: 60px;
+            //right: 20px;
+
+            .create-btn {
+                border: 0;
+                text-align: center;
+                display: inline-block;
+                padding: 7px;
+                margin: 7px;
+                color: #ffffff;
+                background-color: #36a2eb;
+                border-radius: 8px;
+                font-weight: 600;
+                text-decoration: none;
+                transition: box-shadow 200ms ease-out;
+            }
+
+            .create-btn:hover {
+                background-color: rgba(54, 163, 235, 0.8);
+            }
+
+            .delete-btn {
+                border: 0;
+                text-align: center;
+                display: inline-block;
+                padding: 7px;
+                margin: 7px;
+                color: #ffffff;
+                background-color: rgb(246, 84, 84);
+                border-radius: 8px;
+                font-weight: 600;
+                text-decoration: none;
+                transition: box-shadow 200ms ease-out;
+            }
+
+            .delete-btn:hover {
+                background-color: rgb(246, 84, 84, 0.7);
+            }
+        }
+
+        .search-bar {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+
+            input,
+            select {
+                height: 30px; // Chia đều chiều cao
+                margin-right: 25px; // Khoảng cách giữa hai thanh
+            }
+
+            input {
+                width: 50%; // Chiếm 50% chiều rộng của cha
+            }
+
+            select {
+                width: 20%; // Chiếm 30% chiều rộng của cha
+            }
+        }
+
+    }
 }

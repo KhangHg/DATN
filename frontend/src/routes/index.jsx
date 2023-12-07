@@ -21,7 +21,6 @@ import ProductDescription from "../pages/users/ProductDescription/ProductDescrip
 import Product from "../pages/users/Products/Product";
 import StoreLocation from "../pages/users/StoreLocations/StoreLocation";
 import Cart from "../pages/users/cart/Cart";
-import Shop from "../pages/admins/ShopPages/Shop";
 //import layout
 
 //public route
@@ -51,7 +50,6 @@ const adminRoutes = [
   { path: routesConfig.storeAddAdmin, component: AddStoreForm, title: "Thêm cửa hàng" },
   { path: routesConfig.orderListAdmin, component: OrderList, title: "Quản lý danh sách đơn hàng" },
   { path: routesConfig.customerListAdmin, component: CustomerList, title: "Quản lý danh sách khách hàng" },
-  { path: routesConfig.shop, component: Shop, title: "Thông tin cửa hàng" },
   { path: routesConfig.notfound404admin, component: NotFound404, layout: DefaultLayout, title: "" },
 ];
 
