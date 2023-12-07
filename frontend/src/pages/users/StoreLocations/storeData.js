@@ -1,10 +1,10 @@
 // storeData.js
-const originalStoreData = [
+export const originalStoreData = [
     {
         id: 1,
         name: '249 Đ. Cầu Giấy',
         province: 'Hanoi',
-        address: '249 Đ. Cầu Giấy, Dịch Vọng, Cầu Giấy, Hà Nội',
+        address: '249 Đ. Cầu Giấy, phường Dịch Vọng, quận Cầu Giấy, thành phố Hà Nội',
         hotline: '0123-456-789',
     },
     {

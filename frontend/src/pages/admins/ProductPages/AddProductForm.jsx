@@ -34,8 +34,11 @@ const AddProductForm = () => {
             price: '',
             imageUrl: '',
             categoryName: '',
-            sizeName: '',
-            quantity: 1,
+            S: '',
+            M: '',
+            L: '',
+            XL: '',
+            XXL: '',
         },
 
         validationSchema: Yup.object({
@@ -44,15 +47,18 @@ const AddProductForm = () => {
             price: Yup.string().required('Bạn chưa nhập giá cho sản phẩm'),
             imageUrl: Yup.string().required("Bạn chưa thêm ảnh minh họa cho sản phẩm"),
             categoryName: Yup.string().required('Bạn chưa thêm danh mục cho sản phẩm'),
-            sizeName: Yup.string().required('Chọn size cho sản phẩm'),
-            quantity: Yup.number()
-                .integer('Số lượng phải là số nguyên')
-                .min(1, 'Số lượng phải lớn hơn 0')
-                .required('Vui lòng nhập số lượng'),
+            S: Yup.number().integer('Số lượng phải là số nguyên').min(0, 'Số lượng không âm').required('Nhập số lượng sản phẩm'),
+            M: Yup.number().integer('Số lượng phải là số nguyên').min(0, 'Số lượng không âm').required('Nhập số lượng sản phẩm'),
+            L: Yup.number().integer('Số lượng phải là số nguyên')
+                .min(0, 'Số lượng không âm').required('Nhập số lượng sản phẩm'),
+            XL: Yup.number().integer('Số lượng phải là số nguyên')
+                .min(0, 'Số lượng không âm').required('Nhập số lượng sản phẩm'),
+            XXL: Yup.number().integer('Số lượng phải là số nguyên')
+                .min(0, 'Số lượng không âm').required('Nhập số lượng sản phẩm')
         }),
 
         onSubmit: values => {
-            console.log('hi',values)
+            console.log('hi', values)
         }
     })
 
@@ -81,7 +87,7 @@ const AddProductForm = () => {
             setCategories(categoriesFake);
         }
         getAllCategory();
-    },[])
+    }, [])
 
 
 
@@ -90,7 +96,7 @@ const AddProductForm = () => {
             <div className={cx('nav')}>
                 <Link to="/admin/products" className={cx('back')}>
                     <FontAwesomeIcon icon={faArrowLeft}
-                    style ={{paddingRight:'10px'}} 
+                        style={{ paddingRight: '10px' }}
                     />
                     Quay lại danh sách sản phẩm
                 </Link>
@@ -151,57 +157,50 @@ const AddProductForm = () => {
                                 value={formik.values.imageUrl}
                                 onChange={formik.handleChange}
                                 className={cx("form-control")} />
+                            {formik.values.imageUrl &&
+                                <div className={cx('imageArea')}>
+                                    <p>Ảnh mẫu sản phẩm</p>
+                                    <img style={{ width: '240px', height: '300px' }} src={formik.values.imageUrl}></img>
+                                </div>}
                             {formik.errors.imageUrl && formik.touched.imageUrl && (<span className={cx("form-message")}>{formik.errors.imageUrl}</span>)}
                         </div>
                     </div>
 
                     <div className={cx('form-group')}>
-                        <div className={cx("form-input")} id={cx('f2')}>
-                            <label htmlFor="quantity" className={cx("form-label")}>Số lượng sản phẩm<span> *</span></label>
-                            <input
-                                id="quantity"
-                                name="quantity"
-                                type="number"
-                                placeholder="Nhập số lượng sản phẩm"
-                                value={formik.values.quantity}
-                                onChange={formik.handleChange}
-                                className={cx("form-control")} />
-                            {formik.errors.quantity && formik.touched.quantity && (<span className={cx("form-message")}>{formik.errors.quantity}</span>)}
-                        </div>
-                        <div className={cx('form-input')} id={cx('f2')}>
+                        <div className={cx('form-input2')}>
                             <label htmlFor="categoryName" className={cx("form-label")}>Danh mục:<span> * &nbsp;</span></label>
                             <select
                                 id={cx("categoryName")}
                                 name="categoryName"
                                 onChange={formik.handleChange}
                                 onBlur={formik.handleBlur}
-                                value={formik.values.categoryName}
+                                value={formik.values.categoryName || ''}
                             >
-                                <option selected>Chọn danh mục</option>
+                                <option>Chọn danh mục</option>
                                 {categories.map(category => (
                                     <option key={category.categoryId} value={category.categoryName}>{category.categoryName}</option>
                                 ))}
                             </select>
                             {formik.errors.categoryName && formik.touched.categoryName && (<span className={cx("form-message")}><br></br>{formik.errors.categoryName}</span>)}
                         </div>
-                        <div className={cx('form-input')} id={cx('f2')}>
-                            <label htmlFor="sizeName" className={cx("form-label")}>Size:<span> * &nbsp;</span></label>
-                            <select
-                                id={cx("sizeName")}
-                                name="sizeName"
-                                onChange={formik.handleChange}
-                                onBlur={formik.handleBlur}
-                                value={formik.values.sizeName}
-                            >
-                                <option value="">Chọn size</option>
-                                <option value="S">S</option>
-                                <option value="M">M</option>
-                                <option value="L">L</option>
-                                <option value="XL">XL</option>
-                                <option value="XXL">XXL</option>
-                            </select>
-                            {formik.errors.categoryName && formik.touched.categoryName && (<span className={cx("form-message")}><br></br>{formik.errors.categoryName}</span>)}
+                        <div className={cx("form-input2")} id={cx('size')}>
+                            {['S', 'M', 'L', 'XL', 'XXL'].map((item, key) => (
+                                <div key={key} className={cx('size-input')}>
+                                    <label htmlFor={`${item}`} className={cx('size-label')}>Size {item}</label>
+                                    <input
+                                        id={`${item}`}
+                                        name={`${item}`}
+                                        type="number"
+                                        placeholder="Số sản phẩm"
+                                        value={formik.values[`${item}`]}
+                                        onChange={formik.handleChange}
+                                        className={cx("form-control")}
+                                    />
+                                    {formik.errors[`${item}`] && formik.touched[`${item}`] && (<span className={cx("form-message")}>{formik.errors[`${item}`]}</span>)}
+                                </div>
+                            ))}
                         </div>
+
                         <div className={cx('btn')}>
                             <button className={cx("cancel")} onClick={handleCancel}>Hủy</button>
                             <button
@@ -222,7 +221,7 @@ const AddProductForm = () => {
                     Bạn có chắc chắn muốn hủy tạo sản phẩm mới không?
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary" className={cx("btn-close-modal")} style ={{backgroundColor:'#36a2eb'}} onClick={handleCloseCancelModal}>
+                    <Button variant="secondary" className={cx("btn-close-modal")} style={{ backgroundColor: '#36a2eb' }} onClick={handleCloseCancelModal}>
                         Đóng
                     </Button>
                     <Button variant="danger" onClick={handleConfirmCancel}>

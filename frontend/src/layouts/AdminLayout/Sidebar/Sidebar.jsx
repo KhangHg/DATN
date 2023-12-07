@@ -160,10 +160,10 @@ function Sidebar({ setToggleButton }) {
                 })}
               >
                 <div className={cx("wrapIconItem")}>
-                  <ProductIcon />
+                  <HomeIcon />
                 </div>
 
-                <Link to="/admin/shop" className={cx("menuItemTitle")} onClick={() => handleActive("shop")}>
+                <Link to="/admin/stores" className={cx("menuItemTitle")} onClick={() => handleActive("shop")}>
                   <div className={cx("menuItemTitle")}>
                     <span style={{color:'white'}}>Cửa hàng</span>
                   </div>

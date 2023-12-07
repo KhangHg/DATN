@@ -85,17 +85,12 @@
                         }
 
                         .imageArea{
-                            width: 300px;
-                            height: 400px;
+                            width: 270px;
+                            height: 360px;
                         }    
                     }
 
                     #size{
-                        display: flex;
-                        direction: row;
-                        flex-wrap: wrap;
-                        justify-content: space-evenly;
-                        align-content:space-evenly ;
                         .size-input{
                             margin-top:10px
                         }
@@ -115,7 +110,9 @@
                             color: red;
                             font-size: 16px;
                         }
-                        margin-top: 25px;
+                        select{
+                            padding: 5px;
+                        }
                         select>option:focus{
                             border-color: #007bff;
                             box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);

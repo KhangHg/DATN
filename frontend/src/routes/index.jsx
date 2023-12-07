@@ -21,7 +21,6 @@ import ProductDescription from "../pages/users/ProductDescription/ProductDescrip
 import Product from "../pages/users/Products/Product";
 import StoreLocation from "../pages/users/StoreLocations/StoreLocation";
 import Cart from "../pages/users/cart/Cart";
-import Shop from "../pages/admins/ShopPages/Shop";
 //import layout
 
 //public route
