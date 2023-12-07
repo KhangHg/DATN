@@ -7,8 +7,8 @@ const mysql = require("mysql2");
 const connection = mysql.createConnection({
   host: "localhost",
   user: "root",
-  password: process.env.PASS,
-  database: process.env.DATABASE,
+  password: '',
+  database: 'shopbanhang',
   multipleStatements: true,
 });
 

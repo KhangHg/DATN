@@ -6,8 +6,10 @@ const productController = require("../controllers/productController")
 
 router.get("/", productController.getAll)
 router.get("/:product_id", productController.getById)
-router.post("/", authUser, authRoleAdmin, productController.create)
-router.put("/:id", authUser, authRoleAdmin, productController.update)
+// router.post("/", authUser, authRoleAdmin, productController.create)
+router.post("/", productController.create)
+// router.put("/:id", authUser, authRoleAdmin, productController.update)
+router.put("/:id", productController.update)
 router.delete("/:id", authUser, authRoleAdmin, productController.delete)
 router.put("/", authUser, authRoleAdmin, productController.subProduct)
 

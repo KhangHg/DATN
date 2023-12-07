@@ -1,0 +1,93 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+
+    .wrap {
+        margin: 20px 10px;
+
+        .cd-product {
+            text-align: right;
+
+            .create-btn {
+                border: 0;
+                text-align: center;
+                display: inline-block;
+                padding: 7px;
+                margin: 7px;
+                color: #ffffff;
+                background-color: #36a2eb;
+                border-radius: 8px;
+                font-weight: 600;
+                text-decoration: none;
+                transition: box-shadow 200ms ease-out;
+            }
+            .create-btn:hover{
+                background-color: rgba(54, 163, 235, 0.8);
+            }
+
+            .delete-btn {
+                border: 0;
+                text-align: center;
+                display: inline-block;
+                padding:7px;
+                margin: 7px;
+                color: #ffffff;
+                background-color: rgb(246, 84, 84);
+                border-radius: 8px;
+                font-weight: 600;
+                text-decoration: none;
+                transition: box-shadow 200ms ease-out;
+            }
+            .delete-btn:hover{
+                background-color: rgb(246, 84, 84, 0.8);
+            }
+        }
+
+        .search-bar {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+
+            input,
+            select {
+                height: 30px; // Chia đều chiều cao
+                margin-right: 25px; // Khoảng cách giữa hai thanh
+            }
+
+            input {
+                width: 50%; 
+                background-image: url(https://www.w3schools.com/css/searchicon.png);
+                background-position: 3px 3px; 
+                background-repeat: no-repeat;
+                border-radius: 3px;
+                padding: 12px 15px 12px 30px;
+            }
+
+            select {
+                width: 20%; // Chiếm 30% chiều rộng của cha
+            }
+        }
+
+        .products-list {
+            .rdt_Table {
+                .rdt_TableHeader {
+                    font-size: 20px;
+                    font-weight: bold;
+                }
+
+                .rdt_TableRow {
+                    font-size: 16px;
+                }
+            }
+        }
+
+        .image-cell {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            //border-radius: 50%; // Làm tròn góc cho ảnh (nếu muốn)
+        }
+
+    }
+}
