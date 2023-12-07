@@ -103,12 +103,10 @@ const OrderList = () => {
                 <DataTable
                     columns={columns}
                     data={orderList}
-                    // selectableRows
                     onRowClicked={(row) => { handleClickOrder(row); }}
                     fixedHeader
                     pagination
                     customStyles={customStyles}
-                    // onSelectedRowsChange={({ selectedRows }) => { setOrderSelected(selectedRows) }}
                 >
                 </DataTable>
             </div>
