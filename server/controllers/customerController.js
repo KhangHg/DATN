@@ -116,8 +116,9 @@ const customerController = {
             customer.phone = customerRows[0].phone;
           }
 
-          const token = jwt.sign(customer, "super-key");
-
+          const token = jwt.sign(customer, "your-secret-key");
+          res.header("Authorization", token);
+          res.cookie("token", token, { secure: false, httpOnly: false });
           console.log("line 111", token);
           res.status(200).send({ message: "Login successful", token: token, user: customer });
         } else {
@@ -136,7 +137,7 @@ const customerController = {
     try {
       const { token } = req.body;
       console.log(token);
-      let kq = jwt.verify(token, "super-key");
+      let kq = jwt.verify(token, "your-secret-key");
       console.log("JWT Token:", kq);
       if (kq != undefined) {
         res.json({ message: "Verify successful", data: kq });

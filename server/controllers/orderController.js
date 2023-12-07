@@ -1,16 +1,64 @@
 const connection = require("../database/connectDB");
 
 const orderController = {
-  getALL: async (req, res) => {
+  getAll: async (req, res) => {
     try {
-      const [rows, fields] = await connection.promise().query(
-        `select * 
-        FROM order o
-        INNER JOIN  orderItem i ON o.id = i.orderId
-        `
-      );
+      // Lấy tất cả các đơn hàng kèm theo thông tin orderItem
+      const [rows, fields] = await connection.promise().query("SELECT o.id as orderId, o.*, i.* FROM `order` o INNER JOIN orderItem i ON o.id = i.orderId");
+
+      // Tạo một đối tượng để lưu trữ thông tin đơn hàng
+      const orderDataMap = {};
+
+      // Lặp qua kết quả truy vấn để xử lý dữ liệu
+      rows.forEach((row) => {
+        const orderId = row.orderId;
+
+        // Nếu order chưa được thêm vào orderDataMap, thêm nó vào
+        if (!orderDataMap[orderId]) {
+          console.log(row);
+          let statusValue = null;
+
+          // Kiểm tra xem status có phải là Buffer không
+          if (Buffer.isBuffer(row.status)) {
+            // Nếu là Buffer, trích xuất giá trị từ mảng byte
+            statusValue = row.status.length > 0 ? row.status[0] : null;
+          } else if (Array.isArray(row.status) && row.status.length > 0) {
+            // Nếu status là một mảng, lấy giá trị đầu tiên
+            statusValue = row.status[0];
+          } else {
+            // Nếu không phải là Buffer hoặc mảng, giữ nguyên giá trị
+            statusValue = row.status;
+          }
+          orderDataMap[orderId] = {
+            order: {
+              id: row.orderId,
+              email: row.email,
+              name: row.name,
+              address: row.address,
+              phone: row.phone,
+              total: row.total,
+              orderDate: row.orderDate,
+              status: statusValue,
+            },
+            orderItems: [], // Khởi tạo orderItems là một mảng rỗng
+          };
+        }
+
+        // Thêm thông tin orderItem vào mảng orderItems của đơn hàng tương ứng
+        orderDataMap[orderId].orderItems.push({
+          productId: row.productId,
+          productName: row.productName,
+          quantity: row.quantity,
+          size: row.size,
+          additionalInfo: row.additionalInfo,
+        });
+      });
+
+      // Chuyển đối tượng orderDataMap thành mảng để trả về
+      const data = Object.values(orderDataMap);
+
       res.json({
-        data: rows,
+        data: data,
       });
     } catch (error) {
       console.log(error);
@@ -19,6 +67,7 @@ const orderController = {
       });
     }
   },
+
   createOrder: async (req, res) => {
     try {
       const { email, name, phone, status, address, total, items } = req.body;
