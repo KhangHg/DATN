@@ -21,6 +21,27 @@ const productController = {
             })
         }
     },
+    getByIdOld: async (req, res) => {
+        try {
+            const { product_id } = req.params;
+            const [rows, fields] = await connection.promise().query(
+                `SELECT p.productId, p.name, p.description, p.price, p.imageUrl, c.name AS categoryName, s.name AS sizeName, d.count AS quantity
+            FROM products p
+            INNER JOIN categories c ON p.categoryId = c.categoryId
+            inner join size s
+            inner join productSize d on p.productId = d.productId and s.sizeId = d.sizeId
+            where p.productId = ?
+            `, [product_id]);
+            res.json({
+                data: rows,
+            });
+        } catch (error) {
+            console.log(error);
+            res.json({
+                error: "không thể lấy được sản phẩm",
+            });
+        }
+    },
     getById: async (req, res) => {
         const sql = `
         SELECT 
