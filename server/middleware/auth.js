@@ -4,11 +4,7 @@ const connection = require("../database/connectDB");
 
 function authUser(req, res, next) {
   try {
-    const token = req.cookies.token;
-    console.log("line9 token:", token);
-    const decode = JWT.verify(token, "your-secret-key");
-
-    console.log("line10 decode:", decode);
+    const decode = JWT.verify(req.headers.authorization, "your-secret-key");
     req.user = decode;
     next();
   } catch (error) {
@@ -30,7 +26,7 @@ function authUser(req, res, next) {
 async function authRoleAdmin(req, res, next) {
   try {
     const [rows, fields] = await connection.promise().query("select * from customers where email = ?", [req.user.email]);
-    if (rows.role !== "admin") {
+    if (rows[0].role !== "admin") {
       return res.status(401).send({
         success: false,
         message: "UnAuthorized Access",
@@ -50,17 +46,13 @@ async function authRoleAdmin(req, res, next) {
 
 async function authRoleUser(req, res, next) {
   try {
-    console.log("line 53", req.user.email);
     const [rows, fields] = await connection.promise().query("select * from customers where email = ?", [req.user.email]);
-    console.log("line 55", rows[0].role);
     if (rows[0].role !== "user") {
-      console.log("..............----------------");
       return res.status(401).send({
         success: false,
         message: "UnAuthorized Access",
       });
     } else {
-      console.log("..............");
       next();
     }
   } catch (error) {

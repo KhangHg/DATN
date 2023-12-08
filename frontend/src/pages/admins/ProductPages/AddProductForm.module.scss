@@ -1,0 +1,176 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+
+    .container {
+        margin: 0px;
+        display: flex;
+        direction: column;
+        background-color: white;
+        //font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif,
+        //Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+        font-family: 'Courier New', Courier, monospace;
+
+        .nav {
+            display: flex;
+            position: fixed;
+            background-color: white;
+            font-size: 20px;
+            width: 100vw;
+            height: 40px;
+            padding-right: 15px;
+            color: #007bff;
+            //z-index: 1000;
+            .back{
+                color: #007bff;
+                padding-left: 10px;
+            }
+        }
+
+        .form {
+            margin-top: 40px;
+            width: 100vw;
+
+            .info {
+                margin: 0;
+                padding-left: 10px;
+            }
+
+            .spacer {
+                padding: 10px;
+            }
+
+            .form-body {
+                display: flex;
+                direction: row;
+                padding: 0px 5px 30px 5px;
+
+                .form-group {
+                    width: 50%;
+                    padding: 10px 20px 5px 20px;
+                    margin: 0px 10px;
+                    border-color: #007bff;
+                    box-shadow: 0 0 3px rgba(0, 123, 255, 0.8);
+                    border-radius: 5px;
+
+                    .form-input {
+                        padding-bottom: 16px;
+
+                        .form-label {
+                            span {
+                                color: red;
+                                font-size: 16px;
+                            }
+                        }
+
+                        input:focus {
+                            border-color: #007bff;
+                            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+                            outline: none;
+                        }
+
+                        textarea:focus {
+                            border-color: #007bff;
+                            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+                            outline: none;
+                        }
+
+                        input[name='price'],
+                        input[name='quantity']{
+                            width: 75%;
+                        }
+
+                        .form-message {
+                            color: red;
+                            font-size: 14px;
+                        }
+                        .imageArea{
+                            width: 270px;
+                            height: 360px;
+                        }  
+                    }
+
+                    #size{
+                        .size-input{
+                            margin-top:10px
+                        }
+                        input{
+                            width:75%
+                        }
+                        input:focus {
+                            border-color: #007bff;
+                            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+                            outline: none;
+                        }
+                        .form-message {
+                            color: red;
+                            font-size: 14px;
+                        }
+                    }
+
+                    .form-input2 {
+                        label>span{
+                            color: red;
+                            font-size: 16px;
+                        }
+                        select{
+                            padding: 5px;
+                        }
+                        select>option:focus{
+                            border-color: #007bff;
+                            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+                            outline: none;
+                        }
+                    }
+
+                    .btn {
+                        position:relative;
+                        left: 30px;
+                        margin-top: 40px;
+                        margin-left: 20px;
+
+                        .cancel {
+                            text-align: center;
+                            display: inline-block;
+                            padding: 8px;
+                            margin: 10px;
+                            width: 100px;
+                            color: #36a2eb;
+                            background-color: #ffffff;
+                            border: 2px solid #36a2eb;
+                            border-radius: 8px;
+                            font-family: "proxima-nova-soft", sans-serif;
+                            font-weight: 600;
+                            text-decoration: none;
+                            transition: box-shadow 200ms ease-out;
+                        }
+                        .cancel:hover {
+                            border: 2px solid rgb(48, 94, 244);
+                            color: rgb(48, 94, 244)
+                        }
+
+                        .form-submit {
+                            text-align: center;
+                            display: inline-block;
+                            padding: 8px;
+                            margin: 10px;
+                            width: 100px;
+                            color: #ffffff;
+                            background-color: #36a2eb;
+                            border-radius: 8px;
+                            font-family: "proxima-nova-soft", sans-serif;
+                            font-weight: 600;
+                            text-decoration: none;
+                            transition: box-shadow 200ms ease-out;
+                        }
+                        .form-submit:hover {
+                            background-color: rgba(54, 163, 235, 0.8);
+                        }
+                    }
+                }
+            }
+        }
+
+    }
+}

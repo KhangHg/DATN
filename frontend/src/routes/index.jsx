@@ -11,6 +11,8 @@ import AddProductForm from "../pages/admins/ProductPages/AddProductForm";
 import UpdateProductForm from "../pages/admins/ProductPages/UpdateProductForm";
 import CategoryList from "../pages/admins/CategoryPages/CategoryList";
 import AddCategoryForm from "../pages/admins/CategoryPages/AddCategoryForm";
+import StoreList from "../pages/admins/StorePages/StoreList";
+import { AddStoreForm } from "../pages/admins/StorePages/AddStoreForm";
 import OrderList from "../pages/admins/OrderPages/OrderList";
 import CustomerList from "../pages/admins/CustomerPages/CustomerList";
 import DefaultLayout from "../layouts/AdminLayout/DefaultLayout/DefaultLayout";
@@ -18,7 +20,7 @@ import ListProduct from "../pages/users/ListProduct/ListProduct";
 import ProductDescription from "../pages/users/ProductDescription/ProductDescription";
 import Product from "../pages/users/Products/Product";
 import StoreLocation from "../pages/users/StoreLocations/StoreLocation";
-import Cart from "../pages/users/cart/cart";
+import Cart from "../pages/users/cart/Cart";
 //import layout
 
 //public route
@@ -44,6 +46,8 @@ const adminRoutes = [
   { path: routesConfig.productAddAdmin, component: AddProductForm, title: "Thêm sản phẩm" },
   { path: routesConfig.categoryListAdmin, component: CategoryList, title: "Quản lý danh mục sản phẩm" },
   { path: routesConfig.categoryAddAdmin, component: AddCategoryForm, title: "Thêm danh mục" },
+  { path: routesConfig.storeListAdmin, component: StoreList, title: "Hệ thống cửa hàng" },
+  { path: routesConfig.storeAddAdmin, component: AddStoreForm, title: "Thêm cửa hàng" },
   { path: routesConfig.orderListAdmin, component: OrderList, title: "Quản lý danh sách đơn hàng" },
   { path: routesConfig.customerListAdmin, component: CustomerList, title: "Quản lý danh sách khách hàng" },
   { path: routesConfig.notfound404admin, component: NotFound404, layout: DefaultLayout, title: "" },

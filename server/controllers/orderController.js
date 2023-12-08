@@ -3,6 +3,7 @@ const connection = require("../database/connectDB");
 const orderController = {
   getAll: async (req, res) => {
     try {
+<<<<<<< HEAD
       // Lấy tất cả các đơn hàng kèm theo thông tin orderItem
       const [rows, fields] = await connection.promise().query("SELECT o.id as orderId, o.*, i.* FROM `order` o INNER JOIN orderItem i ON o.id = i.orderId");
 
@@ -57,6 +58,27 @@ const orderController = {
       // Chuyển đối tượng orderDataMap thành mảng để trả về
       const data = Object.values(orderDataMap);
 
+=======
+      const [rows, fields] = await connection.promise().query(
+        "select *  FROM `order` ORDER BY status ASC, id DESC"
+      );
+      res.json({
+        data: rows,
+      });
+    } catch (error) {
+      console.log(error);
+      res.json({
+        state: "error",
+      });
+    }
+  },
+  getDetailOrder: async (req, res) => {
+    const id = req.params.id.split("=")[1];
+    try {
+      const [rows, fields] = await connection.promise().query(
+        "select o.*, p.name productName, p.price, p.imageUrl, oi.quantity, oi.size FROM `order` o INNER JOIN `orderItem` oi ON o.id = oi.orderId  LEFT JOIN `products` p ON p.productId = oi.productId where o.id = ?", [id]
+      );
+>>>>>>> master
       res.json({
         data: data,
       });
@@ -125,12 +147,14 @@ const orderController = {
   updateStatus: async (req, res) => {
     try {
       const { status } = req.body;
-      const { id } = req.params;
+      const id = req.params.id.split("=")[1];
+      console.log(id);
 
       // Kiểm tra xem status có giá trị hợp lệ (0 hoặc 1) không
       if (status !== 0 && status !== 1) {
         return res.json({
-          error: "Invalid status value",
+        status:false,
+        error: "Invalid status value",
         });
       }
 
@@ -138,6 +162,7 @@ const orderController = {
       const [rows, fields] = await connection.promise().query(sql, [status, id]);
 
       res.json({
+        status:true,
         data: rows,
         message: "Update status success",
       });

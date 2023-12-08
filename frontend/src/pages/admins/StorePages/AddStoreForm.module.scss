@@ -9,10 +9,6 @@
         direction: column;
         background-color: white;
         height: 100vh;
-        //font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif,
-        //Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
-        top: 0;
-        right: 0;
 
         .nav {
             display: flex;
@@ -21,25 +17,46 @@
             font-size: 20px;
             width: 100vw;
             height: 40px;
-            margin-left: 15px;
+            padding-right: 10px;
             color: #007bff;
+
+            .back {
+                color: #007bff;
+                padding-left: 10px;
+            }
         }
 
         .form {
-            position: relative;
-            width: 100vw;
+            position: absolute;
+            top: 55%;
+            left: 55%;
+            transform: translate(-50%, -50%);
+            width: 50%;
+            padding: 10px 20px 5px 20px;
+            margin: 0px 10px;
+            border-color: #007bff;
+            box-shadow: 0 0 3px rgba(0, 123, 255, 0.8);
+            border-radius: 5px;
+            background-color: #ffffff;
 
             .form-group {
-                position: absolute;
-                top: 40%;
-                left: 50%;
-                transform: translate(-50%, -50%);
-                width: 50%;
-                padding: 10px 20px 5px 20px;
-                margin: 0px 10px;
-                border-color: #007bff;
-                box-shadow: 0 0 3px rgba(0, 123, 255, 0.8);
-                border-radius: 5px;
+
+
+                .slt {
+                    display: flex;
+                    direction: column;
+                    flex-wrap: wrap;
+                    justify-content: space-between;
+                    div{
+                    select {
+                        padding: 4px 0px;
+                    }
+
+                    span {
+                        color: red;
+                        font-size: 14px;
+                    }}
+                }
 
                 .form-input {
                     margin: 10px 0;
