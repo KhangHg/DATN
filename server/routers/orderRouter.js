@@ -3,10 +3,10 @@ const router = express.Router();
 
 const orderController = require("../controllers/orderController");
 
-router.get("/", orderController.getAll);
+router.get("/", orderController.getALL);
 router.post("/", orderController.createOrder);
-router.put("/:id", orderController.updateStatus)
-router.get("/:id", orderController.getDetailOrder)
+router.put("/:id", orderController.updateStatus);
+router.get("/:id", orderController.getDetailOrder);
 // router.delete("/:id", productController.delete)
 // router.put("/", productController.subProduct)
 
