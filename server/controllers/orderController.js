@@ -3,65 +3,7 @@ const connection = require("../database/connectDB");
 const orderController = {
   getAll: async (req, res) => {
     try {
-<<<<<<< HEAD
-      // Lấy tất cả các đơn hàng kèm theo thông tin orderItem
-      const [rows, fields] = await connection.promise().query("SELECT o.id as orderId, o.*, i.* FROM `order` o INNER JOIN orderItem i ON o.id = i.orderId");
-
-      // Tạo một đối tượng để lưu trữ thông tin đơn hàng
-      const orderDataMap = {};
-
-      // Lặp qua kết quả truy vấn để xử lý dữ liệu
-      rows.forEach((row) => {
-        const orderId = row.orderId;
-
-        // Nếu order chưa được thêm vào orderDataMap, thêm nó vào
-        if (!orderDataMap[orderId]) {
-          console.log(row);
-          let statusValue = null;
-
-          // Kiểm tra xem status có phải là Buffer không
-          if (Buffer.isBuffer(row.status)) {
-            // Nếu là Buffer, trích xuất giá trị từ mảng byte
-            statusValue = row.status.length > 0 ? row.status[0] : null;
-          } else if (Array.isArray(row.status) && row.status.length > 0) {
-            // Nếu status là một mảng, lấy giá trị đầu tiên
-            statusValue = row.status[0];
-          } else {
-            // Nếu không phải là Buffer hoặc mảng, giữ nguyên giá trị
-            statusValue = row.status;
-          }
-          orderDataMap[orderId] = {
-            order: {
-              id: row.orderId,
-              email: row.email,
-              name: row.name,
-              address: row.address,
-              phone: row.phone,
-              total: row.total,
-              orderDate: row.orderDate,
-              status: statusValue,
-            },
-            orderItems: [], // Khởi tạo orderItems là một mảng rỗng
-          };
-        }
-
-        // Thêm thông tin orderItem vào mảng orderItems của đơn hàng tương ứng
-        orderDataMap[orderId].orderItems.push({
-          productId: row.productId,
-          productName: row.productName,
-          quantity: row.quantity,
-          size: row.size,
-          additionalInfo: row.additionalInfo,
-        });
-      });
-
-      // Chuyển đối tượng orderDataMap thành mảng để trả về
-      const data = Object.values(orderDataMap);
-
-=======
-      const [rows, fields] = await connection.promise().query(
-        "select *  FROM `order` ORDER BY status ASC, id DESC"
-      );
+      const [rows, fields] = await connection.promise().query("select *  FROM `order` ORDER BY status ASC, id DESC");
       res.json({
         data: rows,
       });
@@ -75,10 +17,7 @@ const orderController = {
   getDetailOrder: async (req, res) => {
     const id = req.params.id.split("=")[1];
     try {
-      const [rows, fields] = await connection.promise().query(
-        "select o.*, p.name productName, p.price, p.imageUrl, oi.quantity, oi.size FROM `order` o INNER JOIN `orderItem` oi ON o.id = oi.orderId  LEFT JOIN `products` p ON p.productId = oi.productId where o.id = ?", [id]
-      );
->>>>>>> master
+      const [rows, fields] = await connection.promise().query("select o.*, p.name productName, p.price, p.imageUrl, oi.quantity, oi.size FROM `order` o INNER JOIN `orderItem` oi ON o.id = oi.orderId  LEFT JOIN `products` p ON p.productId = oi.productId where o.id = ?", [id]);
       res.json({
         data: data,
       });
@@ -153,8 +92,8 @@ const orderController = {
       // Kiểm tra xem status có giá trị hợp lệ (0 hoặc 1) không
       if (status !== 0 && status !== 1) {
         return res.json({
-        status:false,
-        error: "Invalid status value",
+          status: false,
+          error: "Invalid status value",
         });
       }
 
@@ -162,7 +101,7 @@ const orderController = {
       const [rows, fields] = await connection.promise().query(sql, [status, id]);
 
       res.json({
-        status:true,
+        status: true,
         data: rows,
         message: "Update status success",
       });
