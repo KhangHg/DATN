@@ -1,7 +1,7 @@
 const connection = require("../database/connectDB");
 
 const orderController = {
-  getAll: async (req, res) => {
+  getALL: async (req, res) => {
     try {
       const [rows, fields] = await connection.promise().query("select *  FROM `order` ORDER BY status ASC, id DESC");
       res.json({
@@ -19,7 +19,7 @@ const orderController = {
     try {
       const [rows, fields] = await connection.promise().query("select o.*, p.name productName, p.price, p.imageUrl, oi.quantity, oi.size FROM `order` o INNER JOIN `orderItem` oi ON o.id = oi.orderId  LEFT JOIN `products` p ON p.productId = oi.productId where o.id = ?", [id]);
       res.json({
-        data: data,
+        data: rows,
       });
     } catch (error) {
       console.log(error);
@@ -28,7 +28,6 @@ const orderController = {
       });
     }
   },
-
   createOrder: async (req, res) => {
     try {
       const { email, name, phone, status, address, total, items } = req.body;
