@@ -3,9 +3,7 @@ const connection = require("../database/connectDB");
 const orderController = {
   getALL: async (req, res) => {
     try {
-      const [rows, fields] = await connection.promise().query(
-        "select *  FROM `order` ORDER BY status ASC, id DESC"
-      );
+      const [rows, fields] = await connection.promise().query("select *  FROM `order` ORDER BY status ASC, id DESC");
       res.json({
         data: rows,
       });
@@ -19,9 +17,7 @@ const orderController = {
   getDetailOrder: async (req, res) => {
     const id = req.params.id.split("=")[1];
     try {
-      const [rows, fields] = await connection.promise().query(
-        "select o.*, p.name productName, p.price, p.imageUrl, oi.quantity, oi.size FROM `order` o INNER JOIN `orderItem` oi ON o.id = oi.orderId  LEFT JOIN `products` p ON p.productId = oi.productId where o.id = ?", [id]
-      );
+      const [rows, fields] = await connection.promise().query("select o.*, p.name productName, p.price, p.imageUrl, oi.quantity, oi.size FROM `order` o INNER JOIN `orderItem` oi ON o.id = oi.orderId  LEFT JOIN `products` p ON p.productId = oi.productId where o.id = ?", [id]);
       res.json({
         data: rows,
       });
@@ -95,8 +91,8 @@ const orderController = {
       // Kiểm tra xem status có giá trị hợp lệ (0 hoặc 1) không
       if (status !== 0 && status !== 1) {
         return res.json({
-        status:false,
-        error: "Invalid status value",
+          status: false,
+          error: "Invalid status value",
         });
       }
 
@@ -104,7 +100,7 @@ const orderController = {
       const [rows, fields] = await connection.promise().query(sql, [status, id]);
 
       res.json({
-        status:true,
+        status: true,
         data: rows,
         message: "Update status success",
       });

@@ -38,7 +38,7 @@ export default function Login() {
         if (response) {
           // Nếu thành công, chuyển hướng đến trang Home
           // const token = response
-          console.log(response);
+          // console.log(response);
           const token = response.token;
           const user = response.user;
           handleLoggedin(token, user);

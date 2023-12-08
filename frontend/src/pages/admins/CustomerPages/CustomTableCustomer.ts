@@ -1,7 +1,7 @@
 import DataTable from "react-data-table-component";
 
 //  Internally, customStyles will deep merges your customStyles with the default styling.
-const customStyles = {
+const CustomTableCustomer = {
   table: {
     style: {
       marginTop: "10px",
@@ -31,4 +31,4 @@ const customStyles = {
   },
 };
 
-export default customStyles;
+export default CustomTableCustomer;
