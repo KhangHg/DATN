@@ -31,16 +31,27 @@ const cx = classNames.bind(styles);
 
 const UpdateProductForm = () => {
   const { productId } = useParams()
-  
+
   const [categories, setCategories] = useState([])
-  const [productInfo, setProductInfo] = useState(fakeData[0])
+  const [productInfo, setProductInfo] = useState({
+    name: '',
+    description: '',
+    price: '',
+    imageUrl: '',
+    categoryName: '',
+    S: 0,
+    M: 0,
+    L: 0,
+    XL: 0,
+    XXL: 0
+  })
 
   useEffect(() => {
     async function getAllCategory() {
       try {
         const response = await fetch("https://jsonplaceholder.typicode.com/posts");
         const data = await response.json();
-        console.log(data);
+        //console.log(data);
         setCategories(categoriesFake);
       } catch (error) {
         console.error('Error fetching product by id:', error);
@@ -54,7 +65,7 @@ const UpdateProductForm = () => {
         const data = await response.json();
         setProductInfo(fakeData[0])
         //console.log(fakeData[0])
-        console.log(productInfo, 1)
+        //console.log(productInfo)
       } catch (error) {
         console.error('Error fetching product by id:', error);
       }
@@ -63,7 +74,7 @@ const UpdateProductForm = () => {
   }, [productId])
 
   const formik = useFormik({
-    //enableReinitialize: true,
+    enableReinitialize: true,
     initialValues: productInfo,
 
     validationSchema: Yup.object({
@@ -72,14 +83,14 @@ const UpdateProductForm = () => {
       price: Yup.string().required('Bạn chưa nhập giá cho sản phẩm'),
       imageUrl: Yup.string().required("Bạn chưa thêm ảnh minh họa cho sản phẩm"),
       categoryName: Yup.string().required('Bạn chưa thêm danh mục cho sản phẩm'),
-      S: Yup.number().integer('Số lượng phải là số nguyên').required('Nhập số lượng sản phẩm'),
-      M: Yup.number().integer('Số lượng phải là số nguyên').required('Nhập số lượng sản phẩm'), 
+      S: Yup.number().integer('Số lượng phải là số nguyên').min(-1, 'Số lượng không âm').required('Nhập số lượng sản phẩm'),
+      M: Yup.number().integer('Số lượng phải là số nguyên').min(0, 'Số lượng không âm').required('Nhập số lượng sản phẩm'),
       L: Yup.number().integer('Số lượng phải là số nguyên')
-      .min(0, 'Số lượng phải lớn hơn 0').required('Nhập số lượng sản phẩm'), 
+        .min(0, 'Số lượng không âm').required('Nhập số lượng sản phẩm'),
       XL: Yup.number().integer('Số lượng phải là số nguyên')
-      .min(0, 'Số lượng phải lớn hơn 0').required('Nhập số lượng sản phẩm'), 
+        .min(0, 'Số lượng không âm').required('Nhập số lượng sản phẩm'),
       XXL: Yup.number().integer('Số lượng phải là số nguyên')
-      .min(0, 'Số lượng phải lớn hơn 0').required('Nhập số lượng sản phẩm')
+        .min(0, 'Số lượng không âm').required('Nhập số lượng sản phẩm')
     }),
 
     onSubmit: values => {
@@ -137,7 +148,7 @@ const UpdateProductForm = () => {
                 name="price"
                 type="text"
                 placeholder="nhập giá"
-                value={formik.values.price }
+                value={formik.values.price}
                 onChange={formik.handleChange}
                 className={cx("form-control")} />
               {formik.errors.price && formik.touched.price && (<span className={cx("form-message")}>{formik.errors.price}</span>)}
@@ -150,14 +161,14 @@ const UpdateProductForm = () => {
                 name="imageUrl"
                 type="text"
                 placeholder="Nhập link ảnh sản phẩm"
-                value={formik.values.imageUrl || ''}
+                value={formik.values.imageUrl}
                 onChange={formik.handleChange}
                 className={cx("form-control")} />
-              {formik.values.imageUrl && 
-              <div className={cx('imageArea')}>
-                <p>Ảnh mẫu sản phẩm</p>
-                <img style ={{width:'240px', height:'300px'}} src={formik.values.imageUrl}></img>
-              </div>}
+              {formik.values.imageUrl &&
+                <div className={cx('imageArea')}>
+                  <p>Ảnh mẫu sản phẩm</p>
+                  <img style={{ width: '240px', height: '300px' }} src={formik.values.imageUrl}></img>
+                </div>}
               {formik.errors.imageUrl && formik.touched.imageUrl && (<span className={cx("form-message")}>{formik.errors.imageUrl}</span>)}
             </div>
           </div>
@@ -170,10 +181,10 @@ const UpdateProductForm = () => {
                 name="categoryName"
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                value={formik.values.categoryName || ''}
+                value={formik.values.categoryName}
               >
                 <option>Chọn danh mục</option>
-                {categories.map(category => (
+                {categories && categories.map(category => (
                   <option key={category.categoryId} value={category.categoryName}>{category.categoryName}</option>
                 ))}
               </select>
@@ -185,10 +196,10 @@ const UpdateProductForm = () => {
                   <label htmlFor={`${item}`} className={cx('size-label')}>Size {item}</label>
                   <input
                     id={`${item}`}
-                    name= {`${item}`}
+                    name={`${item}`}
                     type="number"
                     placeholder="Số sản phẩm"
-                    value={formik.values[`${item}`]}
+                    value={formik.values[`${item}`]} //how?
                     onChange={formik.handleChange}
                     className={cx("form-control")}
                   />
