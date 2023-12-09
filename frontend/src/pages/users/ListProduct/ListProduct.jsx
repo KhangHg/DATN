@@ -16,7 +16,7 @@ const ListProduct = () => {
       .then((data) => {
         // Loại bỏ các sản phẩm có tên trùng lặp
         const uniqueProducts = Array.from(new Set(data.data.map((product) => product.name))).map((name) => data.data.find((product) => product.name === name));
-
+        console.log(uniqueProducts);
         setProductList(uniqueProducts);
       })
       .catch((error) => console.error("Error fetching product list:", error));

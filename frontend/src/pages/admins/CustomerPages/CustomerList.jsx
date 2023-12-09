@@ -6,6 +6,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 import customStyles from "./CustomTableCustomer";
 import { useNavigate } from "react-router-dom";
+import { getAllCustomer, deleteCustomer } from "../../../services/admin/customer";
+import { toast } from "react-toastify";
+import { Modal, Button } from "react-bootstrap";
 
 const cx = classNames.bind(styles);
 
@@ -13,79 +16,28 @@ const CustomerList = () => {
   const navigate = useNavigate();
   const [users, setUsers] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
-  const [originalUsers, setOriginalUsers] = useState([]); // Thêm state cho danh sách người dùng gốc
+  const [originalUsers, setOriginalUsers] = useState([]);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [deleteUser, setDeleteUser] = useState(0);
+
+  const handleCloseDeleteModal = () => setShowDeleteModal(false);
+  const confirmDelete = (id) => {
+    setShowDeleteModal(true);
+    setDeleteUser(id);
+  };
 
   useEffect(() => {
-    // Lấy dữ liệu người dùng hoặc thiết lập ở đây
-    const userData = [
-      {
-        customerId: 1,
-        name: "nghia",
-        email: "dankkingmeo2@gmail.com",
-        phone: 1234567890,
-        password: "2323234234",
-        role: "user",
-      },
-      {
-        customerId: 2,
-        name: "nghia2",
-        email: "dankkingmeo212@gmail.com",
-        phone: 1234567890,
-        password: "2323234234",
-        role: "user",
-      },
-      {
-        customerId: 3,
-        name: "Nguyễn Xuân Thành",
-        email: "nminhnghia113@gmail.com",
-        phone: 2147483647,
-        password: "123456789",
-        role: "user",
-      },
-      {
-        customerId: 4,
-        name: "nguyen",
-        email: "nghanm113@gmail.com",
-        phone: 123456789,
-        password: "123456789",
-        role: "user",
-      },
-      {
-        customerId: 5,
-        name: "minh234",
-        email: "nam2@gmail.com",
-        phone: 123456789,
-        password: "123456789",
-        role: "user",
-      },
-      {
-        customerId: 6,
-        name: "Nguyễn Minh Nghĩa",
-        email: "nghanm1134@gmail.com",
-        phone: 2147483647,
-        password: "123456789",
-        role: "user",
-      },
-      {
-        customerId: 7,
-        name: "Nguyễn Minh Nghĩa",
-        email: "dankkingmeo2333@gmail.com",
-        phone: 123456789,
-        password: "123456789",
-        role: "user",
-      },
-      {
-        customerId: 8,
-        name: "nghia2",
-        email: "dankkingmeo2122@gmail.com",
-        phone: 1234567890,
-        password: "2323234234",
-        role: "admin",
-      },
-    ];
-    setUsers(userData);
-    setOriginalUsers(userData); // Lưu danh sách người dùng gốc
-  }, []); // Mảng phụ thuộc trống để lấy dữ liệu chỉ một lần
+    async function getCustomer() {
+      try {
+        const data = await getAllCustomer();
+        setUsers(data);
+        setOriginalUsers(data);
+      } catch (error) {
+        console.error("Error fetching customer list:", error);
+      }
+    }
+    getCustomer();
+  }, []);
 
   const columns = [
     {
@@ -102,29 +54,34 @@ const CustomerList = () => {
     },
     {
       name: "",
-      cell: (row) => <FontAwesomeIcon icon={faTrashAlt} style={{ cursor: "pointer" }} onClick={() => handleDelete(row.customerId)} />,
+      cell: (row) => <FontAwesomeIcon icon={faTrashAlt} style={{ cursor: "pointer" }} onClick={() => confirmDelete(row.customerId)} />,
     },
   ];
 
-  const handleDelete = (customerId) => {
-    console.log(`Xóa khách hàng với ID: ${customerId}`);
-    // Thêm logic xóa dữ liệu khách hàng ở đây
+  const handleDelete = async () => {
+    try {
+      await deleteCustomer(deleteUser);
+      const updatedUsers = users.filter((user) => user.customerId !== deleteUser);
+      setUsers(updatedUsers);
+      setOriginalUsers(updatedUsers);
+      toast.success("Xóa thành công!");
+    } catch (error) {
+      console.error("Lỗi khi xóa khách hàng:", error.message);
+      toast.error("Lỗi khi xóa khách hàng");
+    }
+    setShowDeleteModal(false);
   };
 
   const handleSearch = (e) => {
     const searchTerm = e.target.value;
     setSearchTerm(searchTerm);
 
-    // Nếu từ khóa tìm kiếm rỗng, đặt lại danh sách ban đầu
     if (searchTerm === "") {
       setUsers(originalUsers);
       return;
     }
 
-    // Ngược lại, lọc dữ liệu dựa trên từ khóa tìm kiếm
     const filteredUsers = originalUsers.filter((user) => user.email.toLowerCase().includes(searchTerm.toLowerCase()));
-
-    // Cập nhật dữ liệu hiển thị trong DataTable
     setUsers(filteredUsers);
   };
 
@@ -134,6 +91,20 @@ const CustomerList = () => {
       <div className={cx("userList")}>
         <input type="text" placeholder="Tìm kiếm theo email" value={searchTerm} onChange={handleSearch} />
         <DataTable columns={columns} data={users} selectableRows fixedHeader pagination customStyles={customStyles} />
+        <Modal show={showDeleteModal} onHide={handleCloseDeleteModal}>
+          <Modal.Header closeButton>
+            <Modal.Title>Xác nhận hủy</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>Bạn chắc chắn muốn xóa khách hàng?</Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" className={cx("btn-close-modal")} style={{ backgroundColor: "#36a2eb" }} onClick={handleCloseDeleteModal}>
+              Hủy
+            </Button>
+            <Button variant="danger" onClick={handleDelete}>
+              Xóa
+            </Button>
+          </Modal.Footer>
+        </Modal>
       </div>
     </div>
   );

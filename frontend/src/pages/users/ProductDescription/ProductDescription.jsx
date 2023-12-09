@@ -28,6 +28,8 @@ const ProductDescription = () => {
       try {
         const data = await getOneProduct(id);
         setProduct(data.data);
+        console.log(data.data);
+        console.log(product);
       } catch (error) {
         console.error("Error fetching product data:", error);
       }

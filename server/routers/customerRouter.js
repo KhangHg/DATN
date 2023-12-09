@@ -4,7 +4,7 @@ const { authUser, authRoleAdmin, authRoleUser } = require("../middleware/auth");
 
 const customerController = require("../controllers/customerController");
 
-router.get("/", authUser, authRoleAdmin, customerController.getALL);
+router.get("/", customerController.getALL);
 router.get("/:id", authUser, authRoleAdmin, customerController.getById);
 router.post("/", customerController.create);
 router.put("/:id", customerController.update);
