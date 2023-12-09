@@ -31,6 +31,7 @@ const cx = classNames.bind(styles);
 
 const UpdateProductForm = () => {
   const { productId } = useParams()
+  const navigate = useNavigate()
 
   const [categories, setCategories] = useState([])
   const [productInfo, setProductInfo] = useState({
@@ -45,6 +46,7 @@ const UpdateProductForm = () => {
     XL: 0,
     XXL: 0
   })
+  const [showCancelModal, setShowCancelModal] = useState(false);
 
   useEffect(() => {
     async function getAllCategory() {
@@ -97,6 +99,16 @@ const UpdateProductForm = () => {
       console.log('data', values)
     }
   })
+
+  const handleCloseCancelModal = () => setShowCancelModal(false);
+  const handleCancel = () => {
+    setShowCancelModal(true);
+  };
+
+  const handleConfirmCancel = () => {
+    setShowCancelModal(false);
+    navigate('/admin/products');
+  };
 
   return (
     <div className={cx("container")}>
@@ -208,7 +220,7 @@ const UpdateProductForm = () => {
               ))}
             </div>
             <div className={cx('btn')}>
-              <button className={cx("cancel")}>Hủy</button>
+              <button className={cx("cancel")} onClick={handleCancel}>Hủy</button>
               <button
                 className={cx("form-submit")}
                 type='submit'
@@ -219,6 +231,22 @@ const UpdateProductForm = () => {
           </div>
         </div>
       </form>
+      <Modal show={showCancelModal} onHide={handleCloseCancelModal}>
+        <Modal.Header closeButton>
+          <Modal.Title>Xác nhận hủy</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          Bạn có chắc chắn muốn hủy cập nhật?
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" className={cx("btn-close-modal")} style={{ backgroundColor: '#36a2eb' }} onClick={handleCloseCancelModal}>
+            Đóng
+          </Button>
+          <Button variant="danger" onClick={handleConfirmCancel}>
+            Hủy
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   )
 }
