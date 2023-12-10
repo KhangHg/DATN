@@ -4,9 +4,19 @@ const connection = require("../database/connectDB");
 
 function authUser(req, res, next) {
   try {
-    const decode = JWT.verify(req.headers.authorization, "your-secret-key");
-    req.user = decode;
-    next();
+    const token = req.cookies.token;
+    console.log("line 8", token);
+    if (token) {
+      const decode = JWT.verify(token, "your-secret-key");
+      console.log("line 11:", decode);
+      req.user = decode;
+      next();
+    } else {
+      res.json({
+        messange: "Chưa đăng nhập!",
+        errCodeCheckLogin: 1,
+      });
+    }
   } catch (error) {
     console.log(error);
   }
@@ -30,6 +40,7 @@ async function authRoleAdmin(req, res, next) {
       return res.status(401).send({
         success: false,
         message: "UnAuthorized Access",
+        errCodeCheckLogin: 1,
       });
     } else {
       next();
@@ -51,6 +62,7 @@ async function authRoleUser(req, res, next) {
       return res.status(401).send({
         success: false,
         message: "UnAuthorized Access",
+        errCodeCheckLogin: 1,
       });
     } else {
       next();

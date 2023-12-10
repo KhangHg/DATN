@@ -4,10 +4,10 @@ const { authUser, authRoleAdmin, authRoleUser } = require("../middleware/auth");
 
 const addressShopController = require("../controllers/addressShopController");
 
-router.get("/", addressShopController.getALL);
+router.get("/", authUser, authRoleAdmin, addressShopController.getALL);
 router.get("/:id", addressShopController.getById);
-router.post("/", addressShopController.create);
-router.put("/:id", addressShopController.update);
-router.delete("/:id", addressShopController.delete);
+router.post("/", authUser, authRoleAdmin, addressShopController.create);
+router.put("/:id", authUser, authRoleAdmin, addressShopController.update);
+router.delete("/:id", authUser, authRoleAdmin, addressShopController.delete);
 
 module.exports = router;

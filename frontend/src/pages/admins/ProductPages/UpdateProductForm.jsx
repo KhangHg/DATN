@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from "react";
+import { useState, useEffect } from "react";
 import classNames from "classnames/bind";
 import styles from "./UpdateProductForm.module.scss";
 import { useNavigate, useParams } from "react-router-dom";
@@ -8,14 +8,12 @@ import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { Modal, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import * as Yup from "yup";
-
 import { getProductList } from "../../../services/getProductList";
 import { getCategories } from "../../../services/admin/categories";
 import { getOneProduct } from "../../../services/getOneProduct";
 import { AuthContext } from "../../../contexts/AuthContex";
 import { updateProduct } from "../../../services/admin/products";
 import { toast, ToastContainer } from "react-toastify";
-
 //fake data
 import { categoriesFake } from "./AddProductForm";
 const fakeData = [
@@ -54,6 +52,7 @@ const UpdateProductForm = () => {
     XL: 0,
     XXL: 0,
   });
+  const [showCancelModal, setShowCancelModal] = useState(false);
 
   useEffect(() => {
     async function getAllCategory() {
@@ -80,6 +79,7 @@ const UpdateProductForm = () => {
     }
     getById(id);
   }, [id]);
+
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: productInfo,
@@ -99,7 +99,7 @@ const UpdateProductForm = () => {
 
     onSubmit: (values) => {
       try {
-        updateProduct(values.productId, values.name, values.description, values.price, values.imageUrl, values.XXL, values.XL, values.L, values.M, values.S);
+        updateProduct(values.productId, values.name, values.description, values.price, values.imageUrl, values.XXL ? values.XXL : 0, values.XL ? values.XL : 0, values.L ? values.L : 0, values.M ? values.M : 0, values.S ? values.S : 0);
 
         navigateTo("/admin/products");
         toast.success("Cập nhật thành công");
@@ -109,6 +109,16 @@ const UpdateProductForm = () => {
       }
     },
   });
+
+  const handleCloseCancelModal = () => setShowCancelModal(false);
+  const handleCancel = () => {
+    setShowCancelModal(true);
+  };
+
+  const handleConfirmCancel = () => {
+    setShowCancelModal(false);
+    navigate("/admin/products");
+  };
 
   return (
     <div className={cx("container")}>
@@ -205,7 +215,9 @@ const UpdateProductForm = () => {
               ))}
             </div>
             <div className={cx("btn")}>
-              <button className={cx("cancel")}>Hủy</button>
+              <button className={cx("cancel")} onClick={handleCancel}>
+                Hủy
+              </button>
               <button className={cx("form-submit")} type="submit" value="Submit Form">
                 Cập nhật
               </button>
@@ -213,6 +225,20 @@ const UpdateProductForm = () => {
           </div>
         </div>
       </form>
+      <Modal show={showCancelModal} onHide={handleCloseCancelModal}>
+        <Modal.Header closeButton>
+          <Modal.Title>Xác nhận hủy</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>Bạn có chắc chắn muốn hủy cập nhật?</Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" className={cx("btn-close-modal")} style={{ backgroundColor: "#36a2eb" }} onClick={handleCloseCancelModal}>
+            Đóng
+          </Button>
+          <Button variant="danger" onClick={handleConfirmCancel}>
+            Hủy
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 };

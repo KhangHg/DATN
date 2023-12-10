@@ -21,7 +21,6 @@ export const createProduct = async (name, description, price, category, imageUrl
 export const deleteProduct = async (id) => {
   try {
     const res = await request.delete(`/product/${id}`);
-    console.log(res);
     return res.data;
   } catch (error) {
     console.log("getCartItemList " + error);

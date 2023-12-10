@@ -59,12 +59,17 @@ const AddProductForm = () => {
 
     onSubmit: (values) => {
       try {
-        createProduct(values);
-        toast.success("Đã thêm sản phẩm thành công");
-        navigateTo("/admin/products");
+        createProduct(values).then((data) => {
+          if (data && data.errCode === 0) {
+            toast.success("Đã thêm sản phẩm thành công");
+            navigateTo("/admin/products");
+          } else if (data && data.errCode === 1) {
+            toast.error("Sản phẩm đã tồn tại");
+          }
+        });
       } catch (error) {
-        toast.error("Cập nhật thất bại");
-        console.error("Update product fails:", error);
+        toast.error("Thêm sản phẩm thất bại");
+        console.error("Create product fails:", error);
       }
     },
   });

@@ -112,10 +112,12 @@ const productController = {
         if (categoryIdProduct == categoryId) {
           return res.json({
             message: "Sản phẩm đã tồn tại",
+            errCode: 1,
           });
         } else {
           return res.json({
             message: "không thể tạo 2 sản phẩm cùng tên nhưng khác thể loại",
+            errCode: 1,
           });
         }
       } else {
@@ -144,6 +146,7 @@ const productController = {
         const [Rows, Fields] = await connection.promise().query(sql3, [id, S, id, M, id, L, id, XL, id, XXL]);
         return res.json({
           message: "add product success",
+          errCode: 0,
         });
       }
     } catch (error) {

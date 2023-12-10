@@ -267,11 +267,12 @@ const ProductList = () => {
       <div className={cx("search-bar")}>
         <select value={selectedCategory} onChange={handleCategoryChange}>
           <option value="">Tất cả loại</option>
-          {categories.map((category) => (
-            <option key={category.categoryId} value={category.name}>
-              {category.name}
-            </option>
-          ))}
+          {categories &&
+            categories.map((category) => (
+              <option key={category.categoryId} value={category.name}>
+                {category.name}
+              </option>
+            ))}
         </select>
 
         <input
