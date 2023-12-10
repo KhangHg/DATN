@@ -19,6 +19,7 @@ require("./modules/cardItem");
 require("./modules/order");
 require("./modules/orderItem");
 require("./modules/productSize");
+require("./modules/codeProvince");
 
 //Import router
 const customerRouter = require("./routers/customerRouter");
@@ -29,6 +30,7 @@ const categoryRouter = require("./routers/categoriesRouter");
 const sizeRouter = require("./routers/sizeRouter");
 const cartRouter = require("./routers/cartRouter");
 const orderRouter = require("./routers/orderRouter");
+const codeProvinceRouter = require("./routers/codeProvinceRouter");
 
 //API
 app.use("/customer", customerRouter);
@@ -39,5 +41,6 @@ app.use("/size", sizeRouter);
 app.use("/category", categoryRouter);
 app.use("/cart", cartRouter);
 app.use("/order", orderRouter);
+app.use("/codeProvince", codeProvinceRouter);
 
 app.listen(3000);

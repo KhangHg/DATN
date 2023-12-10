@@ -95,37 +95,47 @@ const customerController = {
   },
   loginUser: async (req, res) => {
     try {
-      const { email, password, role } = req.body;
+      const { email, password } = req.body;
 
       // Truy vấn kiểm tra email và mật khẩu
-      const [rows] = await connection.promise().query("SELECT * FROM customers WHERE email = ? AND password = ? AND role = ?", [email, password, role]);
-
+      const [rows] = await connection.promise().query("SELECT * FROM customers WHERE email = ? AND password = ? ", [email, password]);
+      console.log("line 102", rows);
       if (rows.length === 1) {
+        const role = rows[0].role;
+        const name = rows[0].name;
+        const phone = rows[0].phone;
         // Kiểm tra giá trị "role"
         if (role && role.toLowerCase() === "user") {
           const customer = {
             email: email,
             role: role,
+            name: name,
+            phone: phone,
           };
-
-          // Truy vấn để lấy thông tin "name" từ cơ sở dữ liệu
-          const [customerRows] = await connection.promise().query("SELECT name FROM customers WHERE email = ?", [email]);
-
-          if (customerRows.length === 1) {
-            customer.name = customerRows[0].name;
-            customer.phone = customerRows[0].phone;
-          }
-
           const token = jwt.sign(customer, "your-secret-key");
           res.header("Authorization", token);
           res.cookie("token", token, { secure: false, httpOnly: false });
           console.log("line 111", token);
           res.status(200).send({ message: "Login successful", token: token, user: customer });
         } else {
-          res.status(400).json({ message: "fails", error: "Invalid role" });
+          if (role && role.toLowerCase() === "admin") {
+            const customer = {
+              email: email,
+              role: role,
+              name: name,
+              phone: phone,
+            };
+            const token = jwt.sign(customer, "your-secret-key");
+            res.header("Authorization", token);
+            res.cookie("token", token, { secure: false, httpOnly: false });
+            console.log("line 130", token);
+            res.status(200).send({ message: "Login successful", token: token, user: customer });
+          } else {
+            res.status(200).json({ message: "fails", error: "Invalid role" });
+          }
         }
       } else {
-        res.status(401).json({ message: "fails", error: "Login failed" });
+        res.status(200).json({ message: "Email hoặc mật khẩu sai", error: "Login failed" });
       }
     } catch (error) {
       console.error(error);
@@ -136,7 +146,21 @@ const customerController = {
   verifyToken: (req, res) => {
     try {
       const { token } = req.body;
-      console.log(token);
+      console.log("line149", token);
+      let kq = jwt.verify(token, "your-secret-key");
+      console.log("JWT Token:", kq);
+      if (kq != undefined) {
+        res.json({ message: "Verify successful", data: kq });
+      }
+    } catch (error) {
+      console.log("Chua dang nhap !");
+      res.status(401).json({ message: "fails", error: "Login failed" });
+    }
+  },
+  verifyTokenAdmin: (req, res) => {
+    try {
+      const { token } = req.body;
+      console.log("line149", token);
       let kq = jwt.verify(token, "your-secret-key");
       console.log("JWT Token:", kq);
       if (kq != undefined) {

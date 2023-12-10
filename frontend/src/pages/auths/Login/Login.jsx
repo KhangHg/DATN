@@ -23,7 +23,6 @@ export default function Login() {
     initialValues: {
       email: "",
       password: "",
-      role: "user",
     },
     validationSchema: Yup.object({
       email: Yup.string().email("Email không đúng").required("Bạn chưa điền email!"),
@@ -35,7 +34,8 @@ export default function Login() {
         const response = await login(values);
 
         // Kiểm tra xem đăng nhập có thành công không
-        if (response) {
+        const role = response.user.role;
+        if (role && role.toLowerCase() === "user") {
           // Nếu thành công, chuyển hướng đến trang Home
           // const token = response
           // console.log(response);
@@ -46,7 +46,15 @@ export default function Login() {
           navigateTo("/");
           dispatch(getListItem(user.email));
         } else {
-          toast.error("Sai email hoặc mật khẩu");
+          if (role && role.toLowerCase() === "admin") {
+            const token = response.token;
+            const user = response.user;
+            handleLoggedin(token, user);
+            toast.success("Đăng nhập thành công");
+            navigateTo("/admin");
+          } else {
+            toast.error("Sai email hoặc mật khẩu");
+          }
         }
       } catch (error) {
         toast.error("Đăng nhập thất bại:", error);

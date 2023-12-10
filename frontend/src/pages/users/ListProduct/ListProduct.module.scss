@@ -1,11 +1,11 @@
-.productList {
+.productListUser {
   .item {
-    width: 17%; /* Chia đều 5 cột trong 1 hàng */
+    width: 15%; /* Chia đều 5 cột trong 1 hàng */
     box-sizing: border-box;
     float: left; /* Đặt các item cạnh nhau */
     margin: 10px;
     text-align: center;
-    margin-bottom: 30px;
+    margin-bottom: 50px;
     margin-right: 30px;
     .imgItem {
       width: 100%;

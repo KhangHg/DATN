@@ -1,19 +1,41 @@
 import { createContext, useEffect, useState } from "react";
-import { verifyToken } from "../services/auth/verifyToken";
+import { verifyToken, verifyTokenAdmin } from "../services/auth/verifyToken";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 export const AuthContext = createContext({});
 
 export const AuthContextProvider = ({ children }) => {
   const [token, setToken] = useState(() => localStorage.getItem("token"));
   const [user, setUser] = useState({});
-
   useEffect(() => {
     const token = localStorage.getItem("token");
-    if (token) {
+    const role = localStorage.getItem("role");
+    if (token && role && role.toLowerCase() === "user") {
       verifyToken(token)
         .then((res) => {
-          setUser(res.data);
-          setToken(token);
+          console.log(res);
+          if (res.errCodeCheckLogin === 1) {
+            setToken(null);
+            setUser(null);
+          } else {
+            setUser(res.data);
+            setToken(token);
+          }
+        })
+        .catch((err) => {
+          setToken(null);
+        });
+    } else if (token && role && role.toLowerCase() === "admin") {
+      verifyTokenAdmin(token)
+        .then((res) => {
+          if (res.errCodeCheckLogin === 1) {
+            setToken(null);
+            setUser(null);
+          } else {
+            setUser(res.data);
+            setToken(token);
+          }
         })
         .catch((err) => {
           setToken(null);
@@ -22,14 +44,16 @@ export const AuthContextProvider = ({ children }) => {
   }, []);
 
   const handleLoggedin = (token, user) => {
+    console.log(user);
     localStorage.setItem("token", token);
-
+    localStorage.setItem("role", user.role);
     setUser(user);
     setToken(token);
   };
 
   const handleLoggedOut = () => {
     localStorage.removeItem("token");
+    localStorage.removeItem("role");
 
     setToken(null);
     setUser(null);

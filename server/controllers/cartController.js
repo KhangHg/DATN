@@ -25,8 +25,9 @@ const cartController = {
   create: async (req, res) => {
     try {
       let { productId, quantity, size } = req.body;
+      console.log("line 28", req.body);
       const { email } = req.params;
-
+      console.log("line 30", req.params);
       quantity = parseInt(quantity, 10);
 
       const selectSql = "SELECT * FROM cartItem WHERE email = ? AND productId = ? AND size = ?";

@@ -30,9 +30,9 @@ const addressShopController = {
   },
   create: async (req, res) => {
     try {
-      const { district, ward, phone } = req.body;
-      const insertSql = "INSERT INTO addressshop (district, ward, phone) VALUES (?, ?, ?)";
-      const [rows, fields] = await connection.promise().query(insertSql, [district, ward, phone]);
+      const { province, address, phone } = req.body;
+      const insertSql = "INSERT INTO addressshop (province, address, phone) VALUES (?, ?, ?)";
+      const [rows, fields] = await connection.promise().query(insertSql, [province, address, phone]);
 
       res.json({
         data: rows,
