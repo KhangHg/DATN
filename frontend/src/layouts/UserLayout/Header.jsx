@@ -13,18 +13,8 @@ import { useSelector } from "react-redux";
 const cx = classNames.bind(styles);
 
 function Header() {
-  const [listCategory, setListCategory] = useState([]);
   const { token, user, handleLoggedOut } = useContext(AuthContext);
   const listCartItem = useSelector((state) => state.cartList.listCartItems);
-
-  useEffect(() => {
-    async function fetchData() {
-      const response = await fetch("https://jsonplaceholder.typicode.com/posts");
-      const data = await response.json();
-      setListCategory(listcategoryFake);
-    }
-    fetchData();
-  }, []);
 
   return (
     <div className={cx("wrapper")}>

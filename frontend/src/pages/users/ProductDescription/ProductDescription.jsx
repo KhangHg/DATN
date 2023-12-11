@@ -17,10 +17,10 @@ const ProductDescription = () => {
   const dispatch = useDispatch();
   const [product, setProduct] = useState([]);
   const [selectedSize, setSelectedSize] = useState("");
+  const [name, setName] = useState("")
   const [quantity, setQuantity] = useState(0);
   const [category, setCategory] = useState("");
   const [description, setDescription] = useState("");
-  const [productName, setProductName] = useState("");
   const [imgUrl, setImgUrl] = useState("");
   const [price, setPrice] = useState(0);
 
@@ -50,7 +50,7 @@ const ProductDescription = () => {
       setImgUrl(firstProduct.imageUrl);
       setDescription(firstProduct.description);
       setCategory(firstProduct.categoryName);
-      setProductName(firstProduct.name);
+      setName(firstProduct.name)
     }
   }, [product]);
 
@@ -102,7 +102,7 @@ const ProductDescription = () => {
         <img src={imgUrl} alt="Item 1" />
       </div>
       <div className={cx("divRight")}>
-        <p>{productName}</p>
+        <h3>{name}</h3><br></br>
         <span>{formatNumber(price)}đ</span>
         <p style={{
           fontWeight:100,

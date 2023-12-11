@@ -8,6 +8,7 @@ const cx = classNames.bind(styles);
 const ListProduct = () => {
   const navigateTo = useNavigate();
   const [productList, setProductList] = useState([]);
+  const [originalProducts, setOriginalProducts] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("all");
 
   useEffect(() => {
@@ -17,6 +18,7 @@ const ListProduct = () => {
         // Loại bỏ các sản phẩm có tên trùng lặp
         const uniqueProducts = Array.from(new Set(data.data.map((product) => product.name))).map((name) => data.data.find((product) => product.name === name));
         setProductList(uniqueProducts);
+        setOriginalProducts(uniqueProducts)
       })
       .catch((error) => console.error("Error fetching product list:", error));
   }, []);
@@ -42,6 +44,14 @@ const ListProduct = () => {
     // Điều hướng đến trang khác với productId hoặc bất kỳ thông tin nào bạn muốn chuyển đi
     navigateTo(`/productDescription/${productId}`);
   };
+  
+  function handleSearch(e) {
+    const filterData = originalProducts.filter((product) => {
+      return product.name.toLowerCase().includes(e.target.value.toLowerCase());
+    });
+    setProductList(filterData);
+  }
+
   return (
     <div className={cx("productListUser")}>
       <div className={cx("filter")}>
@@ -52,6 +62,12 @@ const ListProduct = () => {
             </option>
           ))}
         </select>
+        <input
+          type="text"
+          placeholder="Tìm kiếm theo tên sản phẩm"
+          //value={}
+          onChange={handleSearch}
+        />
       </div>
       {filteredProductList.map((product) => (
         <div key={product.productId} className={cx("item")}>
