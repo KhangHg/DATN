@@ -103,8 +103,14 @@ const ProductDescription = () => {
       </div>
       <div className={cx("divRight")}>
         <h3>{name}</h3><br></br>
-        <p>{description}</p>
         <span>{formatNumber(price)}đ</span>
+        <p style={{
+          fontWeight:100,
+          fontSize:'14px'
+        }}
+        >
+          {description}
+        </p>
         <div className={cx("select")}>
           <label for="cars">Choose a size:</label>
 
