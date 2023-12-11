@@ -81,10 +81,25 @@ const categoriesController = {
     delete: async (req, res) => {
         try {
             const { category_id } = req.params;
+
+            const [row2, field2] = await connection.promise().query("select productId from products where categoryId = ?", [category_id]);
+            // console.log(row2);
+            const listProductId = row2.map((row) => row.productId);
+
+            function deleteFromProductSize(i) {
+                var data = connection.promise().query("delete from productSize where productId = ?", [i]);
+            }
+            for (let i = 0; i < listProductId.length; i++) {
+                const element = listProductId[i];
+                deleteFromProductSize(element);
+
+            }
+            const [rows1, fields1] = await connection.promise().query("delete from products where categoryId = ?", [category_id]);
             const [rows, fields] = await connection.promise().query("delete from categories where categoryId = ?", [category_id]);
+
+
             res.json({
                 message: "successful",
-                data: rows,
             });
         } catch (error) {
             console.log(error);
