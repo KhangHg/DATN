@@ -15,101 +15,6 @@ import { toast, ToastContainer } from "react-toastify";
 
 const cx = classNames.bind(styles);
 
-export const listProduct = [
-  {
-    productId: 100,
-    name: "Áo khoác đen",
-    categoryName: "Áo",
-    quantity: 20,
-    price: "120000",
-    imageUrl: "https://cdnphoto.dantri.com.vn/COm1qksauO2sqAC-gVVI2DdH_1I=/thumb_w/1020/2023/01/24/khoa-hocdocx-1674520013659.png",
-    description: "This is description",
-    sizeName: "M",
-    // ...
-  },
-  {
-    productId: 101,
-    name: "Quần âu",
-    price: "200000",
-    categoryName: "Quần",
-    quantity: 20,
-    imageUrl: "linkimgae",
-    description: "This is description",
-    sizeName: "M",
-    // ...
-  },
-  {
-    productId: 101,
-    name: "Quần âu",
-    price: "200000",
-    categoryName: "Quần",
-    quantity: 20,
-    imageUrl: "linkimgae",
-    description: "This is description",
-    sizeName: "L",
-    // ...
-  },
-  {
-    productId: 101,
-    name: "Quần âu",
-    price: "200000",
-    categoryName: "Quần",
-    quantity: 20,
-    imageUrl: "linkimgae",
-    description: "This is description",
-    sizeName: "XL",
-    // ...
-  },
-  {
-    productId: 102,
-    name: "Áo gió",
-    categoryName: "Áo",
-    quantity: 20,
-    price: "30000",
-    image: "linkimgae",
-    description: "This is description",
-    sizeName: "M",
-    // ...
-  },
-  {
-    productId: 103,
-    name: "Áo len",
-    price: "10000.0",
-    categoryName: "Áo",
-    quantity: 20,
-    imageUrl: "linkimgae",
-    description: "This is description",
-    sizeName: "XXL",
-    // ...
-  },
-  {
-    productId: 104,
-    name: "Quần dài",
-    categoryName: "Quần",
-    quantity: 20,
-    price: "100000",
-    imageUrl: "linkimgae",
-    description: "This is description",
-    sizeName: "S",
-    // ...
-  },
-];
-
-const categoriesFake = [
-  {
-    categoryId: 1,
-    categoryName: "Áo",
-  },
-  {
-    categoryId: 2,
-    categoryName: "Quần",
-  },
-  {
-    categoryId: 3,
-    categoryName: "Khăn",
-  },
-];
-
 const ProductList = () => {
   const columns = [
     {
@@ -227,18 +132,6 @@ const ProductList = () => {
     const productIdsToDelete = selectedRows.map((row) => row.productId);
 
     try {
-      /* Gọi API để xóa các danh mục
-            //const response = await fetch('URL_API_DELETE_CATEGORIES', {
-            //    method: 'DELETE',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ categoryIds: categoryIdsToDelete }),
-            });
-    
-            if (!response.ok) {
-                throw new Error(`HTTP error! Status: ${response.status}`);
-            }*/
       await Promise.all(productIdsToDelete.map((productId) => deleteProduct(productId)));
       const updatedProducts = products.filter((product) => !productIdsToDelete.includes(product.productId));
       setProducts(updatedProducts);

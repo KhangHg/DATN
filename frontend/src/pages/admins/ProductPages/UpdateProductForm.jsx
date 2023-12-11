@@ -10,28 +10,10 @@ import { Link } from "react-router-dom";
 import * as Yup from "yup";
 import { getProductList } from "../../../services/getProductList";
 import { getCategories } from "../../../services/admin/categories";
-import { getOneProduct } from "../../../services/getOneProduct";
+import { getOneProduct1 } from "../../../services/getOneProduct";
 import { AuthContext } from "../../../contexts/AuthContex";
 import { updateProduct } from "../../../services/admin/products";
 import { toast, ToastContainer } from "react-toastify";
-//fake data
-import { categoriesFake } from "./AddProductForm";
-const fakeData = [
-  {
-    productId: 100,
-    name: "Áo khoác đen",
-    categoryName: "Áo",
-    price: "120000",
-    imageUrl: "https://cdnphoto.dantri.com.vn/COm1qksauO2sqAC-gVVI2DdH_1I=/thumb_w/1020/2023/01/24/khoa-hocdocx-1674520013659.png",
-    description: "This is description",
-    S: 0,
-    M: 20,
-    L: 0,
-    XL: 0,
-    XXL: 0,
-    // ...
-  },
-];
 
 const cx = classNames.bind(styles);
 
@@ -40,18 +22,7 @@ const UpdateProductForm = () => {
   const navigateTo = useNavigate();
 
   const [categories, setCategories] = useState([]);
-  const [productInfo, setProductInfo] = useState({
-    name: "",
-    description: "",
-    price: "",
-    imageUrl: "",
-    categoryName: "",
-    S: 0,
-    M: 0,
-    L: 0,
-    XL: 0,
-    XXL: 0,
-  });
+  const [productInfo, setProductInfo] = useState({});
   const [showCancelModal, setShowCancelModal] = useState(false);
 
   useEffect(() => {
@@ -68,11 +39,12 @@ const UpdateProductForm = () => {
 
     async function getById(pId) {
       try {
-        const data = await getOneProduct(id);
+        const data = await getOneProduct1(id);
+        //console.log(data)
         setProductInfo(data.data[0]);
-
+        formik.setFieldValue(productInfo)
         //console.log(fakeData[0])
-        //console.log(productInfo)
+        console.log(productInfo)
       } catch (error) {
         console.error("Error fetching product by id:", error);
       }
@@ -90,19 +62,19 @@ const UpdateProductForm = () => {
       price: Yup.string().required("Bạn chưa nhập giá cho sản phẩm"),
       imageUrl: Yup.string().required("Bạn chưa thêm ảnh minh họa cho sản phẩm"),
       categoryName: Yup.string().required("Bạn chưa thêm danh mục cho sản phẩm"),
-      S: Yup.number().integer("Số lượng phải là số nguyên").min(-1, "Số lượng không âm").required("Nhập số lượng sản phẩm"),
-      M: Yup.number().integer("Số lượng phải là số nguyên").min(0, "Số lượng không âm").required("Nhập số lượng sản phẩm"),
-      L: Yup.number().integer("Số lượng phải là số nguyên").min(0, "Số lượng không âm").required("Nhập số lượng sản phẩm"),
-      XL: Yup.number().integer("Số lượng phải là số nguyên").min(0, "Số lượng không âm").required("Nhập số lượng sản phẩm"),
-      XXL: Yup.number().integer("Số lượng phải là số nguyên").min(0, "Số lượng không âm").required("Nhập số lượng sản phẩm"),
+      S: Yup.number().integer("Số lượng phải là số nguyên").min(0, "Số lượng không âm").required('Nhập số lượng'),
+      M: Yup.number().integer("Số lượng phải là số nguyên").min(0, "Số lượng không âm").required('Nhập số lượng'),
+      L: Yup.number().integer("Số lượng phải là số nguyên").min(0, "Số lượng không âm").required('Nhập số lượng'),
+      XL: Yup.number().integer("Số lượng phải là số nguyên").min(0, "Số lượng không âm").required('Nhập số lượng'),
+      XXL: Yup.number().integer("Số lượng phải là số nguyên").min(0, "Số lượng không âm").required('Nhập số lượng'),
     }),
 
-    onSubmit: (values) => {
+    onSubmit: async (values) => {
       try {
-        updateProduct(values.productId, values.name, values.description, values.price, values.imageUrl, values.XXL ? values.XXL : 0, values.XL ? values.XL : 0, values.L ? values.L : 0, values.M ? values.M : 0, values.S ? values.S : 0);
-
-        navigateTo("/admin/products");
+        //console.log('res', values)
+        await updateProduct(values.productId, values.name, values.description, values.price, values.imageUrl, values.XXL ? values.XXL : 0, values.XL ? values.XL : 0, values.L ? values.L : 0, values.M ? values.M : 0, values.S ? values.S : 0);
         toast.success("Cập nhật thành công");
+        navigateTo("/admin/products");
       } catch (error) {
         toast.error("Cập nhật thất bại");
         console.error("Update product fails:", error);
@@ -117,7 +89,7 @@ const UpdateProductForm = () => {
 
   const handleConfirmCancel = () => {
     setShowCancelModal(false);
-    navigate("/admin/products");
+    navigateTo("/admin/products");
   };
 
   return (
@@ -206,7 +178,7 @@ const UpdateProductForm = () => {
                     name={`${item}`}
                     type="number"
                     placeholder="Số sản phẩm"
-                    value={formik.values[`${item}`]} //how?
+                    value={formik.values[`${item}`]}
                     onChange={formik.handleChange}
                     className={cx("form-control")}
                   />

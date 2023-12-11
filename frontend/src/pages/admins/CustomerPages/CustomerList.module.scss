@@ -1,0 +1,18 @@
+* {
+    margin: 0;
+    box-sizing: border-box;
+    padding: 0;
+
+    .userList {
+        margin: 20px 10px;
+
+        input {
+            background-image: url(https://www.w3schools.com/css/searchicon.png);
+            background-position: 3px 3px;
+            background-repeat: no-repeat;
+            width: 30%;
+            border-radius: 3px;
+            padding: 2px 15px 2px 30px;
+        }
+    }
+}
