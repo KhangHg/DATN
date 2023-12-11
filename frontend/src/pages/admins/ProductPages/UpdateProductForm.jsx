@@ -161,7 +161,7 @@ const UpdateProductForm = () => {
                   ))}
               </select>
               {formik.errors.categoryName && formik.touched.categoryName && (
-                <span className={cx("form-message")}>
+                <span className={cx("form-message")} style={{ color: 'red', fontSize: '14px' }}>
                   <br></br>
                   {formik.errors.categoryName}
                 </span>
