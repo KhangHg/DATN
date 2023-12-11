@@ -81,7 +81,15 @@ const categoriesController = {
     delete: async (req, res) => {
         try {
             const { category_id } = req.params;
+            const sql = `
+            Start Transaction;
+            delete from categories where categoryId = ?;
+            delete from products where categoryId = ?;
+            Commit;
+            `
             const [rows, fields] = await connection.promise().query("delete from categories where categoryId = ?", [category_id]);
+
+            const [rows1, fields1] = await connection.promise().query("delete from products where categoryId = ?", [category_id]);
             res.json({
                 message: "successful",
                 data: rows,
