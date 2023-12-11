@@ -62,7 +62,7 @@ const ListProduct = () => {
             <img src={product.imageUrl} alt={`Item ${product.productId}`} />
             <span>Mua hàng</span>
           </div>
-          <p onClick={() => redirectToOtherPage(product.productId)}>{product.description}</p>
+          <p onClick={() => redirectToOtherPage(product.productId)}>{product.name}</p>
           <span>{formatNumber(product.price)}đ</span>
         </div>
       ))}

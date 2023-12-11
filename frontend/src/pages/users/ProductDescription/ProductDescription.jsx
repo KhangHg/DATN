@@ -20,6 +20,7 @@ const ProductDescription = () => {
   const [quantity, setQuantity] = useState(0);
   const [category, setCategory] = useState("");
   const [description, setDescription] = useState("");
+  const [productName, setProductName] = useState("");
   const [imgUrl, setImgUrl] = useState("");
   const [price, setPrice] = useState(0);
 
@@ -49,6 +50,7 @@ const ProductDescription = () => {
       setImgUrl(firstProduct.imageUrl);
       setDescription(firstProduct.description);
       setCategory(firstProduct.categoryName);
+      setProductName(firstProduct.name);
     }
   }, [product]);
 
@@ -100,8 +102,15 @@ const ProductDescription = () => {
         <img src={imgUrl} alt="Item 1" />
       </div>
       <div className={cx("divRight")}>
-        <p>{description}</p>
+        <p>{productName}</p>
         <span>{formatNumber(price)}đ</span>
+        <p style={{
+          fontWeight:100,
+          fontSize:'14px'
+        }}
+        >
+          {description}
+        </p>
         <div className={cx("select")}>
           <label for="cars">Choose a size:</label>
 

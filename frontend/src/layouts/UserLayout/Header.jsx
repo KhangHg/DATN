@@ -40,7 +40,7 @@ function Header() {
           </div>
           <div className={cx("category-item")}>
             <Link to="/listProduct">
-              SẢN PHẨM <ArrowDropDownIcon />
+              SẢN PHẨM
             </Link>
             {/* <div className={cx("list-item")}>
               <ul>
