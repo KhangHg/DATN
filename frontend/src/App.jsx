@@ -15,6 +15,7 @@ function App() {
 
   return (
     <div className="App">
+      <ToastContainer position="top-center" autoClose={2000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover theme="colored" />
       <Routes>
         {userRoutes.map((route, index) => {
           const Page = route.component;
@@ -32,7 +33,6 @@ function App() {
               element={
                 <Layout>
                   <Page />
-                  <ToastContainer position="top-center" autoClose={2000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover theme="colored" />
                 </Layout>
               }
             />

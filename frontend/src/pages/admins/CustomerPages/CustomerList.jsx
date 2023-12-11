@@ -90,7 +90,7 @@ const CustomerList = () => {
       <h3>Danh sách khách hàng</h3>
       <div className={cx("userList")}>
         <input type="text" placeholder="Tìm kiếm theo email" value={searchTerm} onChange={handleSearch} />
-        <DataTable columns={columns} data={users} selectableRows fixedHeader pagination customStyles={customStyles} />
+        <DataTable columns={columns} data={users} fixedHeader pagination customStyles={customStyles} />
         <Modal show={showDeleteModal} onHide={handleCloseDeleteModal}>
           <Modal.Header closeButton>
             <Modal.Title>Xác nhận hủy</Modal.Title>

@@ -30,7 +30,7 @@ export const AddStoreForm = () => {
   const handleConfirmCancel = () => {
     // Thực hiện hành động hủy tạo category ở đây
     setShowCancelModal(false);
-    navigate("/admin/stores");
+    navigateTo("/admin/stores");
   };
 
   const [cities, setCities] = useState([]);
@@ -104,7 +104,7 @@ export const AddStoreForm = () => {
         console.error("Create categories fails:", error);
       }
       console.log(dataToSend);
-      //navigate('/admin/stores');
+      navigateTo('/admin/stores');
     },
     //call api trong onsubmit
     /*async (values) => {

@@ -11,44 +11,7 @@ import { AuthContext } from "../../contexts/AuthContex";
 import { useSelector } from "react-redux";
 
 const cx = classNames.bind(styles);
-const listcategoryFake = [
-  {
-    id: 1,
-    name: "Áo khoác - Blazers",
-    img: "https://theme.hstatic.net/1000277297/1001091004/14/season_coll_1_img_large.png?v=135",
-    numProduct: 20,
-  },
-  {
-    id: 2,
-    name: "Áo khoác - Blazers",
-    img: "https://theme.hstatic.net/1000277297/1001091004/14/season_coll_1_img_large.png?v=135",
-    numProduct: 20,
-  },
-  {
-    id: 3,
-    name: "Áo khoác - Blazers",
-    img: "https://theme.hstatic.net/1000277297/1001091004/14/season_coll_1_img_large.png?v=135",
-    numProduct: 20,
-  },
-  {
-    id: 4,
-    name: "Áo khoác - Blazers",
-    img: "https://theme.hstatic.net/1000277297/1001091004/14/season_coll_1_img_large.png?v=135",
-    numProduct: 20,
-  },
-  {
-    id: 5,
-    name: "Áo khoác - Blazers",
-    img: "https://theme.hstatic.net/1000277297/1001091004/14/season_coll_1_img_large.png?v=135",
-    numProduct: 20,
-  },
-  {
-    id: 6,
-    name: "Áo khoác - Blazers",
-    img: "https://theme.hstatic.net/1000277297/1001091004/14/season_coll_1_img_large.png?v=135",
-    numProduct: 20,
-  },
-];
+
 function Header() {
   const [listCategory, setListCategory] = useState([]);
   const { token, user, handleLoggedOut } = useContext(AuthContext);
@@ -92,9 +55,9 @@ function Header() {
           <div className={cx("category-item")}>
             <Link to="/storeLocation">HỆ THỐNG CỬA HÀNG</Link>
           </div>
-          <div className={cx("category-item")}>
+          {/*<div className={cx("category-item")}>
             <Link to="/">LIÊN HỆ</Link>
-          </div>
+          </div>*/}
         </div>
         <div className={cx("user")}>
           <div>
