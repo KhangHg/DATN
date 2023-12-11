@@ -164,7 +164,7 @@ const productController = {
         SET name = ?, description = ?,  price = ?,  imageUrl = ?  WHERE productId = ?;
 
         UPDATE productSize
-        SET count = count + 
+        SET count =  
             CASE 
                 WHEN sizeId = (SELECT sizeId FROM size WHERE name = 'XXL') THEN ?
                 WHEN sizeId = (SELECT sizeId FROM size WHERE name = 'XL') THEN ?
