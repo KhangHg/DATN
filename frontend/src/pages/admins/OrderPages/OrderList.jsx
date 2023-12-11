@@ -13,6 +13,7 @@ import ModalOrderDetail from "./ModalOrderDetail";
 import { getDetailOrder, updateOrder } from "../../../services/order";
 import { ToastContainer, toast } from "react-toastify";
 import { getOrder } from "../../../services/admin/order";
+import Chip from '@mui/material/Chip';
 const cx = classNames.bind(styles);
 
 const OrderList = () => {
@@ -47,7 +48,7 @@ const OrderList = () => {
     },
     {
       name: "Trạng thái",
-      cell: (row) => <span>{row.status.data[0] === 1 ? "Đã hoàn thành" : "Chưa hoàn thành"}</span>,
+      cell: (row) => <span>{row.status.data[0] === 1 ? <Chip label="Đã hoàn thành" color="success"/> : <Chip label="Chưa hoàn thành" variant="outlined" color="primary"/>}</span>,
     },
   ];
   const [orderList, setOrderList] = useState([]);
