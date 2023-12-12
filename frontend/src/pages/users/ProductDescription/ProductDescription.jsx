@@ -22,7 +22,6 @@ const ProductDescription = () => {
   const [description, setDescription] = useState("");
   const [imgUrl, setImgUrl] = useState("");
   const [price, setPrice] = useState(0);
-
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -54,7 +53,7 @@ const ProductDescription = () => {
 
   const [count, setCount] = useState(1);
   const increaseCount = () => {
-    setCount(count + 1);
+    if (count < quantity) setCount(count + 1);
   };
 
   const decreaseCount = () => {
@@ -83,7 +82,7 @@ const ProductDescription = () => {
   };
 
   const handleCreateItem = () => {
-    if (token) {
+    if (token && user && user.role === "user") {
       const email = user.email;
       dispatch(createCartItemAction(email, id, selectedSize, count));
       toast.success("Sản phẩm đã được thêm vào giỏ hàng của bạn");

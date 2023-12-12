@@ -10,7 +10,7 @@ import { Link } from "react-router-dom";
 import * as Yup from "yup";
 import { getProductList } from "../../../services/getProductList";
 import { getCategories } from "../../../services/admin/categories";
-import { getOneProduct } from "../../../services/getOneProduct";
+import { getOneProduct1 } from "../../../services/getOneProduct";
 import { AuthContext } from "../../../contexts/AuthContex";
 import { updateProduct } from "../../../services/admin/products";
 import { toast, ToastContainer } from "react-toastify";
@@ -68,7 +68,7 @@ const UpdateProductForm = () => {
 
     async function getById(pId) {
       try {
-        const data = await getOneProduct(id);
+        const data = await getOneProduct1(id);
         setProductInfo(data.data[0]);
 
         //console.log(fakeData[0])

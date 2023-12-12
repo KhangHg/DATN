@@ -12,15 +12,16 @@ import { ToastContainer } from "react-toastify";
 
 function App() {
   const { token, user } = useContext(AuthContext);
+  const tokenLocal = localStorage.getItem("token");
+  const role = localStorage.getItem("role");
 
   return (
     <div className="App">
       <Routes>
+        {/* User Routes */}
         {userRoutes.map((route, index) => {
           const Page = route.component;
-          //Không có layout thì mặc định là default layout
           let Layout = DefaultLayoutUser;
-          // let Layout = null;
           if (route.layout !== null) {
             Layout = route.layout;
           }
@@ -32,40 +33,42 @@ function App() {
               element={
                 <Layout>
                   <Page />
-                  <ToastContainer position="top-center" autoClose={2000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover theme="colored" />
+                  <ToastContainer position="top-right" autoClose={2000} hideProgressBar={false} newestOnTop={false} closeOnClick={false} rtl={false} pauseOnFocusLoss draggable pauseOnHover={false} theme="colored" style={{ marginTop: "40px" }} />
                 </Layout>
               }
             />
           );
         })}
 
-        {/* privateRoutes */}
-        {/* {user && user.role === "ADMIN" ? // Kiểm tra có phải là admin hay không */}
-        {/* Cứ làm các trang của admin đi, khi nào xong hết thì thêm xác thực user sau */}
-        {
-          adminRoutes.map((route, index) => {
-            const Page = route.component;
-            let Layout = DefaultLayoutAdmin;
-            if (route.layout) {
-              Layout = route.layout;
-            }
+        {/* Admin Routes */}
+        {adminRoutes.map((route, index) => {
+          // Check if there is a token and the role is "admin"
+          if (!tokenLocal || !role || role !== "admin") {
+            // Redirect to login if the conditions are not met
+            return null;
+          }
 
-            return (
-              <Route
-                key={index}
-                path={route.path}
-                element={
-                  <Layout title={route.title}>
-                    <Page />
-                  </Layout>
-                }
-              />
-            );
-          })
-          // :''}
-        }
+          const Page = route.component;
+          let Layout = DefaultLayoutAdmin;
+          if (route.layout) {
+            Layout = route.layout;
+          }
 
-        {/* Điều hướng mặc định */}
+          return (
+            <Route
+              key={index}
+              path={route.path}
+              element={
+                <Layout title={route.title}>
+                  <Page />
+                  <ToastContainer position="top-right" autoClose={2000} hideProgressBar={false} newestOnTop={false} closeOnClick={false} rtl={false} pauseOnFocusLoss draggable pauseOnHover={false} theme="colored" style={{ marginTop: "40px" }} />
+                </Layout>
+              }
+            />
+          );
+        })}
+
+        {/* Default Redirect */}
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </div>
