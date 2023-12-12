@@ -1,12 +1,13 @@
 .cart {
+  min-height: 400px;
   margin: 20px 30px;
   h1 {
     display: block;
   }
   .cartItemList {
-    width: 60%;
+    width: 70%;
     float: left;
-    margin-right: 30px;
+    margin-right: 20px;
     margin-bottom: 30px;
     .product {
       margin-bottom: 20px;
@@ -64,12 +65,13 @@
   }
   .submit {
     float: left;
-    width: 30%;
+    width: 25%;
     border-top: none;
     background: #f7f7f7;
     border: 3px;
     padding: 20px;
     margin-top: 0;
+    margin-bottom:20px ;
     border-radius: 5px;
     p {
       font-size: 20px;
@@ -119,5 +121,11 @@
     button {
       font-size: 20px;
     }
+  }
+}
+
+@media (max-width: 1400px) {
+  .cart {
+    margin: 20px 15px;
   }
 }

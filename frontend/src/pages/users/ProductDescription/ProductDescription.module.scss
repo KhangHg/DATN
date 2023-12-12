@@ -2,15 +2,21 @@
   display: flex;
   justify-content: space-evenly;
   margin: 50px 30px;
-  .divLefft {
+  .divLeft {
     img {
       width: 100%;
     }
   }
 
   .divRight {
-    p {
+    padding-left: 20px;
+    h3{
+      font-family: "Mulish", sans-serif;
       font-weight: 700;
+
+    }
+    p {
+      font-weight: 400;
       font-size: 16px;
       font-family: "Mulish", sans-serif;
     }

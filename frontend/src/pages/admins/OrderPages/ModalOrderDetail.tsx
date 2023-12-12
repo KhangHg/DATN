@@ -2,6 +2,7 @@ import React from "react";
 import "./ModalOrderDetail.scss";
 import { Numeral } from "react-numeral";
 import moment from "moment";
+import Chip from '@mui/material/Chip';
 const ModalOrderDetail = ({ order }) => {
     return (
         <div className="order-container">
@@ -15,7 +16,7 @@ const ModalOrderDetail = ({ order }) => {
                     format={"0,0"}
                 />} đ</p>
                 <p className="order-field"><strong>Ngày đặt hàng:</strong> {moment(order.orderDate).format('HH:mm:ss DD-MM-YYYY')} </p>
-                <p className="order-field"><strong>Trạng thái:</strong> {order.status?.data[0] === 1 ? 'Đã xác nhận' : 'Chưa xác nhận'}</p>
+                <p className="order-field"><strong>Trạng thái:</strong> {order.status?.data[0] === 1 ? <Chip label="Đã hoàn thành" color="success"/> : <Chip label="Chưa hoàn thành" variant="outlined" color="primary"/>}</p>
             </div>
             <div className="order-details">
                 <p className="order-header"><strong>Chi tiết sản phẩm:</strong></p>

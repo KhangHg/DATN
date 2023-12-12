@@ -17,6 +17,7 @@ function App() {
 
   return (
     <div className="App">
+      <ToastContainer position="top-center" autoClose={2000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover theme="colored" />
       <Routes>
         {/* User Routes */}
         {userRoutes.map((route, index) => {
