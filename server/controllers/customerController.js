@@ -128,7 +128,21 @@ const customerController = {
             console.log("line 130", token);
             res.status(200).send({ message: "Login successful", token: token, user: customer });
           } else {
-            res.status(200).json({ message: "fails", error: "Invalid role" });
+            if (role && role.toLowerCase() === "admin") {
+              const customer = {
+                email: email,
+                role: role,
+                name: name,
+                phone: phone,
+              };
+              const token = jwt.sign(customer, "your-secret-key");
+              res.header("Authorization", token);
+              res.cookie("token", token, { secure: false, httpOnly: false });
+              console.log("line 130", token);
+              res.status(200).send({ message: "Login successful", token: token, user: customer });
+            } else {
+              res.status(200).json({ message: "fails", error: "Invalid role" });
+            }
           }
         }
       } else {
