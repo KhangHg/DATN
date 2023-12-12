@@ -1,5 +1,6 @@
 const connection = require("../database/connectDB");
 const jwt = require("jsonwebtoken");
+const bcrypt = require("bcrypt")
 
 const emailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
 
@@ -50,8 +51,9 @@ const customerController = {
           error: "Email already exists",
         });
       } else {
+        const hashedPassword = await bcrypt.hash(password, 10);
         const insertSql = "INSERT INTO customers (name, email, phone, password, role) VALUES (?, ?, ?, ?, ?)";
-        const [rows, fields] = await connection.promise().query(insertSql, [name, email, phone, password, role]);
+        const [rows, fields] = await connection.promise().query(insertSql, [name, email, phone, hashedPassword, role]);
         res.json({
           data: rows,
         });
@@ -98,27 +100,22 @@ const customerController = {
       const { email, password } = req.body;
 
       // Truy vấn kiểm tra email và mật khẩu
-      const [rows] = await connection.promise().query("SELECT * FROM customers WHERE email = ? AND password = ? ", [email, password]);
-      console.log("line 102", rows);
+      // Truy vấn kiểm tra email
+      const [rows] = await connection.promise().query("SELECT * FROM customers WHERE email = ?", [email]);
+
       if (rows.length === 1) {
-        const role = rows[0].role;
-        const name = rows[0].name;
-        const phone = rows[0].phone;
-        // Kiểm tra giá trị "role"
-        if (role && role.toLowerCase() === "user") {
-          const customer = {
-            email: email,
-            role: role,
-            name: name,
-            phone: phone,
-          };
-          const token = jwt.sign(customer, "your-secret-key");
-          res.header("Authorization", token);
-          res.cookie("token", token, { secure: false, httpOnly: false });
-          console.log("line 111", token);
-          res.status(200).send({ message: "Login successful", token: token, user: customer });
-        } else {
-          if (role && role.toLowerCase() === "admin") {
+        const storedPasswordHash = rows[0].password;
+
+        // So sánh mật khẩu
+        const passwordMatch = await bcrypt.compare(password, storedPasswordHash);
+
+        if (passwordMatch) {
+          const role = rows[0].role;
+          const name = rows[0].name;
+          const phone = rows[0].phone;
+
+          // Kiểm tra giá trị "role"
+          if (role && role.toLowerCase() === "user") {
             const customer = {
               email: email,
               role: role,
@@ -131,7 +128,21 @@ const customerController = {
             console.log("line 130", token);
             res.status(200).send({ message: "Login successful", token: token, user: customer });
           } else {
-            res.status(200).json({ message: "fails", error: "Invalid role" });
+            if (role && role.toLowerCase() === "admin") {
+              const customer = {
+                email: email,
+                role: role,
+                name: name,
+                phone: phone,
+              };
+              const token = jwt.sign(customer, "your-secret-key");
+              res.header("Authorization", token);
+              res.cookie("token", token, { secure: false, httpOnly: false });
+              console.log("line 130", token);
+              res.status(200).send({ message: "Login successful", token: token, user: customer });
+            } else {
+              res.status(200).json({ message: "fails", error: "Invalid role" });
+            }
           }
         }
       } else {
