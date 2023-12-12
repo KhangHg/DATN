@@ -6,7 +6,7 @@ const emailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
 const customerController = {
   getALL: async (req, res) => {
     try {
-      const [rows, fields] = await connection.promise().query("select * from customers");
+      const [rows, fields] = await connection.promise().query("select * from customers where role = 'user'");
       res.json({
         data: rows,
       });
