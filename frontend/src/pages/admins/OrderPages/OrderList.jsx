@@ -94,18 +94,18 @@ const OrderList = () => {
   const handleClickOrder = (order) => {
     getInfoOrder(order);
   };
-  // const handleCompleteOrder = async () => {
-  //   const id = orderSelected.id;
+  const handleCompleteOrder = async () => {
+    const id = orderSelected.id;
 
-  //   const res = await updateOrder(1, id);
-  //   if (res.status === true) {
-  //     toast.success("Đã hoàn thành đơn hàng");
-  //     getAllOrder();
-  //     setShowModal(false);
-  //   } else {
-  //     toast.error("Có lỗi xảy ra");
-  //   }
-  // };
+    const res = await updateOrder(1, id);
+    if (res.status === true) {
+      toast.success("Đã hoàn thành đơn hàng");
+      getAllOrder();
+      setShowModal(false);
+    } else {
+      toast.error("Có lỗi xảy ra");
+    }
+  };
 
   return (
     <div className={cx("wrap")}>
