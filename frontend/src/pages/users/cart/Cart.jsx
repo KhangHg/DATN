@@ -5,8 +5,9 @@ import React, { useEffect, useState, useContext } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getListItem, deleteCartItemAction, upCartItemAction, downCartItemAction } from "../../../reactRedux/action/actions";
 import ModalCart from "./ModalCart";
-import { useNavigate } from "react-router-dom";
+import { Await, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../../contexts/AuthContex";
+import { getOneProduct1 } from "../../../services/getOneProduct";
 const Cart = () => {
   const { user, token } = useContext(AuthContext);
   const navigateTo = useNavigate();
@@ -21,7 +22,6 @@ const Cart = () => {
       dispatch(getListItem(email));
     }, []);
   }
-
   const formatNumber = (number) => {
     // Sử dụng Math.floor để giữ phần nguyên của số
     const integerPart = Math.floor(number);
@@ -35,8 +35,10 @@ const Cart = () => {
   const handleOnSubmit = (email, productId, size) => {
     dispatch(deleteCartItemAction(email, productId, size));
   };
-  const handleUpQuantity = (quantity, email, productId, size) => {
-    dispatch(upCartItemAction(quantity, email, productId, size));
+  const handleUpQuantity = async (quantity, email, productId, size) => {
+    const res = await getOneProduct1(productId);
+    const quantitySize = res.data[0][size];
+    if (quantity < quantitySize) dispatch(upCartItemAction(quantity, email, productId, size));
   };
   const handleDownQuantity = (quantity, email, productId, size) => {
     dispatch(downCartItemAction(quantity, email, productId, size));

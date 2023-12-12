@@ -14,10 +14,11 @@ export const AuthContextProvider = ({ children }) => {
     if (token && role && role.toLowerCase() === "user") {
       verifyToken(token)
         .then((res) => {
-          console.log(res);
           if (res.errCodeCheckLogin === 1) {
             setToken(null);
             setUser(null);
+            localStorage.removeItem("token");
+            localStorage.removeItem("role");
           } else {
             setUser(res.data);
             setToken(token);
@@ -32,6 +33,8 @@ export const AuthContextProvider = ({ children }) => {
           if (res.errCodeCheckLogin === 1) {
             setToken(null);
             setUser(null);
+            localStorage.removeItem("token");
+            localStorage.removeItem("role");
           } else {
             setUser(res.data);
             setToken(token);

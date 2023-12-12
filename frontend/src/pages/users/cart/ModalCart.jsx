@@ -10,6 +10,7 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useDispatch } from "react-redux";
 import { createOrderAction } from "../../../reactRedux/action/actions";
+import { subProduct } from "../../../services/user/subProduct";
 // Define formatNumber function here or import it if it's defined elsewhere
 
 const ModalCart = ({ show, handleClose, cartItems, total, user }) => {
@@ -66,6 +67,13 @@ const ModalCart = ({ show, handleClose, cartItems, total, user }) => {
   const handleWardChange = (e) => {
     const selectedWardName = e.target.value;
     setSelectedWard(selectedWardName);
+  };
+  const updateQuantityInAPI = async (cartItem) => {
+    for (const item of cartItem) {
+      //console.log(item.name, item.size, item.quantity);
+      // Gọi hàm subProduct cho mỗi phần tử trong cartItem
+      await subProduct(item.name, item.size, item.quantity);
+    }
   };
   const [formData, setFormData] = useState({
     name: "",
@@ -167,6 +175,9 @@ const ModalCart = ({ show, handleClose, cartItems, total, user }) => {
         total: total,
       };
       console.log(formDataToSend.items);
+      updateQuantityInAPI(cartItems)
+        .then(() => console.log("Cập nhật số lượng sản phẩm thành công"))
+        .catch((error) => console.error("Lỗi khi cập nhật số lượng sản phẩm:", error));
       // Handle form submission, you can send the formDataToSend to an API, dispatch an action, etc.
       dispatch(createOrderAction(formDataToSend.email, formDataToSend.name, formDataToSend.phone, formDataToSend.status, formDataToSend.address, formDataToSend.total, formDataToSend.items));
       toast.success("Cảm ơn bạn đã mua hàng!! Nhân viên sẽ gọi lại để xác nhận với khách hàng.");

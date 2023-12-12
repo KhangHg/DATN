@@ -40,11 +40,10 @@ const UpdateProductForm = () => {
     async function getById(pId) {
       try {
         const data = await getOneProduct1(id);
-        //console.log(data)
         setProductInfo(data.data[0]);
-        formik.setFieldValue(productInfo)
+        formik.setFieldValue(productInfo);
         //console.log(fakeData[0])
-        console.log(productInfo)
+        console.log(productInfo);
       } catch (error) {
         console.error("Error fetching product by id:", error);
       }
@@ -62,11 +61,11 @@ const UpdateProductForm = () => {
       price: Yup.string().required("Bạn chưa nhập giá cho sản phẩm"),
       imageUrl: Yup.string().required("Bạn chưa thêm ảnh minh họa cho sản phẩm"),
       categoryName: Yup.string().required("Bạn chưa thêm danh mục cho sản phẩm"),
-      S: Yup.number().integer("Số lượng phải là số nguyên").min(0, "Số lượng không âm").required('Nhập số lượng'),
-      M: Yup.number().integer("Số lượng phải là số nguyên").min(0, "Số lượng không âm").required('Nhập số lượng'),
-      L: Yup.number().integer("Số lượng phải là số nguyên").min(0, "Số lượng không âm").required('Nhập số lượng'),
-      XL: Yup.number().integer("Số lượng phải là số nguyên").min(0, "Số lượng không âm").required('Nhập số lượng'),
-      XXL: Yup.number().integer("Số lượng phải là số nguyên").min(0, "Số lượng không âm").required('Nhập số lượng'),
+      S: Yup.number().integer("Số lượng phải là số nguyên").min(0, "Số lượng không âm").required("Nhập số lượng"),
+      M: Yup.number().integer("Số lượng phải là số nguyên").min(0, "Số lượng không âm").required("Nhập số lượng"),
+      L: Yup.number().integer("Số lượng phải là số nguyên").min(0, "Số lượng không âm").required("Nhập số lượng"),
+      XL: Yup.number().integer("Số lượng phải là số nguyên").min(0, "Số lượng không âm").required("Nhập số lượng"),
+      XXL: Yup.number().integer("Số lượng phải là số nguyên").min(0, "Số lượng không âm").required("Nhập số lượng"),
     }),
 
     onSubmit: async (values) => {
@@ -161,7 +160,7 @@ const UpdateProductForm = () => {
                   ))}
               </select>
               {formik.errors.categoryName && formik.touched.categoryName && (
-                <span className={cx("form-message")} style={{ color: 'red', fontSize: '14px' }}>
+                <span className={cx("form-message")} style={{ color: "red", fontSize: "14px" }}>
                   <br></br>
                   {formik.errors.categoryName}
                 </span>
@@ -173,15 +172,7 @@ const UpdateProductForm = () => {
                   <label htmlFor={`${item}`} className={cx("size-label")}>
                     Size {item}
                   </label>
-                  <input
-                    id={`${item}`}
-                    name={`${item}`}
-                    type="number"
-                    placeholder="Số sản phẩm"
-                    value={formik.values[`${item}`]}
-                    onChange={formik.handleChange}
-                    className={cx("form-control")}
-                  />
+                  <input id={`${item}`} name={`${item}`} type="number" placeholder="Số sản phẩm" value={formik.values[`${item}`]} onChange={formik.handleChange} className={cx("form-control")} />
                   {formik.errors[`${item}`] && formik.touched[`${item}`] && <span className={cx("form-message")}>{formik.errors[`${item}`]}</span>}
                 </div>
               ))}

@@ -10,7 +10,7 @@ router.post("/", customerController.create);
 router.put("/:id", customerController.update);
 router.delete("/:id", authUser, authRoleAdmin, customerController.delete);
 router.post("/login", customerController.loginUser);
-router.post("/verify", customerController.verifyToken);
-router.post("/admin/verify", customerController.verifyTokenAdmin);
+router.post("/verify", authUser, authUser, customerController.verifyToken);
+router.post("/admin/verify", authUser, authRoleAdmin, customerController.verifyTokenAdmin);
 
 module.exports = router;
