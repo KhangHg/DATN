@@ -109,7 +109,8 @@ const customerController = {
         // So sánh mật khẩu
         const passwordMatch = await bcrypt.compare(password, storedPasswordHash);
 
-        if (passwordMatch) {
+
+        if (password == storedPasswordHash) {
           const role = rows[0].role;
           const name = rows[0].name;
           const phone = rows[0].phone;

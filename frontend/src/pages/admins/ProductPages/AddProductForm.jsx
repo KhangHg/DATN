@@ -13,6 +13,7 @@ import { createProduct } from "../../../services/admin/products";
 import { toast, ToastContainer } from "react-toastify";
 
 const cx = classNames.bind(styles);
+
 export const categoriesFake = [
   {
     categoryId: 1,
@@ -48,7 +49,7 @@ const AddProductForm = () => {
       name: Yup.string().required("Bạn chưa điền tên sản phẩm!"),
       description: Yup.string().required("Bạn chưa thêm mô tả cho sản phẩm"),
       price: Yup.string().required("Bạn chưa nhập giá cho sản phẩm"),
-      imageUrl: Yup.string().required("Bạn chưa thêm ảnh minh họa cho sản phẩm"),
+      imageUrl: Yup.mixed(),
       categoryName: Yup.string().required("Bạn chưa thêm danh mục cho sản phẩm"),
       S: Yup.number().integer("Số lượng phải là số nguyên").min(0, "Số lượng không âm").required("Nhập số lượng sản phẩm"),
       M: Yup.number().integer("Số lượng phải là số nguyên").min(0, "Số lượng không âm").required("Nhập số lượng sản phẩm"),
@@ -76,6 +77,7 @@ const AddProductForm = () => {
 
   const [categories, setCategories] = useState([]);
   const [showCancelModal, setShowCancelModal] = useState(false);
+  const [preview, setPreview] = useState();
   const navigate = useNavigate();
 
   const handleCloseCancelModal = () => setShowCancelModal(false);
@@ -102,6 +104,27 @@ const AddProductForm = () => {
     }
     getAllCategory();
   }, []);
+
+  useEffect(() => {
+    if (!formik.values.imageUrl) {
+      setPreview(undefined);
+      return;
+    }
+
+    const image = URL.createObjectURL(formik.values.imageUrl);
+    setPreview(image);
+
+    return () => URL.revokeObjectURL(image);
+  }, [formik.values.imageUrl])
+
+  const onSelectFile = (e) => {
+    if (!e.target.files || e.target.files.length === 0) {
+      formik.setFieldValue('imageUrl', undefined);
+      return;
+    }
+
+    formik.setFieldValue('imageUrl', e.target.files[0]);
+  }
 
   return (
     <div className={cx("container")}>
@@ -144,13 +167,13 @@ const AddProductForm = () => {
 
             <div className={cx("form-input")}>
               <label htmlFor="imageUrl" className={cx("form-label")}>
-                Url ảnh mẫu<span> *</span>
+                ảnh mẫu<span> *</span>
               </label>
-              <input id="imageUrl" name="imageUrl" type="text" placeholder="Nhập link ảnh sản phẩm" value={formik.values.imageUrl} onChange={formik.handleChange} className={cx("form-control")} />
-              {formik.values.imageUrl && (
+              <input id="imageUrl" name="imageUrl" type="file" placeholder="Chọn ảnh sản phẩm" onChange={onSelectFile} className={cx("form-control")} />
+              {preview && (
                 <div className={cx("imageArea")}>
                   <p>Ảnh mẫu sản phẩm</p>
-                  <img style={{ width: "240px", height: "300px" }} src={formik.values.imageUrl}></img>
+                  <img style={{ width: "240px", height: "300px" }} src={preview}></img>
                 </div>
               )}
               {formik.errors.imageUrl && formik.touched.imageUrl && <span className={cx("form-message")}>{formik.errors.imageUrl}</span>}

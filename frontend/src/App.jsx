@@ -9,11 +9,13 @@ import DefaultLayoutAdmin from "./layouts/AdminLayout/DefaultLayout/DefaultLayou
 import DefaultLayoutUser from "./layouts/UserLayout/DefaultLayOutUser";
 import { AuthContext } from "./contexts/AuthContex";
 import { ToastContainer } from "react-toastify";
+import { CreatNewTracker } from "./Tracker";
 
 function App() {
   const { token, user } = useContext(AuthContext);
   const tokenLocal = localStorage.getItem("token");
   const role = localStorage.getItem("role");
+  CreatNewTracker();
 
   return (
     <div className="App">
