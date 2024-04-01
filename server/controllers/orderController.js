@@ -44,7 +44,7 @@ const orderController = {
 
       try {
         // Thực hiện chèn đơn đặt hàng vào bảng 'order'
-        const insertOrderSql = "INSERT INTO `order` (email,name, phone,  status, address,total) VALUES (?, ?, ?, ?, ?, ?)";
+        const insertOrderSql = "INSERT INTO `order` (email, name, phone,  status, address,total) VALUES (?, ?, ?, ?, ?, ?)";
         const [orderRows, orderFields] = await connection.promise().query(insertOrderSql, [email, name, phone, status, address, total]);
 
         const orderId = orderRows.insertId;

@@ -1,25 +1,23 @@
 {
     "$schema": "http://iglucentral.com/schemas/com.snowplowanalytics.self-desc/schema/jsonschema/1-0-0#",
-    "description": "Schema for a cart action event",
+    "description": "Schema for a purchase event",
     "self": {
-        "vendor": "test.example",
-        "name": "cart_action",
+        "vendor": "nana.shop",
+        "name": "purchase_event",
         "format": "jsonschema",
         "version": "1-0-0"
     },
     "type": "object",
     "properties": {
-        "type": {
-            "type": "string",
-            "enum": [
-                "add",
-                "remove",
-                "view"
-            ]
+        "total": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 100000,
+            "multipleOf": 0.01
         }
     },
     "required": [
-        "type"
+        "total"
     ],
     "additionalProperties": false
 }

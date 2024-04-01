@@ -32,8 +32,8 @@ const Cart = () => {
     return formattedIntegerPart;
   };
 
-  const handleOnSubmit = (email, productId, size) => {
-    dispatch(deleteCartItemAction(email, productId, size));
+  const handleOnSubmit = (email, productId, size, name, category, price, quantity) => {
+    dispatch(deleteCartItemAction(email, productId, size, quantity, price, name, category));
   };
   const handleUpQuantity = async (quantity, email, productId, size) => {
     const res = await getOneProduct1(productId);
@@ -59,7 +59,7 @@ const Cart = () => {
           <div className={cx("cartItemList")}>
             {listCartItem.map((cartItem, index) => (
               <div key={cartItem.name + cartItem.size} className={cx("product")}>
-                <span onClick={() => handleOnSubmit(email, cartItem.productId, cartItem.size)}>x</span>
+                <span onClick={() => handleOnSubmit(email, cartItem.productId, cartItem.size, cartItem.name, cartItem.category, cartItem.price, cartItem.quantity)}>x</span>
                 <img src={cartItem.imageUrl} alt="#" />
                 <p className={cx("description")}>
                   {cartItem.description} <span>{cartItem.size}</span>

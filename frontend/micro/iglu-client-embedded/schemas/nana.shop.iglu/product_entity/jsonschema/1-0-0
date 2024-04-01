@@ -2,7 +2,7 @@
     "$schema": "http://iglucentral.com/schemas/com.snowplowanalytics.self-desc/schema/jsonschema/1-0-0#",
     "description": "Schema for a product entity",
     "self": {
-        "vendor": "test.example",
+        "vendor": "nana.shop",
         "name": "product_entity",
         "format": "jsonschema",
         "version": "1-0-0"
@@ -27,13 +27,22 @@
             "type": "number"
         },
         "quantity": {
-            "type": "integer",
+            "type": "number",
             "minimum": 1,
             "maximum": 10000
+        },
+        "size": {
+            "type": "string",
+            "maxLength": 255
+        },
+        "currency": {
+            "type": "string",
+            "maxLength": 255
         }
     },
     "required": [
-        "name"
+        "name",
+        "id"
     ],
     "additionalProperties": false
 }

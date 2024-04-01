@@ -1,6 +1,7 @@
 import { GETLISTITEM, CREATEITEM, DELETEITEM, UPDATEITEM, FETCH_LISTCART_SUCCESS, UPQUANTITY, DOWNQUANTITY, CREATEORDER } from "./type";
 import { getCartItemList, createCartItem, deleteCartItem, updateCartItem } from "../../services/user/cart";
 import { createOrder } from "../../services/order";
+import { RemoveProduct, AddProduct } from "../../Tracker";
 export const getListItem = (email) => {
   return async (dispatch, getState) => {
     try {
@@ -13,11 +14,13 @@ export const getListItem = (email) => {
   };
 };
 
-export const createCartItemAction = (email, productId, size, quantity) => {
+export const createCartItemAction = (email, productId, size, quantity, price, name, category) => {
   return async (dispatch, getState) => {
     try {
       let res = await createCartItem(email, productId, size, quantity);
       if (res && res.data.errCode === 0) {
+        console.log("id : " + productId + " cate : " + category + " price : " + price + " qty : " + quantity + " size : " + size + name);
+        AddProduct(name, Number(price), String(productId), category, size, (quantity))
         dispatch(createItemCartPayLoad());
         dispatch(getListItem(email));
       }
@@ -26,11 +29,13 @@ export const createCartItemAction = (email, productId, size, quantity) => {
     }
   };
 };
-export const deleteCartItemAction = (email, productId, size) => {
+export const deleteCartItemAction = (email, productId, size, quantity, price, name, category) => {
   return async (dispatch, getState) => {
     try {
       let res = await deleteCartItem(email, productId, size);
       if (res && res.data.errCode === 0) {
+        console.log("id : " + productId + " cate : " + category + " price : " + price + " qty : " + quantity + " size : " + size + name);
+        RemoveProduct(name, Number(price), String(productId), category, size, Number(quantity));
         dispatch(deleteItemCartPayLoad());
         dispatch(getListItem(email));
       }

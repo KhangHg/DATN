@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { getProductList } from "../../../services/getProductList";
 import { useNavigate } from "react-router-dom";
 import image from "../../../assets/image/d90581e3850821ba84143a61a01d7fe1.jpeg"
-import { ViewProduct, trackPageView } from "../../../Tracker";
+import { ViewProduct, TrackPageView, TrackProductView } from "../../../Tracker";
 import { setPageType, setEcommerceUser } from '@snowplow/browser-plugin-snowplow-ecommerce';
 
 const cx = classNames.bind(styles);
@@ -43,9 +43,11 @@ const ListProduct = () => {
     return formattedIntegerPart;
   };
 
-  const redirectToOtherPage = (productId, productName, productPrice) => {
+  const redirectToOtherPage = (productId, productName, productPrice, categoryName) => {
     // Điều hướng đến trang khác với productId hoặc bất kỳ thông tin nào bạn muốn chuyển đi
     navigateTo(`/productDescription/${productId}`);
+    ViewProduct(productName, Number(productPrice), String(productId), categoryName)
+    // TrackProductView(productName, Number(productPrice), String(productId), categoryName)
   };
 
   function handleSearch(e) {
@@ -79,12 +81,12 @@ const ListProduct = () => {
           {/* Các trường dữ liệu từ server */}
           <input className="productId" type="text" value={product.productId} disabled style={{ display: "none" }} />
           <input className="category" type="text" value={product.categoryName} disabled style={{ display: "none" }} />
-          <div className={cx("imgItem")} onClick={() => redirectToOtherPage(product.productId, product.name, product.price)}>
+          <div className={cx("imgItem")} onClick={() => redirectToOtherPage(product.productId, product.name, product.price, product.categoryName)}>
             {/* <img src={product.imageUrl} alt={`Item ${product.productId}`} /> */}
             <img src={image} alt={`Item ${product.productId}`} />
             <span>Mua hàng</span>
           </div>
-          <p onClick={() => redirectToOtherPage(product.productId, product.name, product.price)}>{product.name}</p>
+          <p onClick={() => redirectToOtherPage(product.productId, product.name, product.price, product.categoryName)}>{product.name}</p>
           <span>{formatNumber(product.price)}đ</span>
         </div>
       ))

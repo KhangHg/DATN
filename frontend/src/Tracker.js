@@ -1,77 +1,84 @@
-import { trackSelfDescribingEvent, newTracker, trackPageView } from '@snowplow/browser-tracker';
-import { SnowplowEcommercePlugin, addItem } from '@snowplow/browser-plugin-snowplow-ecommerce';
-function ViewProduct(name, price, id) {
-    console.log("view" + typeof (name) + typeof (price) + typeof (id));
+import { trackSelfDescribingEvent, newTracker, trackPageView, setUserId } from '@snowplow/browser-tracker';
+import {
+    SnowplowEcommercePlugin, trackProductView
+} from '@snowplow/browser-plugin-snowplow-ecommerce';
+
+function ViewProduct(name, price, id, category) {
     trackSelfDescribingEvent({
         event: {
-            schema: 'iglu:test.example.iglu/cart_action_event/jsonschema/1-0-0',
+            schema: 'iglu:nana.shop.iglu/product_action_event/jsonschema/1-0-0',
             data: {
                 type: 'view',
             },
         },
         context: [
             {
-                schema: 'iglu:test.example.iglu/product_entity/jsonschema/1-0-0',
+                schema: 'iglu:nana.shop.iglu/product_entity/jsonschema/1-0-0',
                 data: {
-                    name: String(name),
+                    name: name,
                     price: price,
-                    id: String(id)
+                    id: id,
+                    category: category
                 }
             }
         ],
     });
-
-    // addItem({
-    //     orderId: '1234', // required
-    //     sku: 'DD44',     // required
-    //     name: 'T-Shirt',
-    //     category: 'Green Medium',
-    //     price: 11.99,
-    //     quantity: 1,
-    //     currency: 'USD'
-    // });
 }
 
-function AddProduct(name, price, id, qty) {
-    console.log("add" + typeof (name) + typeof (price) + typeof (id) + typeof (qty));
+function TrackProductView(name, price, id, category) {
+    trackProductView({
+        id: id,
+        name: name,
+        price: price,
+        category: category,
+        currency: "VND"
+    })
+}
+
+function AddProduct(name, price, id, category, size, qty) {
     trackSelfDescribingEvent({
         event: {
-            schema: "iglu:test.example.iglu/cart_action_event/jsonschema/1-0-0",
+            schema: "iglu:nana.shop.iglu/product_action_event/jsonschema/1-0-0",
             data: {
                 type: 'add',
             }
         },
         context: [
             {
-                schema: 'iglu:test.example.iglu/product_entity/jsonschema/1-0-0',
+                schema: 'iglu:nana.shop.iglu/product_entity/jsonschema/1-0-0',
                 data: {
                     id: id,
                     name: name,
                     price: price,
-                    quantity: qty
+                    currency: "VND",
+                    quantity: qty,
+                    category: category,
+                    size: size
                 }
             }
         ]
     })
 }
 
-function RemoveProduct(name, price, id, qty) {
-    console.log("remove" + typeof (name) + typeof (price) + typeof (id) + typeof (qty));
+function RemoveProduct(name, price, id, category, size, qty) {
     trackSelfDescribingEvent({
         event: {
-            schema: "iglu:test.example.iglu/cart_action_event/jsonschema/1-0-0",
+            schema: "iglu:nana.shop.iglu/product_action_event/jsonschema/1-0-0",
             data: {
-                type: 'remove',
+                type: 'remove from cart',
             }
         },
         context: [
             {
-                schema: 'iglu:test.example.iglu/product_entity/jsonschema/1-0-0',
+                schema: 'iglu:nana.shop.iglu/product_entity/jsonschema/1-0-0',
                 data: {
                     id: id,
                     name: name,
                     price: price,
-                    quantity: qty
+                    currency: "VND",
+                    quantity: qty,
+                    size: size,
+                    category: category
                 }
             }
         ]
@@ -90,5 +97,12 @@ function CreatNewTracker() {
     });
 }
 
+function TrackPageView() {
+    trackPageView()
+}
 
-export { ViewProduct, AddProduct, CreatNewTracker, RemoveProduct, trackPageView };
+function SetEmailUser(email) {
+    setUserId(email)
+}
+
+export { ViewProduct, AddProduct, CreatNewTracker, RemoveProduct, TrackPageView, TrackProductView, SetEmailUser };

@@ -9,6 +9,9 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { AuthContext } from "../../../contexts/AuthContex";
 import { useNavigate } from "react-router-dom";
+import { trackAddToCart } from "@snowplow/browser-plugin-snowplow-ecommerce";
+import { AddProduct } from "../../../Tracker";
+import { number } from "yup";
 const cx = classNames.bind(styles);
 const ProductDescription = () => {
   const navigateTo = useNavigate();
@@ -86,7 +89,8 @@ const ProductDescription = () => {
   const handleCreateItem = () => {
     if (token && user && user.role === "user") {
       const email = user.email;
-      dispatch(createCartItemAction(email, id, selectedSize, count));
+
+      dispatch(createCartItemAction(email, id, selectedSize, count, price, name, category));
       toast.success("Sản phẩm đã được thêm vào giỏ hàng của bạn");
     } else {
       navigateTo("/login");
@@ -104,8 +108,8 @@ const ProductDescription = () => {
         <h3>{name}</h3><br></br>
         <span>{formatNumber(price)}đ</span>
         <p style={{
-          fontWeight:100,
-          fontSize:'14px'
+          fontWeight: 100,
+          fontSize: '14px'
         }}
         >
           {description}
