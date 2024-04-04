@@ -114,6 +114,7 @@ const customerController = {
           const role = rows[0].role;
           const name = rows[0].name;
           const phone = rows[0].phone;
+          const id = rows[0].customerId;
 
           // Kiểm tra giá trị "role"
           if (role && role.toLowerCase() === "user") {
@@ -122,6 +123,7 @@ const customerController = {
               role: role,
               name: name,
               phone: phone,
+              id: id
             };
             const token = jwt.sign(customer, "your-secret-key");
             res.header("Authorization", token);

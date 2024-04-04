@@ -46,7 +46,7 @@ export default function Login() {
           toast.success("Đăng nhập thành công");
           console.log(user);
           SetEmailUser(user.email);
-          AddUserContext("1", user.name, user.phone, user.email)
+          AddUserContext(user.id, user.name, user.phone, user.email)
           navigateTo("/");
           dispatch(getListItem(user.email));
         } else {
