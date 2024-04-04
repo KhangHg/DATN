@@ -1,4 +1,4 @@
-import { trackSelfDescribingEvent, newTracker, trackPageView, setUserId } from '@snowplow/browser-tracker';
+import { trackSelfDescribingEvent, newTracker, trackPageView, setUserId, addGlobalContexts } from '@snowplow/browser-tracker';
 import {
     SnowplowEcommercePlugin, trackProductView
 } from '@snowplow/browser-plugin-snowplow-ecommerce';
@@ -8,7 +8,7 @@ function ViewProduct(name, price, id, category) {
         event: {
             schema: 'iglu:nana.shop.iglu/product_action_event/jsonschema/1-0-0',
             data: {
-                type: 'view',
+                action: 'view',
             },
         },
         context: [
@@ -40,7 +40,7 @@ function AddProduct(name, price, id, category, size, qty) {
         event: {
             schema: "iglu:nana.shop.iglu/product_action_event/jsonschema/1-0-0",
             data: {
-                type: 'add',
+                action: 'add',
             }
         },
         context: [
@@ -65,7 +65,7 @@ function RemoveProduct(name, price, id, category, size, qty) {
         event: {
             schema: "iglu:nana.shop.iglu/product_action_event/jsonschema/1-0-0",
             data: {
-                type: 'remove from cart',
+                action: 'remove from cart',
             }
         },
         context: [
@@ -82,6 +82,35 @@ function RemoveProduct(name, price, id, category, size, qty) {
                 }
             }
         ]
+    })
+}
+
+function PurchaseProduct(items) {
+    var contexts = []
+    // console.log(items);
+    items.forEach(item => {
+        var product = {
+            schema: 'iglu:nana.shop.iglu/product_entity/jsonschema/1-0-0',
+            data: {
+                id: String(item.productId),
+                name: item.name,
+                price: item.price,
+                currency: "VND",
+                quantity: item.quantity,
+                size: item.size,
+            }
+        }
+        contexts.push(product)
+    });
+
+    trackSelfDescribingEvent({
+        event: {
+            schema: "iglu:nana.shop.iglu/product_action_event/jsonschema/1-0-0",
+            data: {
+                action: 'purchase',
+            }
+        },
+        context: contexts
     })
 }
 
@@ -105,4 +134,20 @@ function SetEmailUser(email) {
     setUserId(email)
 }
 
-export { ViewProduct, AddProduct, CreatNewTracker, RemoveProduct, TrackPageView, TrackProductView, SetEmailUser };
+function AddUserContext(id, name, phone, email) {
+
+    let user_context = {
+        schema: "iglu:nana.shop.iglu/user_context/jsonschema/1-0-0",
+        data: {
+            user_id: String(id),
+            user_name: String(name),
+            phone_number: String(phone),
+            email: String(email)
+        }
+
+    }
+
+    addGlobalContexts([user_context])
+}
+
+export { ViewProduct, AddProduct, CreatNewTracker, PurchaseProduct, RemoveProduct, TrackPageView, TrackProductView, SetEmailUser, AddUserContext };

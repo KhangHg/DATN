@@ -11,7 +11,7 @@ import { AuthContext } from "../../../contexts/AuthContex";
 import { toast, ToastContainer } from "react-toastify";
 import { useDispatch } from "react-redux";
 import { getListItem } from "../../../reactRedux/action/actions";
-import { SetEmailUser } from "../../../Tracker";
+import { AddUserContext, SetEmailUser } from "../../../Tracker";
 import "react-toastify/dist/ReactToastify.css";
 
 const cx = classNames.bind(styles);
@@ -44,7 +44,9 @@ export default function Login() {
           const user = response.user;
           handleLoggedin(token, user);
           toast.success("Đăng nhập thành công");
+          console.log(user);
           SetEmailUser(user.email);
+          AddUserContext("1", user.name, user.phone, user.email)
           navigateTo("/");
           dispatch(getListItem(user.email));
         } else {
