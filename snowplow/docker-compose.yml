@@ -1,0 +1,27 @@
+version: '1'
+services:
+  micro:
+    container_name: snowplow-micro
+    image: snowplow/snowplow-micro:2.0.0
+    volumes:
+      - ./config:/config
+      - ./micro/iglu-client-embedded:/config/iglu-client-embedded/
+      - ./micro/my-enrichments:/config/enrichments
+    ports:
+      - "9090:9090"
+    command: "--collector-config /config/micro.conf --iglu /config/iglu.json"
+    # enrich:
+    #   container_name: enrich-kafka
+    #   image: snowplow/snowplow-enrich-kafka:4.1.0
+    #   volumes:
+    #     - ./micro:/config
+    #     - ./config.hocon:/snowplow/config.hocon
+    #   command: "--config /snowplow/config.hocon"
+    # stream-collector:
+    #   container_name: stream-collector
+    #   image: snowplow/scala-stream-collector-kafka:3.1.0
+    #   volumes:
+    #     - ./config.hocon/config.kafka.minimal.hocon:/snowplow/config.hocon
+    #   ports:
+    #     - "8080:8080"
+    #   command: "--config /snowplow/config.hocon"

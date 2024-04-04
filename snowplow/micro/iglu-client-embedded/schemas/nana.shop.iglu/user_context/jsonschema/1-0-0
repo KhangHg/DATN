@@ -1,0 +1,35 @@
+{
+    "$schema": "http://iglucentral.com/schemas/com.snowplowanalytics.self-desc/schema/jsonschema/1-0-0#",
+    "description": "Schema for a user context",
+    "self": {
+        "vendor": "nana.shop",
+        "name": "product_context",
+        "format": "jsonschema",
+        "version": "1-0-0"
+    },
+    "type": [
+        "object",
+        "array"
+    ],
+    "properties": {
+        "user_id": {
+            "type": "string"
+        },
+        "user_name": {
+            "type": "string",
+            "maxLength": 255
+        },
+        "phone_number": {
+            "type": "string",
+            "maxLength": 255
+        },
+        "email": {
+            "type": "string",
+            "maxLength": 255
+        }
+    },
+    "required": [
+        "user_id"
+    ],
+    "additionalProperties": false
+}
