@@ -5,3 +5,7 @@ B2: chạy lệnh "docker run -d --mount type=bind,source=C:/Users/Acer/Code/IT4
 - micro chạy ở cổng 9090
 
 Enrich : docker run -p 9090:9090  --mount type=bind,source=C:/Users/Acer/Code/IT4409_Web/frontend/micro/config/my-enrichments,destination=/config/enrichments snowplow/snowplow-micro:2.0.0
+
+
+
+docker run -it --rm -v enrich:/snowplow snowplow/snowplow-enrich-kafka:4.1.0 --enrichments /snowplow/enrichments --iglu-config /snowplow/resolver.json --config /snowplow/config.hocon
