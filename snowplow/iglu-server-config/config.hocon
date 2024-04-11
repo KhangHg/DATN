@@ -1,0 +1,15 @@
+{
+  "repoServer":{
+    "interface" : "0.0.0.0"
+    "port" : "8181"
+  }
+
+  "database": {
+    "host": "postgresdb"
+    "dbname": "igludb"
+    "username": "postgres"
+    "password": "snowplow"
+  }
+
+  "superApiKey": "bb7b7503-40d3-459c-943a-f8d31a6f5638"
+}

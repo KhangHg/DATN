@@ -1,21 +1,90 @@
 version: '1'
+
 services:
-  micro:
-    container_name: snowplow-micro
-    image: snowplow/snowplow-micro:2.0.0
-    volumes:
-      - ./config/iglu-conf:/config
-      - ./config/collector-conf:/config
-      - ./micro/iglu-client-embedded:/config/iglu-client-embedded/
-      - ./micro/my-enrichments:/config/enrichments
+  zookeeper:
+    container_name: zookeeper
+    image: confluentinc/cp-zookeeper:latest
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
     ports:
-      - "9090:9090"
-    command: "--iglu /config/iglu.json"
-  # stream-kafka-collector:
-  #   container_name: kafka-collector
-  #   image: snowplow/scala-stream-collector-kafka:3.1.0
-  #   volumes:
-  #     - ./config/collector:/snowplow/config
-  #   ports:
-  #     - "8080:8080"
-  #   command: "--config /snowplow/config/kafka.conf"
+      - 22181:2181
+
+  kafka1:
+    container_name: kafka1
+    image: confluentinc/cp-kafka:latest
+    depends_on:
+      - zookeeper
+    ports:
+      - 29092:29092
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka1:9092,PLAINTEXT_HOST://localhost:29092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 2
+
+  kafka2:
+    container_name: kafka2
+    image: confluentinc/cp-kafka:latest
+    depends_on:
+      - zookeeper
+    ports:
+      - 29093:29093
+    environment:
+      KAFKA_BROKER_ID: 2
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka2:9093,PLAINTEXT_HOST://localhost:29093
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 2
+
+  scala-stream-collector:
+    image: snowplow/scala-stream-collector-kafka:3.1.0
+    command: [ "--config", "/snowplow/config.hocon" ]
+    depends_on:
+      - kafka1
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./collector-config:/snowplow/
+
+  stream-enrich:
+    image: snowplow/snowplow-enrich-kafka:3.8.0
+    command:
+      [
+        "--config",
+        "/snowplow/config.hocon",
+        "--iglu-config",
+        "/snowplow/resolver.json",
+        "--enrichments",
+        "/snowplow/enrichments"
+      ]
+    depends_on:
+      - scala-stream-collector
+    volumes:
+      - ./enrich-config:/snowplow
+
+  iglu-server:
+    container_name: iglu-server
+    image: snowplow/iglu-server:0.10.0
+    depends_on:
+      - postgresdb
+    ports:
+      - "8181:8181"
+    volumes:
+      - ./iglu-server-config:/iglu
+    command: "--config /iglu/config.hocon"
+
+  postgresdb:
+    image: postgres
+    container_name: my-postgres
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: igludb
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: snowplow
+    volumes:
+      - ./iglu-server-config/init.sql:/docker-entrypoint-initdb.d/init.sql

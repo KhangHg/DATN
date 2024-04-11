@@ -1,7 +1,8 @@
 import os
 from kafka import KafkaConsumer
-KAFKA_BOOTSTRAP_SERVERS = os.environ.get("KAFKA_BOOTSTRAP_SERVERS", "localhost:29092")
-KAFKA_TOPIC_TEST = os.environ.get("KAFKA_TOPIC_TEST", "test")
+import json
+KAFKA_BOOTSTRAP_SERVERS = os.environ.get("KAFKA_BOOTSTRAP_SERVERS", "localhost:29093")
+KAFKA_TOPIC_TEST = os.environ.get("KAFKA_TOPIC_TEST", "bad")
 KAFKA_API_VERSION = os.environ.get("KAFKA_API_VERSION", "7.3.1")
 consumer = KafkaConsumer(
     KAFKA_TOPIC_TEST,
@@ -11,4 +12,5 @@ consumer = KafkaConsumer(
     enable_auto_commit=True,
 )
 for message in consumer:
-    print(message.value.decode("utf-8"))
+    data = json.dumps(message.value.decode("utf-8"), indent=4)
+    print(data)

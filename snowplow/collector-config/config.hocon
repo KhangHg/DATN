@@ -1,0 +1,19 @@
+collector {
+  license {
+    accept = true
+  }
+
+  interface = "0.0.0.0"
+  port = 8080
+
+  streams {
+    good {
+      name = "good"
+      brokers = "kafka2:9093" 
+    }
+    bad {
+      name = "bad"
+      brokers = "kafka1:9092"  
+    }
+  }
+}

@@ -9,3 +9,6 @@ Enrich : docker run -p 9090:9090  --mount type=bind,source=C:/Users/Acer/Code/IT
 
 
 docker run -it --rm -v enrich:/snowplow snowplow/snowplow-enrich-kafka:4.1.0 --enrichments /snowplow/enrichments --iglu-config /snowplow/resolver.json --config /snowplow/config.hocon
+
+
+docker exec -it my-postgres psql -U postgres igludb

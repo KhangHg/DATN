@@ -1,0 +1,18 @@
+{
+  "input": {
+    "topicName": "good"
+    "bootstrapServers": "kafka1:9092,kafka2:9093"
+  }
+
+  "output": {
+    "good": {
+      "topicName": "enriched"
+      "bootstrapServers": "kafka1:9092,kafka2:9093"
+    }
+
+    "bad": {
+      "topicName": "bad"
+      "bootstrapServers": "kafka1:9092,kafka2:9093"
+    }
+  }
+}
