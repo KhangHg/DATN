@@ -9,11 +9,11 @@ collector {
   streams {
     good {
       name = "good"
-      brokers = "kafka2:9093" 
+      brokers = "kafka2:9093, kafka1:9092" 
     }
     bad {
       name = "bad"
-      brokers = "kafka1:9092"  
+      brokers = "kafka2:9093, kafka1:9092"  
     }
   }
 }

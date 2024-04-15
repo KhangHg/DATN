@@ -6,14 +6,14 @@ import {
 function ViewProduct(name, price, id, category) {
     trackSelfDescribingEvent({
         event: {
-            schema: 'iglu:nana.shop.iglu/product_action_event/jsonschema/1-0-0',
+            schema: 'iglu:nana.shop/product_action/jsonschema/1-0-0',
             data: {
                 action: 'view',
             },
         },
         context: [
             {
-                schema: 'iglu:nana.shop.iglu/product_entity/jsonschema/1-0-0',
+                schema: 'iglu:nana.shop/product_entity/jsonschema/1-0-0',
                 data: {
                     name: name,
                     price: price,
@@ -23,6 +23,8 @@ function ViewProduct(name, price, id, category) {
             }
         ],
     });
+    // trackPageView()
+    // TrackProductView(name, price, id, category)
 }
 
 function TrackProductView(name, price, id, category) {
@@ -38,14 +40,14 @@ function TrackProductView(name, price, id, category) {
 function AddProduct(name, price, id, category, size, qty) {
     trackSelfDescribingEvent({
         event: {
-            schema: "iglu:nana.shop.iglu/product_action_event/jsonschema/1-0-0",
+            schema: "iglu:nana.shop/product_action/jsonschema/1-0-0",
             data: {
                 action: 'add',
             }
         },
         context: [
             {
-                schema: 'iglu:nana.shop.iglu/product_entity/jsonschema/1-0-0',
+                schema: 'iglu:nana.shop/product_entity/jsonschema/1-0-0',
                 data: {
                     id: id,
                     name: name,
@@ -63,14 +65,14 @@ function AddProduct(name, price, id, category, size, qty) {
 function RemoveProduct(name, price, id, category, size, qty) {
     trackSelfDescribingEvent({
         event: {
-            schema: "iglu:nana.shop.iglu/product_action_event/jsonschema/1-0-0",
+            schema: "iglu:nana.shop/product_action/jsonschema/1-0-0",
             data: {
                 action: 'remove from cart',
             }
         },
         context: [
             {
-                schema: 'iglu:nana.shop.iglu/product_entity/jsonschema/1-0-0',
+                schema: 'iglu:nana.shop/product_entity/jsonschema/1-0-0',
                 data: {
                     id: id,
                     name: name,
@@ -90,7 +92,7 @@ function PurchaseProduct(items) {
     // console.log(items);
     items.forEach(item => {
         var product = {
-            schema: 'iglu:nana.shop.iglu/product_entity/jsonschema/1-0-0',
+            schema: 'iglu:nana.shop/product_entity/jsonschema/1-0-0',
             data: {
                 id: String(item.productId),
                 name: item.name,
@@ -105,7 +107,7 @@ function PurchaseProduct(items) {
 
     trackSelfDescribingEvent({
         event: {
-            schema: "iglu:nana.shop.iglu/product_action_event/jsonschema/1-0-0",
+            schema: "iglu:nana.shop/product_action/jsonschema/1-0-0",
             data: {
                 action: 'purchase',
             }
@@ -137,7 +139,7 @@ function SetEmailUser(email) {
 function AddUserContext(id, name, phone, email) {
 
     let user_context = {
-        schema: "iglu:nana.shop.iglu/user_context/jsonschema/1-0-0",
+        schema: "iglu:nana.shop/user_context/jsonschema/1-0-0",
         data: {
             user_id: String(id),
             user_name: String(name),

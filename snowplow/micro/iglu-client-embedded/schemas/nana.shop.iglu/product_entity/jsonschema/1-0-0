@@ -10,34 +10,56 @@
     "type": "object",
     "properties": {
         "id": {
-            "type": "string"
+            "type": "string",
+            "description": "id san pham",
+            "maxLength": 255
         },
         "category": {
             "type": [
                 "string",
                 "null"
             ],
-            "maxLength": 255
+            "maxLength": 255,
+            "description": "the loai"
         },
         "name": {
             "type": "string",
-            "maxLength": 255
+            "maxLength": 255,
+            "description": "ten san pham"
         },
         "price": {
-            "type": "number"
+            "type": [
+                "number",
+                "null"
+            ],
+            "description": "gia ca",
+            "maximum": 10000000,
+            "minimum": 1
         },
         "quantity": {
-            "type": "number",
+            "type": [
+                "number",
+                "null"
+            ],
             "minimum": 1,
-            "maximum": 10000
+            "maximum": 10000,
+            "description": "so luong"
         },
         "size": {
-            "type": "string",
-            "maxLength": 255
+            "type": [
+                "string",
+                "null"
+            ],
+            "maxLength": 255,
+            "description": "kick co"
         },
         "currency": {
-            "type": "string",
-            "maxLength": 255
+            "type": [
+                "string",
+                "null"
+            ],
+            "maxLength": 255,
+            "description": "don vi tien te"
         }
     },
     "required": [

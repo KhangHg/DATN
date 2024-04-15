@@ -12,3 +12,4 @@ docker run -it --rm -v enrich:/snowplow snowplow/snowplow-enrich-kafka:4.1.0 --e
 
 
 docker exec -it my-postgres psql -U postgres igludb
+SELECT * FROM iglu_schemas;

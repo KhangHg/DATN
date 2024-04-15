@@ -1,5 +1,5 @@
 {
-  "schema": "iglu:com.snowplowanalytics.iglu/resolver-config/jsonschema/1-0-1",
+  "schema": "iglu:com.snowplowanalytics.iglu/resolver-config/jsonschema/1-0-3",
   "data": {
     "cacheSize": 500,
     "repositories": [
@@ -19,24 +19,12 @@
         "name": "Custom Iglu Server",
         "priority": 0,
         "vendorPrefixes": [
-          "com.snowplowanalytics"
+          "nana.shop"
         ],
         "connection": {
           "http": {
             "uri": "http://iglu-server:8181/api",
             "apikey": "bb7b7503-40d3-459c-943a-f8d31a6f5638"
-          }
-        }
-      },
-      {
-        "name": "Iglu Central - GCP Mirror",
-        "priority": 1,
-        "vendorPrefixes": [
-          "com.snowplowanalytics"
-        ],
-        "connection": {
-          "http": {
-            "uri": "http://mirror01.iglucentral.com"
           }
         }
       }

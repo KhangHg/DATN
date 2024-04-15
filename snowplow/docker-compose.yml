@@ -1,5 +1,6 @@
 version: '1'
-
+networks:
+  snowplow:
 services:
   zookeeper:
     container_name: zookeeper
@@ -9,6 +10,8 @@ services:
       ZOOKEEPER_TICK_TIME: 2000
     ports:
       - 22181:2181
+    networks:
+      - snowplow
 
   kafka1:
     container_name: kafka1
@@ -24,6 +27,8 @@ services:
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 2
+    networks:
+      - snowplow
 
   kafka2:
     container_name: kafka2
@@ -39,8 +44,11 @@ services:
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 2
+    networks:
+      - snowplow
 
   scala-stream-collector:
+    container_name: collector
     image: snowplow/scala-stream-collector-kafka:3.1.0
     command: [ "--config", "/snowplow/config.hocon" ]
     depends_on:
@@ -49,8 +57,11 @@ services:
       - "8080:8080"
     volumes:
       - ./collector-config:/snowplow/
+    networks:
+      - snowplow
 
   stream-enrich:
+    container_name: enrich
     image: snowplow/snowplow-enrich-kafka:3.8.0
     command:
       [
@@ -65,6 +76,8 @@ services:
       - scala-stream-collector
     volumes:
       - ./enrich-config:/snowplow
+    networks:
+      - snowplow
 
   iglu-server:
     container_name: iglu-server
@@ -76,7 +89,8 @@ services:
     volumes:
       - ./iglu-server-config:/iglu
     command: "--config /iglu/config.hocon"
-
+    networks:
+      - snowplow
   postgresdb:
     image: postgres
     container_name: my-postgres
@@ -88,3 +102,37 @@ services:
       POSTGRES_PASSWORD: snowplow
     volumes:
       - ./iglu-server-config/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./postgres-data:/var/lib/postgresql/data
+    networks:
+      - snowplow
+  # iglu-server:
+  #   image: dinhphu/snowplow-iglu:1.0.0
+  #   container_name: iglu-server
+  #   # restart: always
+  #   ports:
+  #     - 8181:8181
+  #   depends_on:
+  #     - postgresdb
+
+  # collector:
+  #   image: dinhphu/snowplow-collector:1.0.0
+  #   container_name: collector
+  #   # restart: always
+  #   ports:
+  #     - 8080:8080
+  #   depends_on:
+  #     - kafka1
+
+  # enrich:
+  #   image: dinhphu/snowplow-enrich:1.0.0
+  #   container_name: enrich
+  #   # restart: always
+  #   depends_on:
+  #     - kafka1
+  #     - iglu-server
+  # postgresdb:
+  #   image: dinhphu/iglu-postgres:1.0.0
+  #   container_name: postgresdb
+  #   # restart: always
+  #   ports:
+  #     - 5432:5432
