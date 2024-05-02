@@ -3,29 +3,45 @@
     "description": "Schema for a user context",
     "self": {
         "vendor": "nana.shop",
-        "name": "product_context",
+        "name": "user_context",
         "format": "jsonschema",
         "version": "1-0-0"
     },
     "type": [
-        "object",
-        "array"
+        "object"
     ],
     "properties": {
         "user_id": {
-            "type": "string"
+            "type": [
+                "string",
+                "null"
+            ],
+            "maxLength": 255,
+            "description": "dinh danh nguoi dung"
         },
         "user_name": {
-            "type": "string",
-            "maxLength": 255
+            "type": [
+                "string",
+                "null"
+            ],
+            "maxLength": 255,
+            "description": "ten nguoi dung"
         },
         "phone_number": {
-            "type": "string",
-            "maxLength": 255
+            "type": [
+                "string",
+                "null"
+            ],
+            "maxLength": 255,
+            "description": "so dien thoai"
         },
         "email": {
-            "type": "string",
-            "maxLength": 255
+            "type": [
+                "string",
+                "null"
+            ],
+            "maxLength": 255,
+            "description": "email nguoi dung"
         }
     },
     "required": [

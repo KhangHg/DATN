@@ -105,34 +105,23 @@ services:
       - ./postgres-data:/var/lib/postgresql/data
     networks:
       - snowplow
-  # iglu-server:
-  #   image: dinhphu/snowplow-iglu:1.0.0
-  #   container_name: iglu-server
-  #   # restart: always
+  # spark-master:
+  #   image: bitnami/spark:latest
+  #   command: bin/spark-class org.apache.spark.deploy.master.Master
   #   ports:
-  #     - 8181:8181
+  #     - "9090:8080"
+  #     - "7077:7077"
+  #   networks:
+  #     - snowplow
+  # spark-worker:
+  #   image: bitnami/spark:latest
+  #   command: bin/spark-class org.apache.spark.deploy.worker.Worker spark://spark-master:7077
   #   depends_on:
-  #     - postgresdb
-
-  # collector:
-  #   image: dinhphu/snowplow-collector:1.0.0
-  #   container_name: collector
-  #   # restart: always
-  #   ports:
-  #     - 8080:8080
-  #   depends_on:
-  #     - kafka1
-
-  # enrich:
-  #   image: dinhphu/snowplow-enrich:1.0.0
-  #   container_name: enrich
-  #   # restart: always
-  #   depends_on:
-  #     - kafka1
-  #     - iglu-server
-  # postgresdb:
-  #   image: dinhphu/iglu-postgres:1.0.0
-  #   container_name: postgresdb
-  #   # restart: always
-  #   ports:
-  #     - 5432:5432
+  #     - spark-master
+  #   environment:
+  #     SPARK_MODE: worker
+  #     SPARK_WORKER_CORES: 2
+  #     SPARK_WORKER_MEMORY: 1g
+  #     SPARK_MASTER_URL: spark://spark-master:7077
+  #   networks:
+  #     - snowplow
