@@ -11,7 +11,6 @@ import "react-toastify/dist/ReactToastify.css";
 import { useDispatch } from "react-redux";
 import { createOrderAction } from "../../../reactRedux/action/actions";
 import { subProduct } from "../../../services/user/subProduct";
-import { PurchaseProduct } from "../../../Tracker";
 // Define formatNumber function here or import it if it's defined elsewhere
 
 const ModalCart = ({ show, handleClose, cartItems, total, user }) => {
@@ -182,7 +181,6 @@ const ModalCart = ({ show, handleClose, cartItems, total, user }) => {
       // Handle form submission, you can send the formDataToSend to an API, dispatch an action, etc.
       dispatch(createOrderAction(formDataToSend.email, formDataToSend.name, formDataToSend.phone, formDataToSend.status, formDataToSend.address, formDataToSend.total, formDataToSend.items));
       toast.success("Cảm ơn bạn đã mua hàng!! Nhân viên sẽ gọi lại để xác nhận với khách hàng.");
-      PurchaseProduct(cartItems)
       handleClose();
     } else {
       console.log("Form validation failed");

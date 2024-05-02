@@ -5,6 +5,7 @@ KAFKA_BOOTSTRAP_SERVERS = os.environ.get("KAFKA_BOOTSTRAP_SERVERS", "localhost:2
 KAFKA_TOPIC_TEST = os.environ.get("KAFKA_TOPIC_TEST", "enriched")
 KAFKA_API_VERSION = os.environ.get("KAFKA_API_VERSION", "7.3.1")
 
+
 consumer = KafkaConsumer(
     KAFKA_TOPIC_TEST,
     bootstrap_servers=[KAFKA_BOOTSTRAP_SERVERS],

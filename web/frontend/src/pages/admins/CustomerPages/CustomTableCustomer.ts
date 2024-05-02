@@ -5,6 +5,7 @@ const CustomTableCustomer = {
   table: {
     style: {
       marginTop: "10px",
+      
     },
   },
   rows: {
@@ -14,7 +15,7 @@ const CustomTableCustomer = {
   },
   headCells: {
     style: {
-      fontSize: "20px",
+      fontSize: "16px",
       borderBottomWidth: "1px",
       borderColor: "black",
       paddingLeft: "8px", // override the cell padding for head cells

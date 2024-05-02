@@ -9,6 +9,7 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { AuthContext } from "../../../contexts/AuthContex";
 import { useNavigate } from "react-router-dom";
+import 'bootstrap/dist/css/bootstrap.min.css';
 import { trackAddToCart } from "@snowplow/browser-plugin-snowplow-ecommerce";
 import { AddProduct } from "../../../Tracker";
 import { number } from "yup";
@@ -19,6 +20,7 @@ const ProductDescription = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
   const [product, setProduct] = useState([]);
+ 
   const [selectedSize, setSelectedSize] = useState("");
   const [name, setName] = useState("")
   const [quantity, setQuantity] = useState(0);
@@ -31,6 +33,7 @@ const ProductDescription = () => {
       try {
         const data = await getOneProduct(id);
         setProduct(data.data);
+        console.log(data);
       } catch (error) {
         console.error("Error fetching product data:", error);
       }
@@ -98,22 +101,18 @@ const ProductDescription = () => {
     }
   };
   return (
-    <div className={cx("productDescription")}>
+    <div className={cx("productDescription", "row")}>
       <input className="productId" type="text" value={id} disabled style={{ display: "none" }} />
       <input className="category" type="text" value={category} disabled style={{ display: "none" }} />
-      <div classNames={cx("divLeft")}>
+      <div className={cx("divLeft","col-12",  "col-lg-6")}>
         <img src={imgUrl} alt="Item 1" />
       </div>
-      <div className={cx("divRight")}>
-        <h3>{name}</h3><br></br>
-        <span>{formatNumber(price)}đ</span>
-        <p style={{
-          fontWeight: 100,
-          fontSize: '14px'
-        }}
-        >
-          {description}
-        </p>
+      <div className={cx("divRight" , "col-xs-12","col-lg-6")}>
+        <h3>{name}</h3>
+        <span className={cx("product_id_1")}>Mã sản phẩm: <span className={cx("product_id")}>{id}</span></span><br></br>
+        <br></br>
+        <span className={cx("price")}>{formatNumber(price)}đ</span>
+       
         <div className={cx("select")}>
           <label for="cars">Choose a size:</label>
 
@@ -127,20 +126,38 @@ const ProductDescription = () => {
 
           <p>Số lượng: {quantity}</p>
         </div>
+        <div className={cx("add_to_cart")}>
+          <div className={cx("count")}>
+            <p className={cx("control_minus")} onClick={decreaseCount}>
+              -
+            </p>
+            <p className={cx("count_select")}>{count}</p>
+            <p className={cx("control_add")} onClick={increaseCount}>
+              +
+            </p>
+          </div>
 
-        <div className={cx("count")}>
-          <p className={cx("control")} onClick={decreaseCount}>
-            -
-          </p>
-          <p>{count}</p>
-          <p className={cx("control")} onClick={increaseCount}>
-            +
-          </p>
+          <div onClick={() => handleCreateItem()} className={cx("addCart")}>
+            <p>Thêm vào giỏ</p>
+          </div>
         </div>
 
-        <div onClick={() => handleCreateItem()} className={cx("addCart")}>
-          <p>Thêm vào giỏ</p>
+        <div className={cx("product_describe")}>
+          <div className={cx("product_describe_head")}>
+            <h5>Mô tả sản phẩm</h5>
+          </div>
+          <div className={cx("product_describe_body")}>
+              <p style={{
+              fontWeight: 100,
+              fontSize: '14px'
+            }}
+            >
+              {description}
+            </p>
+          </div>
+
         </div>
+        
       </div>
     </div>
     //<div>Hello my friend</div>

@@ -1,5 +1,6 @@
 import { useContext, useState } from "react";
-
+/* import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css"; */
 import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
 import "bootstrap/dist/css/bootstrap.css";

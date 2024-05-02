@@ -2,14 +2,39 @@ const { sign } = require("jsonwebtoken");
 const connection = require("../database/connectDB");
 
 const productController = {
+  getAllByCategory: async (req, res) => {
+    try {
+      const { category_id } = req.params;
+      const [rows, fields] = await connection.promise().query(
+        `SELECT *
+        FROM products 
+        WHERE
+        categoryId = ?
+        `,
+        [category_id]
+      );
+      res.json({
+        data: rows,
+      });
+    } catch (error) {
+      console.log(error);
+      res.json({
+        state: "error",
+      });
+    }
+  },
   getAll: async (req, res) => {
     try {
       const [rows, fields] = await connection.promise().query(
-        `SELECT p.productId, p.name, p.description, p.price, p.imageUrl, c.name AS categoryName, s.name AS sizeName, d.count AS quantity
+        /*`SELECT p.productId, p.name, p.description, p.price, p.imageUrl, c.name AS categoryName, s.name AS sizeName, d.count AS quantity
             FROM products p
             INNER JOIN categories c ON p.categoryId = c.categoryId
             inner join size s
             inner join productSize d on p.productId = d.productId and s.sizeId = d.sizeId
+            `*/
+            `SELECT p.productId, p.name, p.description, p.price, p.imageUrl, c.name AS categoryName
+            FROM products p
+            INNER JOIN categories c ON p.categoryId = c.categoryId
             `
       );
       res.json({
@@ -33,6 +58,7 @@ const productController = {
         inner join productSize d on p.productId = d.productId and s.sizeId = d.sizeId
         where p.productId = ?
         `,
+       
         [product_id]
       );
       res.json({

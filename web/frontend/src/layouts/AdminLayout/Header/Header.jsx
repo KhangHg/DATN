@@ -13,7 +13,7 @@ function Header({ title }) {
     const { user } = useContext(AuthContext);
     return (
         <div className={cx('wrapHeader')}>
-            <h3>{title}</h3>
+            <h1>{title}</h1>
             <div className={cx('group')}>
                 <div className={cx('sub')}>
                     <svg width="24" height="24">

@@ -1,10 +1,28 @@
+@import url('https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,200..1000;1,200..1000&display=swap');
 .productDescription {
-  display: flex;
-  justify-content: space-evenly;
-  margin: 50px 30px;
+  /*display: flex;
+  justify-content: space-evenly;*/
+  margin: 50px 30px !important;
   .divLeft {
+   
+    position: sticky;
+    height: auto;
+    min-height: 350px;
+    padding-right: 30px;
+    margin-bottom: 30px;
     img {
       width: 100%;
+      height: auto;
+      /*--image-scale: 1;
+      position: absolute;
+     top: var(--img-top, 50%);
+      left: var(--img-left, 50%);
+      transform: translate(-50%, -50%) scale(var(--image-scale));
+      object-fit: contain;*/
+      max-width: 100%;
+      max-height: 100%;
+      min-width: 1px;
+      min-height: 1px;
     }
   }
 
@@ -13,6 +31,8 @@
     h3{
       font-family: "Mulish", sans-serif;
       font-weight: 700;
+      font-size: 24px;
+      margin-left: 0 !important;
 
     }
     p {
@@ -20,13 +40,27 @@
       font-size: 16px;
       font-family: "Mulish", sans-serif;
     }
-    span {
+    .price {
       font-size: 20px;
       line-height: 24px;
       font-family: inherit;
       font-weight: 700;
       color: red;
       margin-top: 5px;
+    }
+    .product_id {
+      font-size: 14px;
+      line-height: 24px;
+      font-family: inherit;
+      margin-top: 5px;
+      color: #007bff;
+    }
+    .product_id_1 {
+      font-size: 14px;
+      line-height: 24px;
+      font-family: inherit;
+      margin-top: 5px;
+     
     }
     .select {
       margin: 32px 0px;
@@ -35,52 +69,104 @@
         background-color: white;
         color: black;
       }
+      p {
+        color: #8c9196;
+        font-size: 14px;
+      }
     }
     select {
       background-color: white;
       color: black;
       margin-left: 10px;
-    }
-    .count {
-      margin-top: 10px;
-      border: 1px solid rgb(136, 126, 126);
-      display: inline-block;
       border-radius: 5px;
-      .control {
-        cursor: pointer;
-      }
-      p {
-        display: inline-block;
-        color: #8c9196;
-        font-size: 30px;
-        font-weight: 400;
-        padding: 0px 15px;
-        margin: 0;
-      }
+      padding: 3px;
     }
-    .addCart {
-      display: inline-block;
-      height: 50px;
-      border: 1px solid orange;
-      padding: 0 30px;
-      border-radius: 5px;
-      margin-left: 20px;
-      cursor: pointer;
-      &:hover {
-        background-color: orange;
-        font-weight: 400;
+    .add_to_cart{
+      display: grid !important;
+      grid-gap: 10px;
+      align-items: center;
+      grid-template-columns: 150px 1fr;
+      margin-bottom: 20px;
+      .count {
+        /*display: inline-block;*/
+        border-radius: 5px;
+        padding: 5px ;
+        display: flex;
+        margin-bottom: 0;
+        margin-top: 0;
+        align-items: center;
+        
+    
         p {
-          color: white;
+
+          display: flex;
+          height: 50px;
+          color: #8c9196;
+          font-size: 20px;
+          font-weight: 150;
+          padding: 5px 20px;
+          margin: 0;
+          width: auto;
+          border: 1px solid #ced4da;
+          justify-content: center;
+          align-items: center;
+         
+        }
+        .control_minus {
+          border-right: none;
+          border-radius: 5px 0 0 5px;
+          cursor: pointer;
+        }
+        .control_add {
+          border-left: none;
+          border-radius: 0 5px 5px 0;
+          cursor: pointer;
+        }
+        .count_select {
+          border-left: none;
+          border-right: none;
+          color:#495057;
         }
       }
-      p {
-        text-transform: uppercase;
-        color: orange;
-        font-weight: 100;
-        font-size: 16px;
-        line-height: 55px;
-        padding-bottom: 5px;
+      .addCart {
+        display: inline-block;
+        height: 50px;
+        
+        border: 1px solid #cd6420;
+        padding: 0 30px;
+        border-radius: 5px;
+        margin-left: 20px;
+        cursor: pointer;
+        align-items: center;
+        &:hover {
+          background-color: #cd6420;
+          font-weight: 400;
+          p {
+            color: white;
+          }
+        }
+        p {
+          text-transform: uppercase;
+          color: #cd6420;
+          font-weight: 100;
+          font-size: 16px;
+          line-height: 55px;
+          padding-bottom: 5px;
+          text-align: center;
+        }
       }
     }
+
+    .product_describe{
+      margin: 60px 0;
+      .product_describe_head{
+        border-bottom: 1px solid rgb(0 0 0 / 100%);
+        h5 {
+          font-weight: bold;
+        }
+        margin-bottom: 10px;
+      }
+    }
+    
   }
 }

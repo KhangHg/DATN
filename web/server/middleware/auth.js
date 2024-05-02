@@ -13,12 +13,12 @@ function authUser(req, res, next) {
       next();
     } else {
       res.json({
-        messange: "Chưa đăng nhập!",
+        message: "Chưa đăng nhập!",
         errCodeCheckLogin: 1,
       });
     }
   } catch (error) {
-    console.log(error);
+    console.log("auth: "+error);
   }
 }
 

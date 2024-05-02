@@ -54,7 +54,7 @@ const CustomerList = () => {
     },
     {
       name: "",
-      cell: (row) => <FontAwesomeIcon icon={faTrashAlt} style={{ cursor: "pointer" }} onClick={() => confirmDelete(row.customerId)} />,
+      cell: (row) => <FontAwesomeIcon icon={faTrashAlt} style={{ cursor: "pointer", color: "red" }} onClick={() => confirmDelete(row.customerId)} />,
     },
   ];
 

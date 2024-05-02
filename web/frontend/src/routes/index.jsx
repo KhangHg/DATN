@@ -16,6 +16,7 @@ import { AddStoreForm } from "../pages/admins/StorePages/AddStoreForm";
 import OrderList from "../pages/admins/OrderPages/OrderList";
 import CustomerList from "../pages/admins/CustomerPages/CustomerList";
 import DefaultLayout from "../layouts/AdminLayout/DefaultLayout/DefaultLayout";
+import ListProductAll from "../pages/users/ListProductAll/ListProductAll";
 import ListProduct from "../pages/users/ListProduct/ListProduct";
 import ProductDescription from "../pages/users/ProductDescription/ProductDescription";
 import Product from "../pages/users/Products/Product";
@@ -33,7 +34,8 @@ const userRoutes = [
   { path: routesConfig.category, component: Product, layout: null, title: "" },
   { path: routesConfig.notfound404user, component: NotFound404, layout: null, title: "" },
   { path: routesConfig.notfound404user, component: NotFound404, layout: null, title: "" },
-  { path: routesConfig.listProduct, component: ListProduct, layout: null, title: "Danh sách sản phẩm" },
+  { path: routesConfig.listProductAll, component: ListProductAll, layout: null, title: "Danh sách sản phẩm" },
+  { path: routesConfig.listProduct, component: ListProduct, layout: null, title: "Danh sách sản phẩm theo loai" },
   { path: routesConfig.productDescription, component: ProductDescription, layout: null, title: "Chi tiết 1 sản phẩm" },
   { path: routesConfig.storeLocation, component: StoreLocation, layout: null, title: "Hệ thống cửa hàng" },
   { path: routesConfig.cart, component: Cart, layout: null, title: "Giỏ hàng" },
