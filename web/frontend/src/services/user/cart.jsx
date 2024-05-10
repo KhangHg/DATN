@@ -11,18 +11,18 @@ export const getCartItemList = async (email) => {
   }
 };
 
-export const createCartItem = async (email, productId, size, quantity) => {
+export const createCartItem = async (email, productId, size, quantity, category) => {
   try {
-    const res = await request.post(`/cart/${email}`, { productId, size, quantity });
+    const res = await request.post(`/cart/${email}`, { productId, size, quantity, category });
     return res.data;
   } catch (error) {
     console.log("getCartItemList " + error);
   }
 };
 
-export const deleteCartItem = async (email, productId, size) => {
+export const deleteCartItem = async (email, productId, size, category) => {
   try {
-    const res = await request.delete(`/cart/${email}?productId=${productId}&size=${size}`, {
+    const res = await request.delete(`/cart/${email}?productId=${productId}&size=${size}&category=${category}`, {
       params: {},
     });
     return res.data;

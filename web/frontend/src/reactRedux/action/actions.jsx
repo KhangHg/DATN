@@ -1,7 +1,7 @@
 import { GETLISTITEM, CREATEITEM, DELETEITEM, UPDATEITEM, FETCH_LISTCART_SUCCESS, UPQUANTITY, DOWNQUANTITY, CREATEORDER } from "./type";
 import { getCartItemList, createCartItem, deleteCartItem, updateCartItem } from "../../services/user/cart";
 import { createOrder } from "../../services/order";
-import { RemoveProduct, AddProduct } from "../../Tracker";
+import { RemoveProduct, AddProduct, PurchaseProduct } from "../../Tracker";
 export const getListItem = (email) => {
   return async (dispatch, getState) => {
     try {
@@ -17,7 +17,7 @@ export const getListItem = (email) => {
 export const createCartItemAction = (email, productId, size, quantity, price, name, category) => {
   return async (dispatch, getState) => {
     try {
-      let res = await createCartItem(email, productId, size, quantity);
+      let res = await createCartItem(email, productId, size, quantity, category);
       if (res && res.data.errCode === 0) {
         console.log("id : " + productId + " cate : " + category + " price : " + price + " qty : " + quantity + " size : " + size + name);
         AddProduct(name, Number(price), String(productId), category, size, (quantity))
@@ -32,7 +32,7 @@ export const createCartItemAction = (email, productId, size, quantity, price, na
 export const deleteCartItemAction = (email, productId, size, quantity, price, name, category) => {
   return async (dispatch, getState) => {
     try {
-      let res = await deleteCartItem(email, productId, size);
+      let res = await deleteCartItem(email, productId, size, category);
       if (res && res.data.errCode === 0) {
         console.log("id : " + productId + " cate : " + category + " price : " + price + " qty : " + quantity + " size : " + size + name);
         RemoveProduct(name, Number(price), String(productId), category, size, Number(quantity));
@@ -80,6 +80,7 @@ export const createOrderAction = (email, name, phone, status, address, total, it
     try {
       let res = await createOrder(email, name, phone, status, address, total, items);
       if (res && res.data.errCode === 0) {
+        PurchaseProduct(items);
         dispatch(createOrderPayload());
         dispatch(getListItem(email));
       }

@@ -1,4 +1,4 @@
-import { trackSelfDescribingEvent, newTracker, trackPageView, setUserId, addGlobalContexts } from '@snowplow/browser-tracker';
+import { trackSelfDescribingEvent, newTracker, trackPageView, setUserId, addGlobalContexts, removeGlobalContexts } from '@snowplow/browser-tracker';
 import {
     SnowplowEcommercePlugin, trackProductView
 } from '@snowplow/browser-plugin-snowplow-ecommerce';
@@ -100,6 +100,7 @@ function PurchaseProduct(items) {
                 currency: "VND",
                 quantity: item.quantity,
                 size: item.size,
+                category: item.category
             }
         }
         contexts.push(product)
@@ -137,7 +138,7 @@ function SetEmailUser(email) {
 }
 
 function AddUserContext(id, name, phone, email) {
-
+    console.log("user id : " + id);
     let user_context = {
         schema: "iglu:nana.shop/user_context/jsonschema/1-0-0",
         data: {
@@ -152,4 +153,20 @@ function AddUserContext(id, name, phone, email) {
     addGlobalContexts([user_context])
 }
 
-export { ViewProduct, AddProduct, CreatNewTracker, PurchaseProduct, RemoveProduct, TrackPageView, TrackProductView, SetEmailUser, AddUserContext };
+function RemoveUserContext(id, name, phone, email) {
+
+    let user_context = {
+        schema: "iglu:nana.shop/user_context/jsonschema/1-0-0",
+        data: {
+            user_id: String(id),
+            user_name: String(name),
+            phone_number: String(phone),
+            email: String(email)
+        }
+
+    }
+
+    removeGlobalContexts([user_context])
+}
+
+export { ViewProduct, AddProduct, CreatNewTracker, PurchaseProduct, RemoveProduct, TrackPageView, TrackProductView, SetEmailUser, AddUserContext, RemoveUserContext };
